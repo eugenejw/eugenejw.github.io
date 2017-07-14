@@ -8,7 +8,7 @@ url: http://eugenejw.github.io
 #url: http://localhost:4000
 
 # For a project page here should be a project name. Otherwise (for user's/organizaion's page leave it empty)
-baseurl: /blog
+baseurl:
 
 share:
   facebook: true
@@ -21,7 +21,7 @@ share:
 social:
   github: eugenejw
   stackoverflow: ''
-  linkedin:
+  linkedin: https://www.linkedin.com/in/weihan-jiang-6219096b/
   instagram: ''
   lastfm: ''
   rss: feed.xml

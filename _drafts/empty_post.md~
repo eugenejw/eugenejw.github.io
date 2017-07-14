@@ -1,72 +1,121 @@
 ---
 layout: post
-title: 515. Find Largest Value in Each Tree Row
+date: 2017-07-13 23:23:00
+title: Implement strStr() -- leetcode 28
 category: Coding
-tags: [Algorithm, Tree, DFS, BFS, Java, Python, leetcode, Medium]
+tags: [Algorithm, String, KMP, Brutal, leetcode, Medium, Java, Python]
 ---
 
-#### Description,
-You need to find the largest value in each row of a binary tree.
-[The leetcode link](https://leetcode.com/problems/find-largest-value-in-each-tree-row/#/description)
+**Description**,
+Implement strStr().
 
-#### Example,
-Input: 
+Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
 
-          1
-         / \
-        3   2
-       / \   \  
-      5   3   9 
+[The leetcode link](https://leetcode.com/problems/implement-strstr/#/description)
 
-Output: [1, 3, 9]
+### KMP algorithm implemted in Java
+Typically, the "find substring in string" problem could be efficiently solved by the [Knuth–Morris–Pratt algorithm](https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm)
+Also, you can have detailed algorithm workthrough found [here](http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/).
 
-#### Pre-order DFS in Python
-This problem could also be solved by pre-order DFS.
+Time complexity: O(n + k)
+RUntime: 13ms
 
-Create an empty bucket, when traversing to a new level, increase bucket size by 1.
-When reaching a level exists in the bucket, compare the existing value in that level position, with the new node's vaue. Store the bigger one to the position.
-Because this is an one-pass traversal, the time complexity is O(n), where n is the tree node count.
-
-Runtime: 68 ms
-
-{% highlight python %}
-# Definition for a binary tree node.
-# class TreeNode(object):
-#     def __init__(self, x):
-#         self.val = x
-#         self.left = None
-#         self.right = None
-
-class Solution(object):
-    def largestValues(self, root):
-        """
-        :type root: TreeNode
-        :rtype: List[int]
-        """
-        ret = []
-        self.dfs(root, ret, 0)
-        return ret
+{% highlight java %}
+public class Solution {
+    /**
+    * Return the starting index of the first needle found in haystack
+    * @param  String haystack of type String
+    * @param  String needle of type String
+    * @return int the starting index 
+    */
+    public int strStr(String haystack, String needle) {
+        int[] kmpTable= new int[needle.length()];
+        buildKMPTable(needle, kmpTable);
+        int i = 0;
+        int j = 0;
+        int N = haystack.length();
+        int M = needle.length();
+        while (i < N && j < M) {
+            if (haystack.charAt(i) == needle.charAt(j)) {
+                i++;
+                if (++j == M) {
+                   return i - j;
+                } 
+            } else {
+                if (j == 0) {
+                    i++;
+                }
+                else{
+                    j = kmpTable[j-1];
+                }
+            } 
+        }
+        if (M == 0)   return 0; // when needle is null
+        return -1;
+    }
+    
+    /**
+    * Returns the KMP table
+    * @param  String needle
+    * @param  int[] int[] to store the kmptable
+    * @return void
+    */
+    private void buildKMPTable(String needle, int[] kmpTable) {
+        int j = 0;
+        int i = 1;
+        while (i < kmpTable.length) {
+            if (needle.charAt(i) == needle.charAt(j)) {
+                kmpTable[i++] = ++j;
+            } else {
+                if (j == 0){
+                    kmpTable[i++] = 0;
+                } else {
+                    j = kmpTable[j-1];
+                }
+            }
+        }
         
-    def dfs(self, root, ret, level):
-        """
-        @param: TreeNode, List<int>, int 
-        @return: void
-        """
-        if not root:
-            return
-
-        if level == len(ret): # when first time reaching a new level
-            ret.append(root.val)
-        else:
-            ret[level] = max(ret[level], root.val)
-
-        self.dfs(root.left, ret, level+1)
-        self.dfs(root.right, ret, level+1)
-
+    }
+}
 {% endhighlight %}
 
+![img]({{ site.baseurl | prepend:site.url}}/images/28_kmp_java.jpg){: .center-image }*Runtime: 13ms*
 
-![img]({{ site.baseurl | prepend:site.url}}/images/515_dfs_python.jpg){: .center-image }*Runtime: 68ms*
+### Brutal algorithm in Python
+This problem could also be brutal algorithms.
+
+Time complexity: O(n^2)
+Runtime: 38 ms
+
+{% highlight python %}
+class Solution(object):
+    def strStr(self, haystack, needle):
+        """
+        :Find the substring in a brutal way.
+        :type haystack: str
+        :type needle: str
+        :rtype: int
+        """
+        h, n = haystack, needle
+        N = len(h)
+        M = len(n)
+        if M == 0: # edge case, when needle is "".
+            return 0
+        
+        for i in xrange(N-M+1): # in case M > N, just return -1
+            offset = i
+            j = 0
+            while j < M:
+                if h[offset+j] != n[j]:
+                    break
+                j += 1
+            if j == M:
+                return i
+            
+        return -1
+{% endhighlight %}
+
+![img]({{ site.baseurl | prepend:site.url}}/images/28_brutal_python.jpg){: .center-image }*Runtime: 38ms*
 
 
 

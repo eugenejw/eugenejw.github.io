@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | 515. Find Largest Value in Each Tree Row </title>
+  <title>Weihan's Coding Blog | Implement strStr() -- leetcode 28 </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -67,7 +67,7 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/empty_post">515. Find Largest Value in Each Tree Row</a></h1>
+                  <h1><a href="/2017/07/empty_post">Implement strStr() -- leetcode 28</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
@@ -77,84 +77,130 @@
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/Tree">Tree</a></li>
+                        <li><a href="/tag/String">String</a></li>
                       
-                        <li><a href="/tag/DFS">DFS</a></li>
+                        <li><a href="/tag/KMP">KMP</a></li>
                       
-                        <li><a href="/tag/BFS">BFS</a></li>
-                      
-                        <li><a href="/tag/Java">Java</a></li>
-                      
-                        <li><a href="/tag/Python">Python</a></li>
+                        <li><a href="/tag/Brutal">Brutal</a></li>
                       
                         <li><a href="/tag/leetcode">leetcode</a></li>
                       
                         <li><a href="/tag/Medium">Medium</a></li>
                       
+                        <li><a href="/tag/Java">Java</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
+                      
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h4 id="description">Description,</h4>
-<p>You need to find the largest value in each row of a binary tree.<br />
-<a href="https://leetcode.com/problems/find-largest-value-in-each-tree-row/#/description">The leetcode link</a></p>
+                    <p><strong>Description</strong>,<br />
+Implement strStr().</p>
 
-<h4 id="example">Example,</h4>
-<p>Input:</p>
+<p>Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>      1
-     / \
-    3   2
-   / \   \  
-  5   3   9 
-</code></pre>
-</div>
+<p><a href="https://leetcode.com/problems/implement-strstr/#/description">The leetcode link</a></p>
 
-<p>Output: [1, 3, 9]</p>
+<h3 id="kmp-algorithm-implemted-in-java">KMP algorithm implemted in Java</h3>
+<p>Typically, the “find substring in string” problem could be efficiently solved by the <a href="https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm">Knuth–Morris–Pratt algorithm</a><br />
+Also, you can have detailed algorithm workthrough found <a href="http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/">here</a>.</p>
 
-<h4 id="pre-order-dfs-in-python">Pre-order DFS in Python</h4>
-<p>This problem could also be solved by pre-order DFS.</p>
+<p>Time complexity: O(n + k)<br />
+RUntime: 13ms</p>
 
-<p>Create an empty bucket, when traversing to a new level, increase bucket size by 1.<br />
-When reaching a level exists in the bucket, compare the existing value in that level position, with the new node’s vaue. Store the bigger one to the position.<br />
-Because this is an one-pass traversal, the time complexity is O(n), where n is the tree node count.</p>
-
-<p>Runtime: 68 ms</p>
-
-<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># Definition for a binary tree node.</span>
-<span class="c"># class TreeNode(object):</span>
-<span class="c">#     def __init__(self, x):</span>
-<span class="c">#         self.val = x</span>
-<span class="c">#         self.left = None</span>
-<span class="c">#         self.right = None</span>
-
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">largestValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
-        <span class="s">"""
-        :type root: TreeNode
-        :rtype: List[int]
-        """</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ret</span>
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="cm">/**
+    * Return the starting index of the first needle found in haystack
+    * @param  String haystack of type String
+    * @param  String needle of type String
+    * @return int the starting index 
+    */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">strStr</span><span class="o">(</span><span class="n">String</span> <span class="n">haystack</span><span class="o">,</span> <span class="n">String</span> <span class="n">needle</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">kmpTable</span><span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">needle</span><span class="o">.</span><span class="na">length</span><span class="o">()];</span>
+        <span class="n">buildKMPTable</span><span class="o">(</span><span class="n">needle</span><span class="o">,</span> <span class="n">kmpTable</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">N</span> <span class="o">=</span> <span class="n">haystack</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+        <span class="kt">int</span> <span class="n">M</span> <span class="o">=</span> <span class="n">needle</span><span class="o">.</span><span class="na">length</span><span class="o">();</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">N</span> <span class="o">&amp;&amp;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">M</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">haystack</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">needle</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">i</span><span class="o">++;</span>
+                <span class="k">if</span> <span class="o">(++</span><span class="n">j</span> <span class="o">==</span> <span class="n">M</span><span class="o">)</span> <span class="o">{</span>
+                   <span class="k">return</span> <span class="n">i</span> <span class="o">-</span> <span class="n">j</span><span class="o">;</span>
+                <span class="o">}</span> 
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">i</span><span class="o">++;</span>
+                <span class="o">}</span>
+                <span class="k">else</span><span class="o">{</span>
+                    <span class="n">j</span> <span class="o">=</span> <span class="n">kmpTable</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">];</span>
+                <span class="o">}</span>
+            <span class="o">}</span> 
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">M</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span>   <span class="k">return</span> <span class="mi">0</span><span class="o">;</span> <span class="c1">// when needle is null</span>
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="cm">/**
+    * Returns the KMP table
+    * @param  String needle
+    * @param  int[] int[] to store the kmptable
+    * @return void
+    */</span>
+    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">buildKMPTable</span><span class="o">(</span><span class="n">String</span> <span class="n">needle</span><span class="o">,</span> <span class="kt">int</span><span class="o">[]</span> <span class="n">kmpTable</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">kmpTable</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">needle</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">==</span> <span class="n">needle</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">j</span><span class="o">))</span> <span class="o">{</span>
+                <span class="n">kmpTable</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">=</span> <span class="o">++</span><span class="n">j</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="o">){</span>
+                    <span class="n">kmpTable</span><span class="o">[</span><span class="n">i</span><span class="o">++]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                    <span class="n">j</span> <span class="o">=</span> <span class="n">kmpTable</span><span class="o">[</span><span class="n">j</span><span class="o">-</span><span class="mi">1</span><span class="o">];</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
         
-    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<p><img src="http://localhost:4000/images/28_kmp_java.jpg" alt="img" class="center-image" /><em>Runtime: 13ms</em></p>
+
+<h3 id="brutal-algorithm-in-python">Brutal algorithm in Python</h3>
+<p>This problem could also be brutal algorithms.</p>
+
+<p>Time complexity: O(n^2)<br />
+Runtime: 38 ms</p>
+
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">strStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">haystack</span><span class="p">,</span> <span class="n">needle</span><span class="p">):</span>
         <span class="s">"""
-        @param: TreeNode, List&lt;int&gt;, int 
-        @return: void
+        :Find the substring in a brutal way.
+        :type haystack: str
+        :type needle: str
+        :rtype: int
         """</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
-            <span class="k">return</span>
+        <span class="n">h</span><span class="p">,</span> <span class="n">n</span> <span class="o">=</span> <span class="n">haystack</span><span class="p">,</span> <span class="n">needle</span>
+        <span class="n">N</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">M</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">n</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">M</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span> <span class="c"># edge case, when needle is "".</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="n">N</span><span class="o">-</span><span class="n">M</span><span class="o">+</span><span class="mi">1</span><span class="p">):</span> <span class="c"># in case M &gt; N, just return -1</span>
+            <span class="n">offset</span> <span class="o">=</span> <span class="n">i</span>
+            <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="k">while</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">M</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">h</span><span class="p">[</span><span class="n">offset</span><span class="o">+</span><span class="n">j</span><span class="p">]</span> <span class="o">!=</span> <span class="n">n</span><span class="p">[</span><span class="n">j</span><span class="p">]:</span>
+                    <span class="k">break</span>
+                <span class="n">j</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="n">M</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">i</span>
+            
+        <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></code></pre></figure>
 
-        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span> <span class="c"># when first time reaching a new level</span>
-            <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">ret</span><span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="n">level</span><span class="p">],</span> <span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
-
-        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span></code></pre></figure>
-
-<p><img src="http://localhost:4000/images/515_dfs_python.jpg" alt="img" class="center-image" /><em>Runtime: 68ms</em></p>
+<p><img src="http://localhost:4000/images/28_brutal_python.jpg" alt="img" class="center-image" /><em>Runtime: 38ms</em></p>
 
 
                     
@@ -169,15 +215,15 @@ Because this is an one-pass traversal, the time complexity is O(n), where n is t
   <h2>Recent Posts</h2>
   <ul>
     
-    <li><a href="/2017/07/empty_post">515. Find Largest Value in Each Tree Row</a></li>
+    <li><a href="/2017/07/empty_post">Implement strStr() -- leetcode 28</a></li>
+    
+    <li><a href="/2017/07/leetcode-515">Find Largest Value in Each Tree Row (leetcode 515)</a></li>
     
     <li><a href="/2016/12/jekyll-clean-theme">Jekyll Dark Clean Theme</a></li>
     
     <li><a href="/2016/11/text-formatting">Text formatting</a></li>
     
     <li><a href="/2016/10/code-syntax-highlighting">Code snippets</a></li>
-    
-    <li><a href="/2016/09/customizations">Customizations</a></li>
     
   </ul>
 </div>
@@ -188,7 +234,7 @@ Because this is an one-pass traversal, the time complexity is O(n), where n is t
     
     
     <li>
-      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="2">
         <span>Algorithm</span></a></li>
     
     <li>
@@ -196,20 +242,32 @@ Because this is an one-pass traversal, the time complexity is O(n), where n is t
         <span>BFS</span></a></li>
     
     <li>
+      <a href="/tag/Brutal" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Brutal</span></a></li>
+    
+    <li>
       <a href="/tag/DFS" data-toggle="tooltip" data-placement="right" title="1">
         <span>DFS</span></a></li>
     
     <li>
-      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="2">
         <span>Java</span></a></li>
     
     <li>
-      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/KMP" data-toggle="tooltip" data-placement="right" title="1">
+        <span>KMP</span></a></li>
+    
+    <li>
+      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="2">
         <span>Medium</span></a></li>
     
     <li>
-      <a href="/tag/Python" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/Python" data-toggle="tooltip" data-placement="right" title="2">
         <span>Python</span></a></li>
+    
+    <li>
+      <a href="/tag/String" data-toggle="tooltip" data-placement="right" title="1">
+        <span>String</span></a></li>
     
     <li>
       <a href="/tag/Tree" data-toggle="tooltip" data-placement="right" title="1">
@@ -244,7 +302,7 @@ Because this is an one-pass traversal, the time complexity is O(n), where n is t
         <span>jekyll</span></a></li>
     
     <li>
-      <a href="/tag/leetcode" data-toggle="tooltip" data-placement="right" title="1">
+      <a href="/tag/leetcode" data-toggle="tooltip" data-placement="right" title="2">
         <span>leetcode</span></a></li>
     
     <li>
@@ -263,7 +321,7 @@ Because this is an one-pass traversal, the time complexity is O(n), where n is t
           <footer class="footer-distributed">
       <div class="container">
         <div class="footer">
-          <p>Pavel Makhov &copy; 2015</p>
+          <p>Weihan Jiang &copy; 2017</p>
           <h6>Follow me</h6>
 
 <ul class="social-media">
@@ -280,6 +338,10 @@ Because this is an one-pass traversal, the time complexity is O(n), where n is t
     </li>
   
 
+  
+    <li>
+      <a title="weihan-jiang-6219096b on LinkedIn" href="https://www.linkedin.com/in/weihan-jiang-6219096b" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
+    </li>
   
 
   
