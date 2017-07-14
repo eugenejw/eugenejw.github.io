@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Implement strStr() -- leetcode 28 </title>
+  <title>Weihan's Coding Blog | Implement strStr method (leetcode 28) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -67,7 +67,7 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/empty_post">Implement strStr() -- leetcode 28</a></h1>
+                  <h1><a href="/2017/07/leetcode-28">Implement strStr method (leetcode 28)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
@@ -91,6 +91,8 @@
                       
                         <li><a href="/tag/Python">Python</a></li>
                       
+                        <li><a href="/tag/Boyer–Moore–Horspool algorithm">Boyer–Moore–Horspool algorithm</a></li>
+                      
                     </ul>
                   </div>
                   <div class="post-content">
@@ -104,7 +106,8 @@ Implement strStr().</p>
 
 <h3 id="kmp-algorithm-implemted-in-java">KMP algorithm implemted in Java</h3>
 <p>Typically, the “find substring in string” problem could be efficiently solved by the <a href="https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm">Knuth–Morris–Pratt algorithm</a><br />
-Also, you can have detailed algorithm workthrough found <a href="http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/">here</a>.</p>
+Also, you can have detailed algorithm workthrough found <a href="http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/">here</a>.<br />
+Interestingly, in Python, the str.find(‘substring’) is implemented by <a href="https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm">Boyer–Moore–Horspool algorithm</a>, which is related to the KMP algorithm.</p>
 
 <p>Time complexity: O(n + k)<br />
 RUntime: 13ms</p>
@@ -169,10 +172,13 @@ RUntime: 13ms</p>
 <p><img src="http://localhost:4000/images/28_kmp_java.jpg" alt="img" class="center-image" /><em>Runtime: 13ms</em></p>
 
 <h3 id="brutal-algorithm-in-python">Brutal algorithm in Python</h3>
-<p>This problem could also be brutal algorithms.</p>
+<p>This problem could also be solved brutal algorithms.</p>
 
 <p>Time complexity: O(n^2)<br />
 Runtime: 38 ms</p>
+<blockquote class="note">
+  <p>Note: the runtime looks okay just because leetcode’s unit test cases are simple.</p>
+</blockquote>
 
 <figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">strStr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">haystack</span><span class="p">,</span> <span class="n">needle</span><span class="p">):</span>
@@ -215,7 +221,7 @@ Runtime: 38 ms</p>
   <h2>Recent Posts</h2>
   <ul>
     
-    <li><a href="/2017/07/empty_post">Implement strStr() -- leetcode 28</a></li>
+    <li><a href="/2017/07/leetcode-28">Implement strStr method (leetcode 28)</a></li>
     
     <li><a href="/2017/07/leetcode-515">Find Largest Value in Each Tree Row (leetcode 515)</a></li>
     
@@ -240,6 +246,10 @@ Runtime: 38 ms</p>
     <li>
       <a href="/tag/BFS" data-toggle="tooltip" data-placement="right" title="1">
         <span>BFS</span></a></li>
+    
+    <li>
+      <a href="/tag/Boyer–Moore–Horspool algorithm" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Boyer–Moore–Horspool algorithm</span></a></li>
     
     <li>
       <a href="/tag/Brutal" data-toggle="tooltip" data-placement="right" title="1">
