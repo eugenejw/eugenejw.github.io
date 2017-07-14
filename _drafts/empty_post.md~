@@ -1,0 +1,74 @@
+---
+layout: post
+title: 515. Find Largest Value in Each Tree Row
+category: Coding
+tags: [Algorithm, Tree, DFS, BFS, Java, Python, leetcode, Medium]
+---
+
+#### Description,
+You need to find the largest value in each row of a binary tree.
+[The leetcode link](https://leetcode.com/problems/find-largest-value-in-each-tree-row/#/description)
+
+#### Example,
+Input: 
+
+          1
+         / \
+        3   2
+       / \   \  
+      5   3   9 
+
+Output: [1, 3, 9]
+
+#### Pre-order DFS in Python
+This problem could also be solved by pre-order DFS.
+
+Create an empty bucket, when traversing to a new level, increase bucket size by 1.
+
+When reaching a level exists in the bucket, compare the existing value in that level position, with the new node's vaue. Store the bigger one to the position.
+
+Because this is an one-pass traversal, the time complexity is O(n), where n is the tree node count.
+
+Runtime: 68 ms
+
+{% highlight python %}
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, x):
+#         self.val = x
+#         self.left = None
+#         self.right = None
+
+class Solution(object):
+    def largestValues(self, root):
+        """
+        :type root: TreeNode
+        :rtype: List[int]
+        """
+        ret = []
+        self.dfs(root, ret, 0)
+        return ret
+        
+    def dfs(self, root, ret, level):
+        """
+        @param: TreeNode, List<int>, int 
+        @return: void
+        """
+        if not root:
+            return
+
+        if level == len(ret): # when first time reaching a new level
+            ret.append(root.val)
+        else:
+            ret[level] = max(ret[level], root.val)
+
+        self.dfs(root.left, ret, level+1)
+        self.dfs(root.right, ret, level+1)
+
+{% endhighlight %}
+
+
+
+
+
+

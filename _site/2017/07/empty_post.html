@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Text formatting </title>
+  <title>Weihan's Coding Blog | 515. Find Largest Value in Each Tree Row </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -67,80 +67,95 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2016/11/text-formatting">Text formatting</a></h1>
+                  <h1><a href="/2017/07/empty_post">515. Find Largest Value in Each Tree Row</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>02 Nov 2016</time>
+                      <time>13 Jul 2017</time>
                     </div>
                     <ul>
                       
-                        <li><a href="/tag/jekyll">jekyll</a></li>
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Tree">Tree</a></li>
+                      
+                        <li><a href="/tag/DFS">DFS</a></li>
+                      
+                        <li><a href="/tag/BFS">BFS</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
+                      
+                        <li><a href="/tag/leetcode">leetcode</a></li>
+                      
+                        <li><a href="/tag/Medium">Medium</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h1 id="text-formatting-example">Text formatting example</h1>
+                    <h4 id="description">Description,</h4>
+<p>You need to find the largest value in each row of a binary tree.<br />
+<a href="https://leetcode.com/problems/find-largest-value-in-each-tree-row/#/description">The leetcode link</a></p>
 
-<p>Some examples of text formatting for some common text elements.</p>
+<h4 id="example">Example,</h4>
+<p>Input:</p>
 
-<h1 id="headers">Headers</h1>
+<div class="highlighter-rouge"><pre class="highlight"><code>      1
+     / \
+    3   2
+   / \   \  
+  5   3   9 
+</code></pre>
+</div>
 
-<h1 id="header1">Header1</h1>
+<p>Output: [1, 3, 9]</p>
 
-<h2 id="header2">Header2</h2>
+<h4 id="pre-order-dfs-in-python">Pre-order DFS in Python</h4>
+<p>This problem could also be solved by pre-order DFS.</p>
 
-<h3 id="header3">Header3</h3>
+<p>Create an empty bucket, when traversing to a new level, increase bucket size by 1.<br />
+When reaching a level exists in the bucket, compare the existing value in that level position, with the new node’s vaue. Store the bigger one to the position.<br />
+Because this is an one-pass traversal, the time complexity is O(n), where n is the tree node count.</p>
 
-<h4 id="header4">Header4</h4>
+<p>Runtime: 68 ms</p>
 
-<h1 id="emphasis">Emphasis</h1>
+<figure class="highlight"><pre><code class="language-python" data-lang="python"><span class="c"># Definition for a binary tree node.</span>
+<span class="c"># class TreeNode(object):</span>
+<span class="c">#     def __init__(self, x):</span>
+<span class="c">#         self.val = x</span>
+<span class="c">#         self.left = None</span>
+<span class="c">#         self.right = None</span>
 
-<p>Italics: <code class="highlighter-rouge">*asterisks*</code> -&gt; <em>asterisks</em> or <code class="highlighter-rouge">_underscores_</code> -&gt; <em>underscores</em>.</p>
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">largestValues</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="s">"""
+        :type root: TreeNode
+        :rtype: List[int]
+        """</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+        
+    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="n">level</span><span class="p">):</span>
+        <span class="s">"""
+        @param: TreeNode, List&lt;int&gt;, int 
+        @return: void
+        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+            <span class="k">return</span>
 
-<p>Bold: <code class="highlighter-rouge">**asterisks**</code> -&gt; <strong>asterisks</strong> or <code class="highlighter-rouge">__underscores__</code> -&gt; <strong>underscores</strong>.</p>
+        <span class="k">if</span> <span class="n">level</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">ret</span><span class="p">):</span> <span class="c"># when first time reaching a new level</span>
+            <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">ret</span><span class="p">[</span><span class="n">level</span><span class="p">]</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ret</span><span class="p">[</span><span class="n">level</span><span class="p">],</span> <span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">)</span>
 
-<p>You also can combine them: <code class="highlighter-rouge">**asterisks and _underscores_**</code> -&gt; <strong>asterisks and <em>underscores</em></strong>.</p>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">ret</span><span class="p">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span></code></pre></figure>
 
-<h1 id="blockquotes-and-notes">Blockquotes and notes</h1>
+<p><img src="http://localhost:4000/images/515_dfs_python.jpg" alt="img" class="center-image" /><em>Runtime: 68ms</em></p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">&gt;Blockquotes</code></pre></figure>
-
-<blockquote>
-  <p>Blockquotes</p>
-</blockquote>
-
-<p>Using very cool <a href="http://kramdown.gettalong.org/quickref.html#block-attributes">feature</a> of kramdown which allows to assign any attribute to a block-level element I’ve added note and warning:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">&gt;Note 
-<span class="o">{</span>: .note<span class="o">}</span></code></pre></figure>
-
-<blockquote class="note">
-  <p>Note</p>
-</blockquote>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">&gt;Warning 
-<span class="o">{</span>: .note .warning<span class="o">}</span></code></pre></figure>
-
-<blockquote class="note warning">
-  <p>Warning</p>
-</blockquote>
-
-<h1 id="keyboard-buttons">Keyboard buttons</h1>
-
-<p>In case you need to show some keyboard shortcuts, like <code class="key highlighter-rouge">Ctrl</code>+<code class="key highlighter-rouge">A</code> use following construction:</p>
-
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash"><span class="sb">`</span>Ctrl<span class="sb">`</span><span class="o">{</span>: .key<span class="o">}</span>+<span class="sb">`</span>A<span class="sb">`</span><span class="o">{</span>:.key<span class="o">}</span></code></pre></figure>
-
-<p>Example of keyboard shortcuts in a terminal:</p>
-
-<p><code class="key highlighter-rouge">Ctrl</code> + <code class="key highlighter-rouge">A</code> = move cursor to beginning of line<br />
-<code class="key highlighter-rouge">Ctrl</code> + <code class="key highlighter-rouge">E</code> = move cursor to end of line<br />
-<code class="key highlighter-rouge">Ctrl</code> + <code class="key highlighter-rouge">C</code> = kills the current process.<br />
-<code class="key highlighter-rouge">Ctrl</code> + <code class="key highlighter-rouge">Z</code> = sends the current process to the background.<br />
-<code class="key highlighter-rouge">Ctrl</code> + <code class="key highlighter-rouge">D</code> = logs you out.<br />
-<code class="key highlighter-rouge">Ctrl</code> + <code class="key highlighter-rouge">R</code> = finds the last command matching the entered letters.</p>
 
                     
 
