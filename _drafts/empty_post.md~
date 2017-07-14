@@ -24,9 +24,7 @@ Output: [1, 3, 9]
 This problem could also be solved by pre-order DFS.
 
 Create an empty bucket, when traversing to a new level, increase bucket size by 1.
-
 When reaching a level exists in the bucket, compare the existing value in that level position, with the new node's vaue. Store the bigger one to the position.
-
 Because this is an one-pass traversal, the time complexity is O(n), where n is the tree node count.
 
 Runtime: 68 ms
@@ -68,6 +66,7 @@ class Solution(object):
 {% endhighlight %}
 
 
+![img]({{ site.baseurl | prepend:site.url}}/images/515_dfs_python.jpg){: .center-image }*Runtime: 68ms*
 
 
 

@@ -5,11 +5,11 @@ category: Coding
 tags: [Algorithm, Tree, DFS, BFS, Java, Python, leetcode, Medium]
 ---
 
-#### Description,
+**Description**,
 You need to find the largest value in each row of a binary tree.
 [The leetcode link](https://leetcode.com/problems/find-largest-value-in-each-tree-row/#/description)
 
-#### Example,
+Example,
 Input: 
 
           1
@@ -23,10 +23,11 @@ Output: [1, 3, 9]
 #### Pre-order DFS in Python
 This problem could also be solved by pre-order DFS.
 
-Create an empty bucket, when traversing to a new level, increase bucket size by 1.
-When reaching a level exists in the bucket, compare the existing value in that level position, with the new node's vaue. Store the bigger one to the position.
+Create an empty bucket, whenever traversing to a new level, increase bucket size by 1.
+When reaching a level already exists in the bucket, compare the existing value with the current node's vaue. Update the bucket value to the larger one.
 Because this is an one-pass traversal, the time complexity is O(n), where n is the tree node count.
 
+Time complexity: O(n)
 Runtime: 68 ms
 
 {% highlight python %}
