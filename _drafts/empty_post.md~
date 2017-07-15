@@ -1,9 +1,9 @@
 ---
 layout: post
 date: 2017-07-13 23:23:00
-title: Implement strStr() -- leetcode 28
+title: Implement strStr method (leetcode 28)
 category: Coding
-tags: [Algorithm, String, KMP, Brutal, leetcode, Medium, Java, Python]
+tags: [Algorithm, String, KMP, Brutal, leetcode, Medium, Java, Python, Boyer–Moore–Horspool algorithm]
 ---
 
 **Description**,
@@ -16,6 +16,7 @@ Returns the index of the first occurrence of needle in haystack, or -1 if needle
 ### KMP algorithm implemted in Java
 Typically, the "find substring in string" problem could be efficiently solved by the [Knuth–Morris–Pratt algorithm](https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm)
 Also, you can have detailed algorithm workthrough found [here](http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/).
+Interestingly, in Python, the str.find('substring') is implemented by [Boyer–Moore–Horspool algorithm](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm), which is related to the KMP algorithm.
 
 Time complexity: O(n + k)
 RUntime: 13ms
@@ -82,10 +83,12 @@ public class Solution {
 ![img]({{ site.baseurl | prepend:site.url}}/images/28_kmp_java.jpg){: .center-image }*Runtime: 13ms*
 
 ### Brutal algorithm in Python
-This problem could also be brutal algorithms.
+This problem could also be solved brutal algorithms.
 
 Time complexity: O(n^2)
 Runtime: 38 ms
+>Note: the runtime looks okay just because leetcode's unit test cases are simple.
+{: .note}
 
 {% highlight python %}
 class Solution(object):
