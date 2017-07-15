@@ -1,124 +1,80 @@
 ---
 layout: post
-date: 2017-07-13 23:23:00
-title: Implement strStr method (leetcode 28)
+date: 2017-07-14 23:41:00
+title: K-diff Pairs in an Array (leetcode 532)
 category: Coding
-tags: [Algorithm, String, KMP, Brutal, leetcode, Medium, Java, Python, Boyer–Moore–Horspool algorithm]
+tags: [Algorithm, Array, HashMap, leetcode, Easy, Java]
 ---
 
 **Description**,
-Implement strStr().
+Given an array of integers and an integer k, you need to find the number of unique k-diff pairs in the array. Here a k-diff pair is defined as an integer pair (i, j), where i and j are both numbers in the array and their absolute difference is k.
 
-Returns the index of the first occurrence of needle in haystack, or -1 if needle is not part of haystack.
+Example 1:
+Input:[1, 2, 3, 4, 5], k = 1
+Output: 4
+Explanation: There are four 1-diff pairs in the array, (1, 2), (2, 3), (3, 4) and (4, 5).
 
-[The leetcode link](https://leetcode.com/problems/implement-strstr/#/description)
+Example 2:
+Input: [1, 3, 1, 5, 4], k = 0
+Output: 1
+Explanation: There is one 0-diff pair in the array, (1, 1).
 
-### KMP algorithm implemted in Java
-Typically, the "find substring in string" problem could be efficiently solved by the [Knuth–Morris–Pratt algorithm](https://en.wikipedia.org/wiki/Knuth%E2%80%93Morris%E2%80%93Pratt_algorithm)
-Also, you can have detailed algorithm workthrough found [here](http://www.geeksforgeeks.org/searching-for-patterns-set-2-kmp-algorithm/).
-Interestingly, in Python, the str.find('substring') is implemented by [Boyer–Moore–Horspool algorithm](https://en.wikipedia.org/wiki/Boyer%E2%80%93Moore%E2%80%93Horspool_algorithm), which is related to the KMP algorithm.
 
-Time complexity: O(n + k)
-RUntime: 13ms
+Note:
+{: .note}
+The pairs (i, j) and (j, i) count as the same pair.
+The length of the array won't exceed 10,000.
+All the integers in the given input belong to the range: [-1e7, 1e7].
+
+[The leetcode link](https://leetcode.com/problems/k-diff-pairs-in-an-array/#/description)
+
+### HashMap solution implemted in Java
+HashMap is handy when meeting the "finding K-diff pairs". 
+
+For example, [3, 1, 5, 8] k = 2
+
+You can either sort the list to [1, 3, 5, 8] and iterate the list to find k-diff pairs to achieve O(nlogn).
+Or using HashMap to achieve O(n). 
+
+The first way will not need extra space(using quick sort), the latter ones need you to build HashMap.
+Here, we use the HashMap one to solve the problem.
+
+Time complexity: O(n)
+RUntime: 33ms
 
 {% highlight java %}
 public class Solution {
     /**
-    * Return the starting index of the first needle found in haystack
-    * @param  String haystack of type String
-    * @param  String needle of type String
-    * @return int the starting index 
+    * returns the k-diff pair count by using HashMap
+    * @param  int[] input nums stored in int[]
+    * @param  int int k defines the absolute difference.
+    * @return int 
     */
-    public int strStr(String haystack, String needle) {
-        int[] kmpTable= new int[needle.length()];
-        buildKMPTable(needle, kmpTable);
-        int i = 0;
-        int j = 0;
-        int N = haystack.length();
-        int M = needle.length();
-        while (i < N && j < M) {
-            if (haystack.charAt(i) == needle.charAt(j)) {
-                i++;
-                if (++j == M) {
-                   return i - j;
-                } 
-            } else {
-                if (j == 0) {
-                    i++;
-                }
-                else{
-                    j = kmpTable[j-1];
-                }
-            } 
-        }
-        if (M == 0)   return 0; // when needle is null
-        return -1;
-    }
-    
-    /**
-    * Returns the KMP table
-    * @param  String needle
-    * @param  int[] int[] to store the kmptable
-    * @return void
-    */
-    private void buildKMPTable(String needle, int[] kmpTable) {
-        int j = 0;
-        int i = 1;
-        while (i < kmpTable.length) {
-            if (needle.charAt(i) == needle.charAt(j)) {
-                kmpTable[i++] = ++j;
-            } else {
-                if (j == 0){
-                    kmpTable[i++] = 0;
-                } else {
-                    j = kmpTable[j-1];
-                }
-            }
+    public int findPairs(int[] nums, int k) {
+        int ret = 0;
+        if (k < 0) return ret; // The test case was playing devil's advocate,
+                               // I don't feel it is needed, at all! Since k should be "absolute value"!
+        HashMap<Integer, Integer> map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num, map.getOrDefault(num, 0) + 1);
         }
         
+        for (int key : map.keySet()) {
+            if (k == 0) {
+                if (map.get(key) > 1)   ret++;
+            }
+            else if (map.containsKey(key+k)) {
+                ret++;
+            }
+
+        }
+        
+        return ret;
     }
 }
 {% endhighlight %}
 
-![img]({{ site.baseurl | prepend:site.url}}/images/28_kmp_java.jpg){: .center-image }*Runtime: 13ms*
-
-### Brutal algorithm in Python
-This problem could also be solved brutal algorithms.
-
-Time complexity: O(n^2)
-Runtime: 38 ms
->Note: the runtime looks okay just because leetcode's unit test cases are simple.
-{: .note}
-
-{% highlight python %}
-class Solution(object):
-    def strStr(self, haystack, needle):
-        """
-        :Find the substring in a brutal way.
-        :type haystack: str
-        :type needle: str
-        :rtype: int
-        """
-        h, n = haystack, needle
-        N = len(h)
-        M = len(n)
-        if M == 0: # edge case, when needle is "".
-            return 0
-        
-        for i in xrange(N-M+1): # in case M > N, just return -1
-            offset = i
-            j = 0
-            while j < M:
-                if h[offset+j] != n[j]:
-                    break
-                j += 1
-            if j == M:
-                return i
-            
-        return -1
-{% endhighlight %}
-
-![img]({{ site.baseurl | prepend:site.url}}/images/28_brutal_python.jpg){: .center-image }*Runtime: 38ms*
+![img]({{ site.baseurl | prepend:site.url}}/images/532_hashmap_java.jpg){: .center-image }*Runtime: 33ms*
 
 
 
