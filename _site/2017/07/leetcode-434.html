@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Posts Tagged &ldquo;Algorithm&rdquo; </title>
+  <title>Weihan's Coding Blog | Number of Segments in a String (leetcode 434) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -74,167 +74,97 @@
     </div>
   </nav>
 
-
     <div class="wrapper">
       <div class="content">
         <div class="container container-center">
           <div class="row">
             <div class="col-md-8">
-              <div class="well">
-                <div class="page-content wc-container">
+              <div class="article">
+                <div class="well">
+                  <h1><a href="/2017/07/leetcode-434">Number of Segments in a String (leetcode 434)</a></h1>
+                  <div class="post-meta">
+                    <div class="post-time">
+                      <i class="fa fa-calendar"></i>
+                      <time>15 Jul 2017</time>
+                    </div>
+                    <ul>
+                      
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/String">String</a></li>
+                      
+                        <li><a href="/tag/Regex">Regex</a></li>
+                      
+                        <li><a href="/tag/leetcode">leetcode</a></li>
+                      
+                        <li><a href="/tag/Easy">Easy</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
+                      
+                    </ul>
+                  </div>
+                  <div class="post-content">
+                    <div id="toc" class="toc"></div>
+                    <p><strong>Description</strong>,<br />
+Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.</p>
 
-  <div class="post">
-    <h2 class="post_title">Posts Tagged &ldquo;Algorithm&rdquo;</h2>
-    <ul>
-      
-        
-          
-          <li class="archive_list">
-            <time>15 Jul 2017</time>
-            <a class="archive_list_article_link" href='/2017/07/leetcode-434'>Number of Segments in a String (leetcode 434)</a>
-            <p></p>
-          </li>
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-        
-          
-          <li class="archive_list">
-            <time>15 Jul 2017</time>
-            <a class="archive_list_article_link" href='/2017/07/leetcode-112'>Path Sum (leetcode 112)</a>
-            <p></p>
-          </li>
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-        
-          
-          <li class="archive_list">
-            <time>14 Jul 2017</time>
-            <a class="archive_list_article_link" href='/2017/07/leetcode-532'>K-diff Pairs in an Array (leetcode 532)</a>
-            <p></p>
-          </li>
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-        
-          
-          <li class="archive_list">
-            <time>13 Jul 2017</time>
-            <a class="archive_list_article_link" href='/2017/07/leetcode-28'>Implement strStr method (leetcode 28)</a>
-            <p></p>
-          </li>
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-        
-          
-          <li class="archive_list">
-            <time>13 Jul 2017</time>
-            <a class="archive_list_article_link" href='/2017/07/leetcode-515'>Find Largest Value in Each Tree Row (leetcode 515)</a>
-            <p>Basic practice of BFS and DFS, have fun.</p>
-          </li>
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-        
-          
-        
-      
-    </ul>
-  </div>
+<p>Please note that the string does not contain any non-printable characters.</p>
+
+<p>Example:</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Input</span><span class="p">:</span> <span class="s">"Hello, my name is John"</span>
+<span class="n">Output</span><span class="p">:</span> <span class="mi">5</span>
+</code></pre>
 </div>
 
+<p><a href="https://leetcode.com/problems/number-of-segments-in-a-string/#/description">The leetcode link</a></p>
+
+<h3 id="string-one-pass-implemted-in-java">String one pass implemted in Java</h3>
+
+<p>Time complexity: O(n)<br />
+Runtime: 3ms</p>
+
+<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">countSegments</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">!=</span> <span class="sc">' '</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">' '</span><span class="o">)){</span>
+                <span class="n">count</span><span class="o">++;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span></code></pre></figure>
+
+<h3 id="regex-solution-in-python">Regex solution in Python.</h3>
+
+<p>All you need is to s = s.strip() the input before split.<br />
+Then use Regex to solve it.</p>
+
+<p>Note that Python split() can do the multi-space spliting without parameter.</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">re</span>
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">countSegments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
+        <span class="s">"""
+        :type s: str
+        :rtype: int
+        """</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">s+'</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+</code></pre>
+</div>
+
+<p><img src="http://localhost:4000/images/434_python.jpg" alt="img" class="center-image" /><em>Runtime: 36ms</em></p>
+
+
+                    
+
+                  </div>
+                  
+                </div>
               </div>
             </div>
             <div class="col-md-4 hidden-xs">
@@ -334,6 +264,8 @@
             </div>
           </div>
         </div>
+        
+
       </div>
           <footer class="footer-distributed">
       <div class="container">

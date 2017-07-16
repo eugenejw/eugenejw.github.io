@@ -7,6 +7,66 @@
 		<atom:link href="http://localhost:4000/feed.xml" rel="self" type="application/rss+xml" />
 		
 			<item>
+				<title>Number of Segments in a String (leetcode 434)</title>
+				<description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;,&lt;br /&gt;
+Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.&lt;/p&gt;
+
+&lt;p&gt;Please note that the string does not contain any non-printable characters.&lt;/p&gt;
+
+&lt;p&gt;Example:&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;n&quot;&gt;Input&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Hello, my name is John&quot;&lt;/span&gt;
+&lt;span class=&quot;n&quot;&gt;Output&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;5&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;a href=&quot;https://leetcode.com/problems/number-of-segments-in-a-string/#/description&quot;&gt;The leetcode link&lt;/a&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;string-one-pass-implemted-in-java&quot;&gt;String one pass implemted in Java&lt;/h3&gt;
+
+&lt;p&gt;Time complexity: O(n)&lt;br /&gt;
+Runtime: 3ms&lt;/p&gt;
+
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-java&quot; data-lang=&quot;java&quot;&gt;&lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;countSegments&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;String&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;for&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;length&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;();&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;charAt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;' '&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;==&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;charAt&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;i&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;sc&quot;&gt;' '&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)){&lt;/span&gt;
+                &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;++;&lt;/span&gt;
+            &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
+    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+
+&lt;h3 id=&quot;regex-solution-in-python&quot;&gt;Regex solution in Python.&lt;/h3&gt;
+
+&lt;p&gt;All you need is to s = s.strip() the input before split.&lt;br /&gt;
+Then use Regex to solve it.&lt;/p&gt;
+
+&lt;p&gt;Note that Python split() can do the multi-space spliting without parameter.&lt;/p&gt;
+&lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kn&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nn&quot;&gt;re&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;countSegments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;bp&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
+        &lt;span class=&quot;s&quot;&gt;&quot;&quot;&quot;
+        :type s: str
+        :rtype: int
+        &quot;&quot;&quot;&lt;/span&gt;
+        &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;strip&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;ow&quot;&gt;not&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;
+            &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;
+        &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;len&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;re&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;split&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;s+'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;s&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+
+&lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/434_python.jpg&quot; alt=&quot;img&quot; class=&quot;center-image&quot; /&gt;&lt;em&gt;Runtime: 36ms&lt;/em&gt;&lt;/p&gt;
+
+</description>
+				<pubDate>Sat, 15 Jul 2017 16:41:00 -0700</pubDate>
+				<link>http://localhost:4000/2017/07/leetcode-434</link>
+				<guid isPermaLink="true">http://localhost:4000/2017/07/leetcode-434</guid>
+			</item>
+		
+			<item>
 				<title>Path Sum (leetcode 112)</title>
 				<description>&lt;p&gt;&lt;strong&gt;Description&lt;/strong&gt;,&lt;br /&gt;
 Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.&lt;/p&gt;
@@ -693,39 +753,6 @@ To turn them on in the header of your post add:&lt;/p&gt;
 				<pubDate>Thu, 15 Sep 2016 09:25:06 -0700</pubDate>
 				<link>http://localhost:4000/2016/09/be-social</link>
 				<guid isPermaLink="true">http://localhost:4000/2016/09/be-social</guid>
-			</item>
-		
-			<item>
-				<title>Analytics, tags and comments</title>
-				<description>&lt;h1 id=&quot;analytics&quot;&gt;Analytics&lt;/h1&gt;
-
-&lt;h4 id=&quot;google-analytics&quot;&gt;&lt;a href=&quot;http://www.google.com/analytics/&quot;&gt;Google Analytics&lt;/a&gt;&lt;/h4&gt;
-
-&lt;p&gt;To enable Google Analytics create an account &lt;a href=&quot;https://analytics.google.com&quot;&gt;here&lt;/a&gt;. Then add your tracking id in &lt;code class=&quot;highlighter-rouge&quot;&gt;config.xml&lt;/code&gt;, it should look something like &lt;code class=&quot;highlighter-rouge&quot;&gt;UA-********-1&lt;/code&gt;&lt;/p&gt;
-
-&lt;h4 id=&quot;yandex-metrica&quot;&gt;&lt;a href=&quot;http://metrica.yandex.com&quot;&gt;Yandex Metrica&lt;/a&gt;&lt;/h4&gt;
-
-&lt;p&gt;To enable Yandex Metrica you need to register, create a ‘counter’ and then copy-paste it’s code in &lt;code class=&quot;highlighter-rouge&quot;&gt;/_includes/yandex-metrica.html&lt;/code&gt; file.&lt;/p&gt;
-
-&lt;h1 id=&quot;tags&quot;&gt;Tags&lt;/h1&gt;
-
-&lt;p&gt;Using tags in Jekyll is a bit tricky topic, I used this approach: &lt;a href=&quot;http://charliepark.org/tags-in-jekyll/&quot;&gt;charliepark.org/tags-in-jekyll/&lt;/a&gt;. You can read technical details there. To simply use tags provide list of tags in post header:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-bash&quot; data-lang=&quot;bash&quot;&gt;tags:
- - jekyll
- - analytics
- - tags
- - comments&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;And then before pushing your changes to github copy generated folder &lt;code class=&quot;highlighter-rouge&quot;&gt;/_site/tag&lt;/code&gt; in your blog’s root folder (github pages will not generate it automatically).&lt;/p&gt;
-
-&lt;h1 id=&quot;comments&quot;&gt;Comments&lt;/h1&gt;
-
-&lt;p&gt;To enable &lt;a href=&quot;http://disqus.com&quot;&gt;Disqus&lt;/a&gt; register on the site and then just put your name in &lt;code class=&quot;highlighter-rouge&quot;&gt;_config.xml&lt;/code&gt;. Comments could be switched on and off on per post basis, just put &lt;code class=&quot;highlighter-rouge&quot;&gt;comments: true&lt;/code&gt; to enable them.&lt;/p&gt;
-</description>
-				<pubDate>Mon, 01 Aug 2016 09:25:06 -0700</pubDate>
-				<link>http://localhost:4000/2016/08/analytics-tags-comments</link>
-				<guid isPermaLink="true">http://localhost:4000/2016/08/analytics-tags-comments</guid>
 			</item>
 		
 	</channel>
