@@ -1,62 +1,65 @@
 ---
 layout: post
-date: 2017-07-15 15:41:00
-title: Path Sum (leetcode 112)
+date: 2017-07-15 23:41:00
+title: Number of Segments in a String (leetcode 434)
 category: Coding
-tags: [Algorithm, Tree, DFS, leetcode, Easy, Java]
+tags: [Algorithm, String, Regex, leetcode, Easy, Java, Python]
 ---
 
 **Description**,
-Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
 
-For example:
-Given the below binary tree and sum = 22,
-              5
-             / \
-            4   8
-           /   / \
-          11  13  4
-         /  \      \
-        7    2      1
-return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+Please note that the string does not contain any non-printable characters.
 
-[The leetcode link](https://leetcode.com/problems/path-sum/#/description)
+Example:
+```python
+Input: "Hello, my name is John"
+Output: 5
+```
 
-### HashMap solution implemted in Java
-Pre-order DFS tree traversal could be very strait-forward for solving this problem.
 
+[The leetcode link](https://leetcode.com/problems/number-of-segments-in-a-string/#/description)
+
+### String one pass implemted in Java
 
 Time complexity: O(n)
-RUntime: 1ms
+Runtime: 3ms
 
 {% highlight java %}
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
 public class Solution {
-    /**
-    * Returns boolean result whether any root-to-leaf path sums up to the "sum" given.
-    * @param  TreeNode root of TreeNode type
-    * @param  int int sum
-    * @return boolean result
-    */
-    public boolean hasPathSum(TreeNode root, int sum) {
-        if (root == null)   return false;
-        if ((sum-root.val == 0) && (root.left == null) && (root.right == null)) {
-            return true;
+    public int countSegments(String s) {
+        int count = 0;
+        for (int i=0; i<s.length(); i++) {
+            if (s.charAt(i) != ' ' && (i==0 || s.charAt(i-1) == ' ')){
+                count++;
+            }
         }
-        return hasPathSum(root.left, sum-root.val) || hasPathSum(root.right, sum-root.val);
+        return count;
     }
 }
 {% endhighlight %}
 
-![img]({{ site.baseurl | prepend:site.url}}/images/112_dfs_java.jpg){: .center-image }*Runtime: 1ms*
+### Regex solution in Python.
+
+All you need is to s = s.strip() the input before split.
+Then use Regex to solve it.
+
+Note that Python split() can do the multi-space spliting without parameter.
+```python
+import re
+class Solution(object):
+    def countSegments(self, s):
+        """
+        :type s: str
+        :rtype: int
+        """
+        s = s.strip()
+        if not s:
+            return 0
+        return len(re.split('\s+', s))
+```
+
+![img]({{ site.baseurl | prepend:site.url}}/images/434_python.jpg){: .center-image }*Runtime: 36ms*
 
 
 
