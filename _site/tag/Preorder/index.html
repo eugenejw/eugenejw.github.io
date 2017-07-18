@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Path Sum (leetcode 112) </title>
+  <title>Weihan's Coding Blog | Posts Tagged &ldquo;Preorder&rdquo; </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -74,94 +74,169 @@
     </div>
   </nav>
 
+
     <div class="wrapper">
       <div class="content">
         <div class="container container-center">
           <div class="row">
             <div class="col-md-8">
-              <div class="article">
-                <div class="well">
-                  <h1><a href="/2017/07/leetcode-112">Path Sum (leetcode 112)</a></h1>
-                  <div class="post-meta">
-                    <div class="post-time">
-                      <i class="fa fa-calendar"></i>
-                      <time>15 Jul 2017</time>
-                    </div>
-                    <ul>
-                      
-                        <li><a href="/tag/Algorithm">Algorithm</a></li>
-                      
-                        <li><a href="/tag/Tree">Tree</a></li>
-                      
-                        <li><a href="/tag/DFS">DFS</a></li>
-                      
-                        <li><a href="/tag/leetcode">leetcode</a></li>
-                      
-                        <li><a href="/tag/Easy">Easy</a></li>
-                      
-                        <li><a href="/tag/Java">Java</a></li>
-                      
-                    </ul>
-                  </div>
-                  <div class="post-content">
-                    <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.</p>
+              <div class="well">
+                <div class="page-content wc-container">
 
-<p>For example:<br />
-Given the below binary tree and sum = 22,</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code>              <span class="mi">5</span>
-             <span class="o">/</span> \
-            <span class="mi">4</span>   <span class="mi">8</span>
-           <span class="o">/</span>   <span class="o">/</span> \
-          <span class="mi">11</span>  <span class="mi">13</span>  <span class="mi">4</span>
-         <span class="o">/</span>  \      \
-        <span class="mi">7</span>    <span class="mi">2</span>      <span class="mi">1</span>
-</code></pre>
+  <div class="post">
+    <h2 class="post_title">Posts Tagged &ldquo;Preorder&rdquo;</h2>
+    <ul>
+      
+        
+          
+        
+          
+        
+          
+        
+          
+          <li class="archive_list">
+            <time>17 Jul 2017</time>
+            <a class="archive_list_article_link" href='/2017/07/leetcode-513'>Find Bottom Left Tree Value (leetcode 513)</a>
+            <p></p>
+          </li>
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </ul>
+  </div>
 </div>
-<p>return true, as there exist a root-to-leaf path 5-&gt;4-&gt;11-&gt;2 which sum is 22.</p>
 
-<p><a href="https://leetcode.com/problems/path-sum/#/description">The leetcode link</a></p>
-
-<h3 id="hashmap-solution-implemted-in-java">HashMap solution implemted in Java</h3>
-<p>Pre-order DFS tree traversal could be very strait-forward for solving this problem.</p>
-
-<p>Time complexity: O(n)<br />
-RUntime: 1ms</p>
-
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="cm">/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */</span>
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="cm">/**
-    * Returns boolean result whether any root-to-leaf path sums up to the "sum" given.
-    * @param  TreeNode root of TreeNode type
-    * @param  int int sum
-    * @return boolean result
-    */</span>
-    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">hasPathSum</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">,</span> <span class="kt">int</span> <span class="n">sum</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>   <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
-        <span class="k">if</span> <span class="o">((</span><span class="n">sum</span><span class="o">-</span><span class="n">root</span><span class="o">.</span><span class="na">val</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span> <span class="o">==</span> <span class="kc">null</span><span class="o">))</span> <span class="o">{</span>
-            <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="nf">hasPathSum</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">sum</span><span class="o">-</span><span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">)</span> <span class="o">||</span> <span class="n">hasPathSum</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">sum</span><span class="o">-</span><span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">);</span>
-    <span class="o">}</span>
-<span class="o">}</span></code></pre></figure>
-
-<p><img src="http://localhost:4000/images/112_dfs_java.jpg" alt="img" class="center-image" /><em>Runtime: 1ms</em></p>
-
-
-                    
-
-                  </div>
-                  
-                </div>
               </div>
             </div>
             <div class="col-md-4 hidden-xs">
@@ -265,8 +340,6 @@ RUntime: 1ms</p>
             </div>
           </div>
         </div>
-        
-
       </div>
           <footer class="footer-distributed">
       <div class="container">

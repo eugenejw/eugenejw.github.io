@@ -1,65 +1,65 @@
 ---
 layout: post
-date: 2017-07-15 23:41:00
-title: Number of Segments in a String (leetcode 434)
+date: 2017-07-17 19:41:00
+title: Queue Reconstruction by Height (leetcode 406)
 category: Coding
-tags: [Algorithm, String, Regex, leetcode, Easy, Java, Python]
+tags: [Algorithm, leetcode, Medium, Python]
 ---
 
 **Description**,
-Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.
+Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), where h is the height of the person and k is the number of people in front of this person who have a height greater than or equal to h. Write an algorithm to reconstruct the queue.
 
-Please note that the string does not contain any non-printable characters.
+Note:
+The number of people is less than 1,100.
 
-Example:
+Example
 ```python
-Input: "Hello, my name is John"
-Output: 5
+Input:
+[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+
+Output:
+[[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
 ```
 
 
-[The leetcode link](https://leetcode.com/problems/number-of-segments-in-a-string/#/description)
+[The leetcode link](https://leetcode.com/problems/queue-reconstruction-by-height/#/description)
 
-### String one pass implemted in Java
+### Bucket sort implemted in Python
+Starting with the tallest ones, [7, 0], [7, 1], put them in order of k value.
+Then work with the second tallest ones, [6, 1], by inserting them one by one in order of their k values.
 
-Time complexity: O(n)
-Runtime: 3ms
+Time complexity: O(nlongn)
+Runtime: 153ms
 
-{% highlight java %}
-public class Solution {
-    public int countSegments(String s) {
-        int count = 0;
-        for (int i=0; i<s.length(); i++) {
-            if (s.charAt(i) != ' ' && (i==0 || s.charAt(i-1) == ' ')){
-                count++;
-            }
-        }
-        return count;
-    }
-}
+{% highlight python %}
+class Solution(object):
+    def reconstructQueue(self, people):
+        """
+        :type people: List[List[int]]
+        :rtype: List[List[int]]
+        """
+        ret = []
+        bucket = dict()
+        for p in people:
+            height = p[0]
+            if height not in bucket:
+                bucket[height] = []
+                bucket[height].append(p)
+            else:
+                bucket[height].append(p)
+        
+        heightList = bucket.keys()
+        heightList.sort(reverse=True)
+        for h in heightList:
+            hList = bucket.get(h)
+            hList.sort(key=lambda x : x[1])
+            for p in hList:
+                ret.insert(p[1], p)
+        return ret
+            
 {% endhighlight %}
 
-### Regex solution in Python.
-
-All you need is to s = s.strip() the input before split.
-Then use Regex to solve it.
-
-Note that Python split() can do the multi-space spliting without parameter.
-```python
-import re
-class Solution(object):
-    def countSegments(self, s):
-        """
-        :type s: str
-        :rtype: int
-        """
-        s = s.strip()
-        if not s:
-            return 0
-        return len(re.split('\s+', s))
-```
-
-![img]({{ site.baseurl | prepend:site.url}}/images/434_python.jpg){: .center-image }*Runtime: 36ms*
+![img]({{ site.baseurl | prepend:site.url}}/images/406_python.jpg){: .center-image }*Runtime: 153ms*
 
 
 
