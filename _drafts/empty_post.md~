@@ -1,65 +1,73 @@
 ---
 layout: post
-date: 2017-07-17 19:41:00
-title: Queue Reconstruction by Height (leetcode 406)
+date: 2017-07-17 23:00:00
+title: Find Bottom Left Tree Value (leetcode 513)
 category: Coding
-tags: [Algorithm, leetcode, Medium, Python]
+tags: [Algorithm, Tree, DFS, Preorder, leetcode, Medium, Java]
 ---
 
 **Description**,
-Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), where h is the height of the person and k is the number of people in front of this person who have a height greater than or equal to h. Write an algorithm to reconstruct the queue.
+Given a binary tree, find the leftmost value in the last row of the tree.
 
-Note:
-The number of people is less than 1,100.
-
-Example
-```python
 Input:
-[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
-
+```python
+        1
+       / \
+      2   3
+     /   / \
+    4   5   6
+       /
+      7
+```
 Output:
-[[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
+7
+
+Note: You may assume the tree (i.e., the given root node) is not NULL.
+
+[The leetcode link](https://leetcode.com/problems/find-bottom-left-tree-value/#/description)
+
+### Pre-order DFS
+The trick is using a list to track the following info,
+
+```python
+List<Integer, Integer> -- <max_level_met, first_qualified_node_value>
 ```
 
+Time complexity: O(n)
+Runtime: 7ms
 
-[The leetcode link](https://leetcode.com/problems/queue-reconstruction-by-height/#/description)
-
-### Bucket sort implemted in Python
-Starting with the tallest ones, [7, 0], [7, 1], put them in order of k value.
-Then work with the second tallest ones, [6, 1], by inserting them one by one in order of their k values.
-
-Time complexity: O(nlongn)
-Runtime: 153ms
-
-{% highlight python %}
-class Solution(object):
-    def reconstructQueue(self, people):
-        """
-        :type people: List[List[int]]
-        :rtype: List[List[int]]
-        """
-        ret = []
-        bucket = dict()
-        for p in people:
-            height = p[0]
-            if height not in bucket:
-                bucket[height] = []
-                bucket[height].append(p)
-            else:
-                bucket[height].append(p)
-        
-        heightList = bucket.keys()
-        heightList.sort(reverse=True)
-        for h in heightList:
-            hList = bucket.get(h)
-            hList.sort(key=lambda x : x[1])
-            for p in hList:
-                ret.insert(p[1], p)
-        return ret
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    private int[] ret = new int[2];
+    public int findBottomLeftValue(TreeNode root) {
+        dfs(root, 1);
+        return ret[1];
+    }
+    
+    private void dfs(TreeNode root, int level){
+        if (root == null) return;
+        if (level > ret[0] && root.left == null && root.right == null) {
+            ret[0] = level;
+            ret[1] = root.val;
+            return;
+        }
+        dfs(root.left, level+1);
+        dfs(root.right, level+1);  
+    }
+}
             
-{% endhighlight %}
+```
 
-![img]({{ site.baseurl | prepend:site.url}}/images/406_python.jpg){: .center-image }*Runtime: 153ms*
+![img]({{ site.baseurl | prepend:site.url}}/images/513_java.jpg){: .center-image }*Runtime: 7ms*
 
 
 
