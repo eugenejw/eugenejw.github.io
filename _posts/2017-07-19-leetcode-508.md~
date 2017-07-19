@@ -32,9 +32,8 @@ return [2], since 2 happens twice, however -5 only occur once.
 [The leetcode link](https://leetcode.com/problems/most-frequent-subtree-sum/#/description)
 
 ### Post-order DFS with hashtable
-Use post-order tree traversal to get the sum for each node.
-Store the sums into one hashtable.
-Note: you may track the largest sum during the traversal(my version does not do that, just for practice the use of python's dictionary setdefault() method :-)).
+This version of solution uses backtracing. Alternatively, you can pass a string, instead of backtracing a list, as argument at recurssion, which is faster because of the cost of list's append / pop operations.
+
 
 Time complexity: O(n)
 
