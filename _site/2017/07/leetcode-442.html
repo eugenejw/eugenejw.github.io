@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Images </title>
+  <title>Weihan's Coding Blog | Find All Duplicates in an Array (leetcode 442) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,49 +81,74 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2016/07/images">Images</a></h1>
+                  <h1><a href="/2017/07/leetcode-442">Find All Duplicates in an Array (leetcode 442)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>01 Jul 2016</time>
+                      <time>19 Jul 2017</time>
                     </div>
                     <ul>
                       
-                        <li><a href="/tag/jekyll">jekyll</a></li>
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Array">Array</a></li>
+                      
+                        <li><a href="/tag/leetcode">leetcode</a></li>
+                      
+                        <li><a href="/tag/Medium">Medium</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h2 id="introduction">Introduction</h2>
+                    <p><strong>Description</strong>,<br />
+Given an array of integers, 1 ≤ a[i] ≤ n (n = size of array), some elements appear twice and others appear once.<br />
+Find all the elements that appear twice in this array.</p>
 
-<p>This theme supports two types of images:</p>
+<p>Could you do it without extra space and in O(n) runtime?</p>
 
-<ul>
-  <li>inline images: <img src="http://localhost:4000/images/batWid1.png" alt="Battery Widget" /></li>
-</ul>
+<p>Example:</p>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Input</span><span class="p">:</span>
+<span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
 
-<figure class="highlight"><pre><code class="language-html" data-lang="html">![Battery Widget]({{ site.url | append:site.baseurl }}/images/batWid1.png)</code></pre></figure>
+<span class="n">Output</span><span class="p">:</span>
+<span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">]</span>
+</code></pre>
+</div>
 
-<ul>
-  <li>centered images with caption (optional):</li>
-</ul>
+<p><a href="https://leetcode.com/problems/find-all-duplicates-in-an-array/#/description">The leetcode link</a></p>
 
-<p><img src="http://localhost:4000/images/deer.jpg" alt="img" class="center-image" /><em>(°0°)</em></p>
+<h3 id="using-array-index-to-store-the-extra-piece-of-information">Using array index to store the “extra piece of information”.</h3>
+<p>When a <strong>number</strong> i, flip the <strong>position</strong> i-1 in the array to negative.<br />
+When the duplicated <strong>number</strong> i is encountered, you will see the number stored at <strong>position</strong> i-1 is a negative one.<br />
+Then you found one.</p>
 
-<figure class="highlight"><pre><code class="language-html" data-lang="html">![img]({{ site.baseurl | prepend:site.url}}/images/deer.jpg){: .center-image }*(°0°)*</code></pre></figure>
+<p>repeat this to the end of the array.</p>
 
-<p>You can apply your own styles to image by creating css class with style:</p>
+<p>Time complexity: O(n)</p>
 
-<figure class="highlight"><pre><code class="language-css" data-lang="css"><span class="nc">.custom-image-style</span>
-<span class="p">{</span>
-<span class="c">/* your style */</span>
-<span class="p">}</span></code></pre></figure>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findDuplicates</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="s">"""
+        :type nums:   List[int]
+        :rtype:       List[int]
+        :runtime:     632ms
+        :faster than: 50</span><span class="si">%</span><span class="s">
+        """</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">))</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">nums</span><span class="p">[</span><span class="nb">abs</span><span class="p">(</span><span class="n">num</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+        <span class="k">return</span> <span class="n">ret</span>
+        
+</code></pre>
+</div>
 
-<p>And then applying your style just after the image in curly brackets with colon:</p>
-
-<figure class="highlight"><pre><code class="language-html" data-lang="html">[!image](path to image){:.custom-image-style}
- </code></pre></figure>
+<p><img src="http://localhost:4000/images/442_python.jpg" alt="img" class="center-image" /><em>Runtime:632ms</em></p>
 
 
                     
