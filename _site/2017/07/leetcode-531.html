@@ -129,11 +129,12 @@ Given a picture consisting of black and white pixels, find the number of black l
 
 <h3 id="soace-complexity-omn">Soace Complexity O(m+n)</h3>
 <p>Two passes of the matrix.<br />
-First pass build the auxiliary table.<br />
-Second pass to do the counting.</p>
+First pass: build the auxiliary table.<br />
+Second pass: do the counting.</p>
 
-<p>Time complexity: O(nlongn)<br />
-Runtime: 996ms</p>
+<p>Time complexity: O(n)</p>
+
+<p>Runtime: 996ms</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">findLonelyPixel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">picture</span><span class="p">):</span>
@@ -162,10 +163,14 @@ Runtime: 996ms</p>
 
 <p><img src="http://localhost:4000/images/531_python.jpg" alt="img" class="center-image" /><em>Runtime: 996ms</em></p>
 
-<h3 id="soace-complexity-o1">Soace Complexity O(1)</h3>
+<h3 id="space-complexity-o1">Space Complexity O(1)</h3>
 <p>Two passes of the matrix.<br />
-First pass: without creating the auxiliary table, but to store the auxiliary table’s info into the 1st row and 1st col.<br />
-Second pass to do the counting.</p>
+First pass: does not create the auxiliary table, instead, store the auxiliary table’s info into the 1st row and 1st col.<br />
+Second pass: do the counting.</p>
+
+<p>Note: the chr(int) will wrap round when it reaches 255, so we need to set a ceiling of ‘Z’ to avoid that.</p>
+
+<p>Time Complexity: O(n)</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
     <span class="cm">/**
@@ -229,6 +234,8 @@ Second pass to do the counting.</p>
   <h2>Recent Posts</h2>
   <ul>
     
+    <li><a href="/2017/07/leetcode-94">Lonely Pixel I (leetcode 531)</a></li>
+    
     <li><a href="/2017/07/leetcode-531">Lonely Pixel I (leetcode 531)</a></li>
     
     <li><a href="/2017/07/leetcode-540">Single Element in a Sorted Array (leetcode 540)</a></li>
@@ -236,8 +243,6 @@ Second pass to do the counting.</p>
     <li><a href="/2017/07/leetcode-442">Find All Duplicates in an Array (leetcode 442)</a></li>
     
     <li><a href="/2017/07/leetcode-508">Most Frequent Subtree Sum (leetcode 508)</a></li>
-    
-    <li><a href="/2017/07/leetcode-257">Binary Tree Paths (leetcode 257)</a></li>
     
   </ul>
 </div>
@@ -248,7 +253,7 @@ Second pass to do the counting.</p>
     
     
     <li>
-      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="12">
+      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="13">
         <span>Algorithm</span></a></li>
     
     <li>
@@ -292,7 +297,7 @@ Second pass to do the counting.</p>
         <span>Hashmap</span></a></li>
     
     <li>
-      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="9">
+      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="10">
         <span>Java</span></a></li>
     
     <li>
@@ -304,7 +309,7 @@ Second pass to do the counting.</p>
         <span>Matrix</span></a></li>
     
     <li>
-      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="9">
+      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="10">
         <span>Medium</span></a></li>
     
     <li>
@@ -328,11 +333,15 @@ Second pass to do the counting.</p>
         <span>Space Complexity</span></a></li>
     
     <li>
+      <a href="/tag/Stack" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Stack</span></a></li>
+    
+    <li>
       <a href="/tag/String" data-toggle="tooltip" data-placement="right" title="2">
         <span>String</span></a></li>
     
     <li>
-      <a href="/tag/Tree" data-toggle="tooltip" data-placement="right" title="5">
+      <a href="/tag/Tree" data-toggle="tooltip" data-placement="right" title="6">
         <span>Tree</span></a></li>
     
     <li>
@@ -344,7 +353,7 @@ Second pass to do the counting.</p>
         <span>jekyll</span></a></li>
     
     <li>
-      <a href="/tag/leetcode" data-toggle="tooltip" data-placement="right" title="12">
+      <a href="/tag/leetcode" data-toggle="tooltip" data-placement="right" title="13">
         <span>leetcode</span></a></li>
     
   </ul>
