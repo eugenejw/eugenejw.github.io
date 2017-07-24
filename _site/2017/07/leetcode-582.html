@@ -1,0 +1,407 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Weihan's Coding Blog | Kill Process (leetcode 582) </title>
+  <meta name="theme-color" content="#222222" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="/js/toc.js"></script>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/theme.css" rel="stylesheet">
+  <link href="/css/syntax.css" rel="stylesheet">
+  <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-74090658-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+  
+
+
+ <script type="text/javascript">
+  WebFontConfig = {
+    google: {
+      families: ['Ubuntu::latin']
+    }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+</script>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Weihan's Coding Blog</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">/home</a></li>
+          <li><a href="/archive.html">/archive</a></li>
+          <li><a href="/tags.html">/tags</a></li>
+          <li><a href="/about.html">/about</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <div class="wrapper">
+      <div class="content">
+        <div class="container container-center">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="article">
+                <div class="well">
+                  <h1><a href="/2017/07/leetcode-582">Kill Process (leetcode 582)</a></h1>
+                  <div class="post-meta">
+                    <div class="post-time">
+                      <i class="fa fa-calendar"></i>
+                      <time>23 Jul 2017</time>
+                    </div>
+                    <ul>
+                      
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Tree">Tree</a></li>
+                      
+                        <li><a href="/tag/BFS">BFS</a></li>
+                      
+                        <li><a href="/tag/DFS">DFS</a></li>
+                      
+                        <li><a href="/tag/leetcode">leetcode</a></li>
+                      
+                        <li><a href="/tag/Medium">Medium</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
+                      
+                    </ul>
+                  </div>
+                  <div class="post-content">
+                    <div id="toc" class="toc"></div>
+                    <p><strong>Description</strong>,<br />
+Given n processes, each process has a unique PID (process id) and its PPID (parent process id).</p>
+
+<p>Each process only has one parent process, but may have one or more children processes. This is just like a tree structure. Only one process has PPID that is 0, which means this process has no parent process. All the PIDs will be distinct positive integers.</p>
+
+<p>We use two list of integers to represent a list of processes, where the first list contains PID for each process and the second list contains the corresponding PPID.</p>
+
+<p>Now given the two lists, and a PID representing a process you want to kill, return a list of PIDs of processes that will be killed in the end. You should assume that when a process is killed, all its children processes will be killed. No order is required for the final answer.</p>
+
+<p>Example 1:</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> 
+<span class="n">pid</span> <span class="o">=</span>  <span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">]</span>
+<span class="n">ppid</span> <span class="o">=</span> <span class="o">[</span><span class="mi">3</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">3</span><span class="o">]</span>
+<span class="n">kill</span> <span class="o">=</span> <span class="mi">5</span>
+<span class="nl">Output:</span> <span class="o">[</span><span class="mi">5</span><span class="o">,</span><span class="mi">10</span><span class="o">]</span>
+<span class="nl">Explanation:</span> 
+           <span class="mi">3</span>
+         <span class="o">/</span>   <span class="err">\</span>
+        <span class="mi">1</span>     <span class="mi">5</span>
+             <span class="o">/</span>
+            <span class="mi">10</span>
+<span class="n">Kill</span> <span class="mi">5</span> <span class="n">will</span> <span class="n">also</span> <span class="n">kill</span> <span class="mi">10</span><span class="o">.</span>
+</code></pre>
+</div>
+<p>Note:<br />
+The given kill id is guaranteed to be one of the given PIDs.<br />
+n &gt;= 1.</p>
+
+<h3 id="hashmap--dfs">HashMap + DFS</h3>
+<p>we can use a hashmap which stores a particular process value and the list of its direct children.<br />
+And then treat it as a tree traversal problem.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">killProcess</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pid</span><span class="p">,</span> <span class="n">ppid</span><span class="p">,</span> <span class="n">kill</span><span class="p">):</span>
+        <span class="s">"""
+        @solution: hashmap + dfs
+        @runtime:  400ms
+        @timecomplexity: O(n)
+        """</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">hm</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ppid</span><span class="p">)):</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">hm</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">ppid</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="p">[])</span>
+            <span class="n">group</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pid</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">hm</span><span class="p">,</span> <span class="n">kill</span><span class="p">,</span> <span class="n">ret</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ret</span>
+    
+    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hm</span><span class="p">,</span> <span class="n">node</span><span class="p">,</span> <span class="n">ret</span><span class="p">):</span>
+        <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">node</span> <span class="ow">in</span> <span class="n">hm</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">child</span> <span class="ow">in</span> <span class="n">hm</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">node</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">hm</span><span class="p">,</span> <span class="n">child</span><span class="p">,</span> <span class="n">ret</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<p><img src="http://localhost:4000/images/582_python.jpg" alt="img" class="center-image" /><em>Runtime: 400ms</em></p>
+
+<h3 id="hashmap--bfs">HashMap + BFS</h3>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="cm">/**
+    * @solution:        hashmap + BFS
+    * @runtime:         88ms
+    * @timeCopmplexity: O(n)
+    */</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">killProcess</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">pid</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ppid</span><span class="o">,</span> <span class="kt">int</span> <span class="n">kill</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;();</span>
+        <span class="n">HashMap</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">hm</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">ppid</span><span class="o">.</span><span class="na">size</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">ppid</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">group</span> <span class="o">=</span> <span class="n">hm</span><span class="o">.</span><span class="na">getOrDefault</span><span class="o">(</span><span class="n">ppid</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;());</span>
+                <span class="n">group</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">pid</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">));</span>
+                <span class="n">hm</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">ppid</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">i</span><span class="o">),</span> <span class="n">group</span><span class="o">);</span> <span class="c1">// note in python "setdefault" does this automatically</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        
+        <span class="n">Queue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;();</span>
+        <span class="n">queue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">kill</span><span class="o">);</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">node</span> <span class="o">=</span> <span class="n">queue</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+            <span class="n">ret</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">node</span><span class="o">);</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">hm</span><span class="o">.</span><span class="na">containsKey</span><span class="o">(</span><span class="n">node</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">child</span> <span class="o">:</span> <span class="n">hm</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">node</span><span class="o">))</span> <span class="o">{</span>
+                    <span class="n">queue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">child</span><span class="o">);</span>
+                <span class="o">}</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+        
+    <span class="o">}</span>
+    
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><img src="http://localhost:4000/images/582_java.jpg" alt="img" class="center-image" /><em>Runtime: 88ms</em></p>
+
+
+                    
+
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 hidden-xs">
+              <div class="sidebar ">
+  <h2>Recent Posts</h2>
+  <ul>
+    
+    <li><a href="/2017/07/leetcode-582">Kill Process (leetcode 582)</a></li>
+    
+    <li><a href="/2017/07/leetcode-94">Binary Tree Inorder Traversal (leetcode 94)</a></li>
+    
+    <li><a href="/2017/07/leetcode-531">Lonely Pixel I (leetcode 531)</a></li>
+    
+    <li><a href="/2017/07/leetcode-540">Single Element in a Sorted Array (leetcode 540)</a></li>
+    
+    <li><a href="/2017/07/leetcode-442">Find All Duplicates in an Array (leetcode 442)</a></li>
+    
+  </ul>
+</div>
+
+<div class="sidebar">
+  <h2>Tags</h2>
+  <ul class="sideBarTags">
+    
+    
+    <li>
+      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="14">
+        <span>Algorithm</span></a></li>
+    
+    <li>
+      <a href="/tag/Amazon" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Amazon</span></a></li>
+    
+    <li>
+      <a href="/tag/Array" data-toggle="tooltip" data-placement="right" title="2">
+        <span>Array</span></a></li>
+    
+    <li>
+      <a href="/tag/BFS" data-toggle="tooltip" data-placement="right" title="2">
+        <span>BFS</span></a></li>
+    
+    <li>
+      <a href="/tag/Binary Search" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Binary Search</span></a></li>
+    
+    <li>
+      <a href="/tag/Boyer–Moore–Horspool algorithm" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Boyer–Moore–Horspool algorithm</span></a></li>
+    
+    <li>
+      <a href="/tag/Brutal" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Brutal</span></a></li>
+    
+    <li>
+      <a href="/tag/DFS" data-toggle="tooltip" data-placement="right" title="6">
+        <span>DFS</span></a></li>
+    
+    <li>
+      <a href="/tag/Easy" data-toggle="tooltip" data-placement="right" title="3">
+        <span>Easy</span></a></li>
+    
+    <li>
+      <a href="/tag/HashMap" data-toggle="tooltip" data-placement="right" title="1">
+        <span>HashMap</span></a></li>
+    
+    <li>
+      <a href="/tag/Hashmap" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Hashmap</span></a></li>
+    
+    <li>
+      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="11">
+        <span>Java</span></a></li>
+    
+    <li>
+      <a href="/tag/KMP" data-toggle="tooltip" data-placement="right" title="1">
+        <span>KMP</span></a></li>
+    
+    <li>
+      <a href="/tag/Matrix" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Matrix</span></a></li>
+    
+    <li>
+      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="11">
+        <span>Medium</span></a></li>
+    
+    <li>
+      <a href="/tag/Postorder" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Postorder</span></a></li>
+    
+    <li>
+      <a href="/tag/Preorder" data-toggle="tooltip" data-placement="right" title="2">
+        <span>Preorder</span></a></li>
+    
+    <li>
+      <a href="/tag/Python" data-toggle="tooltip" data-placement="right" title="10">
+        <span>Python</span></a></li>
+    
+    <li>
+      <a href="/tag/Regex" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Regex</span></a></li>
+    
+    <li>
+      <a href="/tag/Space Complexity" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Space Complexity</span></a></li>
+    
+    <li>
+      <a href="/tag/Stack" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Stack</span></a></li>
+    
+    <li>
+      <a href="/tag/String" data-toggle="tooltip" data-placement="right" title="2">
+        <span>String</span></a></li>
+    
+    <li>
+      <a href="/tag/Tree" data-toggle="tooltip" data-placement="right" title="7">
+        <span>Tree</span></a></li>
+    
+    <li>
+      <a href="/tag/backtracing" data-toggle="tooltip" data-placement="right" title="1">
+        <span>backtracing</span></a></li>
+    
+    <li>
+      <a href="/tag/jekyll" data-toggle="tooltip" data-placement="right" title="8">
+        <span>jekyll</span></a></li>
+    
+    <li>
+      <a href="/tag/leetcode" data-toggle="tooltip" data-placement="right" title="14">
+        <span>leetcode</span></a></li>
+    
+  </ul>
+</div>
+
+            </div>
+          </div>
+        </div>
+        
+
+      </div>
+          <footer class="footer-distributed">
+      <div class="container">
+        <div class="footer">
+          <p>Weihan Jiang &copy; 2017</p>
+          <h6>Follow me</h6>
+
+<ul class="social-media">
+
+  
+    <li>
+      <a title="eugenejw on Github" href="https://github.com/eugenejw" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title=" on StackOverflow" href="https://stackoverflow.com/users/" target="_blank"><i class="fa fa-stack-overflow fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title="weihan-jiang-6219096b on LinkedIn" href="https://www.linkedin.com/in/weihan-jiang-6219096b" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title=" on Instagram" href="https://instagram.com/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title=" on Last.fm" href="https://www.lastfm.com/user/" target="_blank"><i class="fa fa-lastfm fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title="feed.xml RSS" href="/feed.xml" target="_blank"><i class="fa fa-rss fa-2x"></i></a>
+    </li>
+  
+
+</ul>
+
+        </div>
+      </div>
+    </footer>
+
+    </div>
+  </body>
+</html>
