@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Combinations (leetcode 77) </title>
+  <title>Weihan's Coding Blog | Range Sum Query - Immutable (leetcode 303) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,76 +81,90 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/leetcode-77">Combinations (leetcode 77)</a></h1>
+                  <h1><a href="/2017/07/leetcode-303">Range Sum Query - Immutable (leetcode 303)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>24 Jul 2017</time>
+                      <time>25 Jul 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/Combination">Combination</a></li>
-                      
-                        <li><a href="/tag/DFS">DFS</a></li>
+                        <li><a href="/tag/Caching">Caching</a></li>
                       
                         <li><a href="/tag/leetcode">leetcode</a></li>
                       
-                        <li><a href="/tag/Medium">Medium</a></li>
+                        <li><a href="/tag/Easy">Easy</a></li>
                       
-                        <li><a href="/tag/Java">Java</a></li>
+                        <li><a href="/tag/Python">Python</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
                     <p><strong>Description</strong>,<br />
-Given two integers n and k, return all possible combinations of k numbers out of 1 … n.</p>
+Given an integer array nums, find the sum of the elements between indices i and j (i ≤ j), inclusive.</p>
 
-<p>For example,<br />
-If n = 4 and k = 2, a solution is:</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">[</span>
-  <span class="o">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">4</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">3</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">4</span><span class="o">],</span>
-<span class="o">]</span>
+<p>Example:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Given</span> <span class="n">nums</span> <span class="o">=</span> <span class="o">[-</span><span class="mi">2</span><span class="o">,</span> <span class="mi">0</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="o">-</span><span class="mi">5</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="o">-</span><span class="mi">1</span><span class="o">]</span>
+
+<span class="n">sumRange</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="mi">1</span>
+<span class="n">sumRange</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="mi">1</span>
+<span class="n">sumRange</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="mi">5</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="o">-</span><span class="mi">3</span>
 </code></pre>
 </div>
+<p>Note:<br />
+You may assume that the array does not change.<br />
+There are many calls to sumRange function.</p>
 
-<h3 id="dfs-is-the-standard-way-of-solving-combination-problem">DFS is the standard way of solving combination problem.</h3>
+<h3 id="the-cumulative-caching-solution">The cumulative (caching) solution</h3>
+<p>Because the query will be used very frequently, you will need to cache the results using hashmap, or do a pre-computation.<br />
+Solution below is a pre-computation one,</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="cm">/**
-    * DFS
-    * @runtime: 30ms
-    */</span>
-    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="nf">combine</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;();</span>
-        <span class="n">dfs</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">ret</span><span class="o">,</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;());</span>
-        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
-    <span class="o">}</span>
-    
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="kt">int</span> <span class="n">begin</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">ret</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">ret</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">(</span><span class="n">path</span><span class="o">));</span>
-            <span class="k">return</span><span class="o">;</span>
-        <span class="o">}</span>
+<p>Time complexity : O(1) time per query, O(n) time pre-computation. Since the cumulative sum is cached, each sumRange query can be calculated in O(1) time.<br />
+Space complexity : O(n).</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">NumArray</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="s">"""
+    The cumulative (caching) solution
+    @timeComplexity: O(n)
+    @runtime:        68ms
+    """</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="s">"""
+        :type nums: List[int]
+        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nums</span> <span class="o">=</span> <span class="n">nums</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">sums</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span>
+        <span class="n">prevSum</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">sums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">prevSum</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+            <span class="n">prevSum</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
         
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">begin</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">path</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-            <span class="n">dfs</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="n">ret</span><span class="o">,</span> <span class="n">path</span><span class="o">);</span>
-            <span class="n">path</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">path</span><span class="o">.</span><span class="na">size</span><span class="o">()-</span><span class="mi">1</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
-<span class="o">}</span>
+
+    <span class="k">def</span> <span class="nf">sumRange</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">):</span>
+        <span class="s">"""
+        :type i: int
+        :type j: int
+        :rtype: int
+        """</span>
+        
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">sums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">sums</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        
+
+
+<span class="c"># Your NumArray object will be instantiated and called as such:</span>
+<span class="c"># obj = NumArray(nums)</span>
+<span class="c"># param_1 = obj.sumRange(i,j)</span>
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/images/77_java.jpg" alt="img" class="center-image" /><em>Runtime: 30ms</em></p>
+<p><img src="http://localhost:4000/images/303_python.jpg" alt="img" class="center-image" /><em>Runtime: 68ms</em></p>
 
                     
 
