@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Customizations </title>
+  <title>Weihan's Coding Blog | Array Nesting (leetcode 565) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,146 +81,97 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2016/09/customizations">Customizations</a></h1>
+                  <h1><a href="/2017/07/leetcode-565">Array Nesting (leetcode 565)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>20 Sep 2016</time>
+                      <time>27 Jul 2017</time>
                     </div>
                     <ul>
                       
-                        <li><a href="/tag/jekyll">jekyll</a></li>
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Caching">Caching</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
+                      
+                        <li><a href="/tag/Medium">Medium</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h1 id="accent-color">Accent color</h1>
+                    <p><strong>Description</strong>,<br />
+A zero-indexed array A consisting of N different integers is given. The array contains all integers in the range [0, N - 1].</p>
 
-<p>Accent color is color for some important elements, such as links, buttons, icons. Currently accent color is <span class="label" style="background-color:#3CA2A2; color:#444444">#3CA2A2</span>. This theme has some more predefined colors available in <strong>theme.scss</strong>:</p>
+<p>Sets S[K] for 0 &lt;= K &lt; N are defined as follows:</p>
 
-<blockquote class="filename">
-  <p>theme.scss</p>
-</blockquote>
+<p>S[K] = { A[K], A[A[K]], A[A[A[K]]], … }.</p>
 
-<figure class="highlight"><pre><code class="language-sass" data-lang="sass"> <span class="c1">// Several accent colors, choose one or create your own!
-</span> <span class="nv">$accent-color</span><span class="p">:</span> <span class="mh">#3CA2A2</span><span class="err">;</span>    <span class="o">//</span> <span class="n">original</span> <span class="o">=</span><span class="p">)</span>
- <span class="c1">//$accent-color: #C38FD6;  // velvet
-</span> <span class="c1">//$accent-color: #8FD6B3;  // greenish
-</span> <span class="c1">//$accent-color: #35B4DE;  // bluish
-</span> <span class="c1">//$accent-color: #D2E354;  // yellowish
-</span> <span class="c1">// $accent-color: #52B54B;  // green
-</span> </code></pre></figure>
+<p>Sets S[K] are finite for each K and should NOT contain duplicates.</p>
 
-<p>You can use one of them (just hover over the label to see accent color in action) or define your own!</p>
+<p>Write a function that given an array A consisting of N integers, return the size of the largest set S[K] for this array.</p>
 
-<p><span class="label" style="background-color:#C38FD6; color:#444444">#C38FD6</span>, <span class="label" style="background-color:#8FD6B3; color:#444444">#8FD6B3</span>, <span class="label" style="background-color:#35B4DE; color:#444444">#35B4DE</span>, <span class="label" style="background-color:#D2E354; color:#444444">#D2E354</span>, <span class="label" style="background-color:#52B54B; color:#444444">#52B54B</span>.</p>
-
-<script>
-  $('.label').hover(function(){
-    var color = $(this).text();
-    [].forEach.call($('a'), function(item) {
-      item.style.color = color
-    })
-  })
-</script>
-
-<style>
-  .label{
-    cursor: default;
-    border-radius: 5px;
-    padding: 5px 8px;
-  }
-</style>
-
-<h1 id="other-colors">Other colors</h1>
-
-<p>As Jekyll comes with support of SASS I put colors in variables. Here are the ones which could be easily changed:</p>
-
-<blockquote class="filename">
-  <p>theme.scss</p>
-</blockquote>
-
-<figure class="highlight"><pre><code class="language-scss" data-lang="scss"><span class="nv">$font-color</span><span class="p">:</span> <span class="mh">#dddddd</span><span class="p">;</span>
-<span class="nv">$background-color</span><span class="p">:</span> <span class="mh">#292929</span><span class="p">;</span>
-<span class="nv">$post-panel-color</span><span class="p">:</span> <span class="mh">#444</span><span class="p">;</span>
-<span class="nv">$footer-background-color</span><span class="p">:</span> <span class="mh">#292c2f</span><span class="p">;</span>
-<span class="nv">$note-color</span><span class="p">:</span> <span class="mh">#87CEFA</span><span class="p">;</span>
-<span class="nv">$warning-color</span><span class="p">:</span> <span class="mh">#ffff00</span><span class="p">;</span></code></pre></figure>
-
-                    
-
-<div class="share-bar">
-  <ul class="share-buttons">
-    
-    <li class="share-facebook">
-      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2016/09/customizations" target="_blank" title="Share on Facebook">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-facebook fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-twitter">
-      <a href="https://twitter.com/intent/tweet?url=http://localhost:4000/2016/09/customizations&text=Customizations" target="_blank" title="Tweet">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-twitter fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-google-plus">
-      <a href="https://plus.google.com/share?url=http://localhost:4000/2016/09/customizations" target="_blank" title="Share on Google Plus">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-google-plus fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-linkedin">
-      <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2016/09/customizations&title=Customizations&summary=Few customizations available out of the box!&source=" target="_blank" title="Share on LinkedIn">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-linkedin fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-pinterest">
-      <a href="http://pinterest.com/pin/create/button/?urlhttp://localhost:4000/2016/09/customizations=&description=Few customizations available out of the box!" target="_blank" title="Pin it">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-pinterest fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-envelope">
-      <a href="mailto:?&subject=Customizations&body=Few customizations available out of the box! http://localhost:4000/2016/09/customizations" target="_blank" title="Email">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-envelope-o fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-  </ul>
+<p>Example 1:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> <span class="n">A</span> <span class="o">=</span> <span class="o">[</span><span class="mi">5</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">2</span><span class="o">]</span>
+<span class="nl">Output:</span> <span class="mi">4</span>
+<span class="nl">Explanation:</span> 
+<span class="n">A</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">5</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">4</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="mi">3</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span> <span class="o">=</span> <span class="mi">6</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">.</span>
+</code></pre>
 </div>
 
+<p>One of the longest S[K]:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">S</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span><span class="n">A</span><span class="o">[</span><span class="mi">0</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">5</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">6</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">2</span><span class="o">]}</span> <span class="o">=</span> <span class="o">{</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">0</span><span class="o">}</span>
+</code></pre>
+</div>
+<p>Note:<br />
+N is an integer within the range [1, 20,000].<br />
+The elements of A are all distinct.<br />
+Each element of array A is an integer within the range [0, N-1].</p>
+
+<h2 id="memorizing-the-circles">Memorizing the circles</h2>
+
+<p>We consider a simple example and see how this problem can be resolved. From the figure below, we can see that the elements in the current nesting shown by arrows form a cycle. Thus, the same elements will be added to the current set irrespective of the first element chosen to be added to the set out of these marked elements.</p>
+
+<p><img src="http://localhost:4000/images/565_java_1.jpg" alt="img" class="center-image" /><em>memorize the visited circles</em></p>
+
+<p>Time complexity : O(n). Every element of the numsnums array will be considered atmost once.<br />
+Space complexity : O(1). Constant Space is used.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">arrayNesting</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
+        <span class="c1">// boolean[] visitedPos = new boolean[nums.length];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">ret</span><span class="o">,</span> <span class="n">buildAndCountSet</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">));</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">buildAndCountSet</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">begin</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">do</span> <span class="o">{</span>
+            <span class="n">count</span><span class="o">++;</span>
+            <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
+        <span class="o">}</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">begin</span><span class="o">);</span>
+        
+        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+        
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre>
+</div>
+
+<p><img src="http://localhost:4000/images/565_java.jpg" alt="img" class="center-image" /><em>Runtime: 40ms</em></p>
+
+                    
 
                   </div>
                   
