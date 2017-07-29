@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Be social </title>
+  <title>Weihan's Coding Blog | Find Duplicate File in System (leetcode 609) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,170 +81,116 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2016/09/be-social">Be social</a></h1>
+                  <h1><a href="/2017/07/leetcode-609">Find Duplicate File in System (leetcode 609)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>15 Sep 2016</time>
+                      <time>28 Jul 2017</time>
                     </div>
                     <ul>
                       
-                        <li><a href="/tag/jekyll">jekyll</a></li>
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Caching">Caching</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
+                      
+                        <li><a href="/tag/Medium">Medium</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h1 id="social-icons">Social icons</h1>
+                    <p><strong>Description</strong>,<br />
+Given a list of directory info including directory path, and all the files with contents in this directory, you need to find out all the groups of duplicate files in the file system in terms of their paths.</p>
 
-<p>You can have social icons which could lead to your social profile.<br />
-Out-of-the box it has:</p>
+<p>A group of duplicate files consists of at least two files that have exactly the same content.</p>
 
-<ul class="social-media">
-  <li>
-    <a title="Github" href="https://github.com/eugenejw" target="_blank"><i class="fa fa-github fa-2x"></i></a>
-  </li>
-  <li>
-    <a title="StackOverflow" href="http://stackoverflow.com/users/1252056/" target="_blank"><i class="fa fa-stack-overflow fa-2x"></i></a>
-  </li>
-  <li>
-    <a title="LinkedIn" href="https://www.linkedin.com/in/weihan-jiang-6219096b" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
-  </li>
-  <li>
-    <a title="Instagram" href="https://instagram.com/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
-  </li>
-  <li>
-    <a title="Last.fm" href="http://lastfm.com/user/" target="_blank"><i class="fa fa-lastfm fa-2x"></i></a>
-  </li>
-  <li>
-    <a title="RSS" href="http://localhost:4000/feed.xml" target="_blank"><i class="fa fa-rss fa-2x"></i></a>
-  </li>
-</ul>
+<p>A single directory info string in the input list has the following format:</p>
 
-<p>They could be setup in <code class="highlighter-rouge">_config.yml</code>.</p>
+<p>“root/d1/d2/…/dm f1.txt(f1_content) f2.txt(f2_content) … fn.txt(fn_content)”</p>
 
-<p>To add more icons do following steps:</p>
+<p>It means there are n files (f1.txt, f2.txt … fn.txt with content f1_content, f2_content … fn_content, respectively) in directory root/d1/d2/…/dm. Note that n &gt;= 1 and m &gt;= 0. If m = 0, it means the directory is just the root directory.</p>
 
-<ul>
-  <li>choose an icon you want to use: <a href="https://fortawesome.github.io/Font-Awesome/icons/">Font Awesome Icons</a></li>
-  <li>add variable in <code class="highlighter-rouge">_config.yml</code></li>
-  <li>add icon in <code class="highlighter-rouge">social.html</code> with check if variable exists:</li>
-</ul>
+<p>The output is a list of group of duplicate file paths. For each group, it contains all the file paths of the files that have the same content. A file path is a string that has the following format:</p>
 
-<figure class="highlight"><pre><code class="language-html" data-lang="html">{% if site.social.rss %}
-  <span class="nt">&lt;li&gt;</span>
-    <span class="nt">&lt;a</span> <span class="na">title=</span><span class="s">"{{ site.social.&lt;your_social_variable&gt; }}"</span> 
-       <span class="na">href=</span><span class="s">"{{site.url}}/{{ site.social.&lt;your_social_variable&gt; }}"</span> 
-       <span class="na">target=</span><span class="s">"_blank"</span><span class="nt">&gt;&lt;font</span><span class="na">_awesome_icon</span><span class="nt">&gt;&lt;/i&gt;&lt;/a&gt;</span>
-  <span class="nt">&lt;/li&gt;</span>
-{% endif %}</code></pre></figure>
+<p>“directory_path/file_name.txt”</p>
 
-<h1 id="share-buttons">Share buttons</h1>
-
-<p>This theme comes with built-in share buttons. You can see them in the bottom of this post.<br />
-To turn them on in the header of your post add:</p>
-
-<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="s">layout</span><span class="pi">:</span> <span class="s">post</span>
-<span class="s">title</span><span class="pi">:</span> <span class="s2">"</span><span class="s">Be</span><span class="nv"> </span><span class="s">sociable"</span>
-<span class="s">date</span><span class="pi">:</span> <span class="s">2016-05-15 16:25:06</span>
-<span class="s">description</span><span class="pi">:</span> <span class="s">Built-in share buttons!</span>
-<span class="s">share</span><span class="pi">:</span> <span class="s">true &lt;-- here</span></code></pre></figure>
-
-<p>If you want to disable some of them - go to <strong>_config.yml</strong>:</p>
-
-<blockquote class="filename">
-  <p>_config.yml</p>
-</blockquote>
-
-<figure class="highlight"><pre><code class="language-yml" data-lang="yml"><span class="s">share</span><span class="pi">:</span>
-  <span class="s">facebook</span><span class="pi">:</span> <span class="s">true</span>
-  <span class="s">twitter</span><span class="pi">:</span> <span class="s">true</span>
-  <span class="s">gplus</span><span class="pi">:</span> <span class="s">true</span>
-  <span class="s">linkedin</span><span class="pi">:</span> <span class="s">true</span>
-  <span class="s">pinterest</span><span class="pi">:</span> <span class="s">true</span>
-  <span class="s">email</span><span class="pi">:</span> <span class="s">true</span></code></pre></figure>
-
-<p>To add new buttons:</p>
-
-<ol>
-  <li>add icon name in <strong>_config.yml</strong>;</li>
-  <li>add section in <strong>_includes/share.html</strong>;</li>
-  <li>add styles in <strong>css/theme.css</strong>.</li>
-</ol>
-
-                    
-
-<div class="share-bar">
-  <ul class="share-buttons">
-    
-    <li class="share-facebook">
-      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2016/09/be-social" target="_blank" title="Share on Facebook">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-facebook fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-twitter">
-      <a href="https://twitter.com/intent/tweet?url=http://localhost:4000/2016/09/be-social&text=Be social" target="_blank" title="Tweet">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-twitter fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-google-plus">
-      <a href="https://plus.google.com/share?url=http://localhost:4000/2016/09/be-social" target="_blank" title="Share on Google Plus">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-google-plus fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-linkedin">
-      <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2016/09/be-social&title=Be social&summary=Built-in share buttons!&source=" target="_blank" title="Share on LinkedIn">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-linkedin fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-pinterest">
-      <a href="http://pinterest.com/pin/create/button/?urlhttp://localhost:4000/2016/09/be-social=&description=Built-in share buttons!" target="_blank" title="Pin it">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-pinterest fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-envelope">
-      <a href="mailto:?&subject=Be social&body=Built-in share buttons! http://localhost:4000/2016/09/be-social" target="_blank" title="Email">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-envelope-o fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-  </ul>
+<p>Example 1:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span>
+<span class="o">[</span><span class="s">"root/a 1.txt(abcd) 2.txt(efgh)"</span><span class="o">,</span> <span class="s">"root/c 3.txt(abcd)"</span><span class="o">,</span> <span class="s">"root/c/d 4.txt(efgh)"</span><span class="o">,</span> <span class="s">"root 4.txt(efgh)"</span><span class="o">]</span>
+<span class="nl">Output:</span>  
+<span class="o">[[</span><span class="s">"root/a/2.txt"</span><span class="o">,</span><span class="s">"root/c/d/4.txt"</span><span class="o">,</span><span class="s">"root/4.txt"</span><span class="o">],[</span><span class="s">"root/a/1.txt"</span><span class="o">,</span><span class="s">"root/c/3.txt"</span><span class="o">]]</span>
+</code></pre>
 </div>
 
+<p>Note:<br />
+No order is required for the final output.<br />
+You may assume the directory name, file name and file content only has letters and digits, and the length of file content is in the range of [1,50].<br />
+The number of files given is in the range of [1,20000].<br />
+You may assume no files or directories share the same name in the same directory.<br />
+You may assume each given directory info represents a unique directory. Directory path and file info are separated by a single blank space.</p>
+
+<p>Follow-up beyond contest:<br />
+Imagine you are given a real file system, how will you search files? DFS or BFS?<br />
+If the file content is very large (GB level), how will you modify your solution?<br />
+If you can only read the file by 1kb each time, how will you modify your solution?<br />
+What is the time complexity of your modified solution? What is the most time-consuming part and memory consuming part of it? How to optimize?<br />
+How to make sure the duplicated files you find are not false positive?</p>
+
+<h2 id="hashmap-solution">HashMap solution</h2>
+
+<p>Though the content of [1 - 50] length can add up to 50 factorial keys, the description said the file count is in range of [1, 20000], which is not bad to use the file content as the key of hashmap.</p>
+
+<p>Time complexity : O(n).<br />
+Space complexity : O(n).</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findDuplicate</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paths</span><span class="p">):</span>
+        <span class="s">"""
+        :type paths: List[str]
+        :rtype: List[List[str]]
+        """</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">hm</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">buildHashMap</span><span class="p">(</span><span class="n">paths</span><span class="p">,</span> <span class="n">hm</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">v</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">hm</span><span class="o">.</span><span class="n">itervalues</span><span class="p">()</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">]</span>
+
+        
+    <span class="k">def</span> <span class="nf">buildHashMap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paths</span><span class="p">,</span> <span class="n">hm</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">paths</span><span class="p">:</span>
+            <span class="n">tmpList</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+            <span class="n">folder</span> <span class="o">=</span> <span class="n">tmpList</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">tmpList</span><span class="p">)):</span>
+                <span class="n">fileName</span><span class="p">,</span> <span class="n">fileContent</span> <span class="o">=</span> <span class="n">tmpList</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">'('</span><span class="p">)</span>
+                <span class="n">fileContent</span> <span class="o">=</span> <span class="n">fileContent</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">fileContent</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">group</span> <span class="o">=</span> <span class="n">hm</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">fileContent</span><span class="p">,</span> <span class="p">[])</span>
+                <span class="n">group</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">folder</span> <span class="o">+</span> <span class="s">'/'</span> <span class="o">+</span> <span class="n">fileName</span><span class="p">)</span>
+            
+</code></pre>
+</div>
+
+<p><img src="http://localhost:4000/images/609_python.jpg" alt="img" class="center-image" /><em>Runtime: 246ms</em></p>
+
+<p>Follow-up beyond contest:<br />
+Imagine you are given a real file system, how will you search files? DFS or BFS?<br />
+Answer:</p>
+
+<p>If the file content is very large (GB level), how will you modify your solution?<br />
+Answer: use file size + file’s MD5. In worst case, we need to compare the files byte by byte.</p>
+
+<p>If you can only read the file by 1kb each time, how will you modify your solution?<br />
+Answer: it is not an issue since majority of our files can be differentiate with size + MD5.</p>
+
+<p>What is the time complexity of your modified solution? What is the most time-consuming part and memory consuming part of it? How to optimize?<br />
+Answer: O(n^2) in worst case scenario.</p>
+
+<p>How to make sure the duplicated files you find are not false positive?</p>
+
+
+                    
 
                   </div>
                   

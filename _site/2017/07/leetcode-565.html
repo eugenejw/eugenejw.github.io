@@ -131,19 +131,20 @@ N is an integer within the range [1, 20,000].<br />
 The elements of A are all distinct.<br />
 Each element of array A is an integer within the range [0, N-1].</p>
 
-<h2 id="memorizing-the-circles">Memorizing the circles</h2>
+<h2 id="memorizing-the-circles-solution">Memorizing the circles solution</h2>
 
 <p>We consider a simple example and see how this problem can be resolved. From the figure below, we can see that the elements in the current nesting shown by arrows form a cycle. Thus, the same elements will be added to the current set irrespective of the first element chosen to be added to the set out of these marked elements.</p>
 
 <p><img src="http://localhost:4000/images/565_java_1.jpg" alt="img" class="center-image" /><em>memorize the visited circles</em></p>
 
 <p>Time complexity : O(n). Every element of the numsnums array will be considered atmost once.<br />
-Space complexity : O(1). Constant Space is used.</p>
+Space complexity : O(1). Constant Space is used.<br />
+Note: if the array needs to be preserved, you should build auxiliary array to store the visited circles, which is O(n) space complexity.</p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">arrayNesting</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
         <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
-        <span class="c1">// boolean[] visitedPos = new boolean[nums.length];</span>
+        <span class="c1">// boolean[] auxiliaryArrayForVisitedPos = new boolean[nums.length];</span>
         <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
             <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
                 <span class="n">ret</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">ret</span><span class="o">,</span> <span class="n">buildAndCountSet</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">));</span>
@@ -183,6 +184,8 @@ Space complexity : O(1). Constant Space is used.</p>
   <h2>Recent Posts</h2>
   <ul>
     
+    <li><a href="/2017/07/leetcode-609">Find Duplicate File in System (leetcode 609)</a></li>
+    
     <li><a href="/2017/07/leetcode-565">Array Nesting (leetcode 565)</a></li>
     
     <li><a href="/2017/07/leetcode-108">Convert Sorted Array to Binary Search Tree (leetcode 108)</a></li>
@@ -190,8 +193,6 @@ Space complexity : O(1). Constant Space is used.</p>
     <li><a href="/2017/07/leetcode-303">Range Sum Query - Immutable (leetcode 303)</a></li>
     
     <li><a href="/2017/07/leetcode-191">Number of 1 Bits (leetcode 191)</a></li>
-    
-    <li><a href="/2017/07/leetcode-77">Combinations (leetcode 77)</a></li>
     
   </ul>
 </div>
@@ -202,7 +203,7 @@ Space complexity : O(1). Constant Space is used.</p>
     
     
     <li>
-      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="21">
+      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="22">
         <span>Algorithm</span></a></li>
     
     <li>
@@ -234,7 +235,7 @@ Space complexity : O(1). Constant Space is used.</p>
         <span>Brutal</span></a></li>
     
     <li>
-      <a href="/tag/Caching" data-toggle="tooltip" data-placement="right" title="2">
+      <a href="/tag/Caching" data-toggle="tooltip" data-placement="right" title="3">
         <span>Caching</span></a></li>
     
     <li>
@@ -258,7 +259,7 @@ Space complexity : O(1). Constant Space is used.</p>
         <span>Hashmap</span></a></li>
     
     <li>
-      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="16">
+      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="17">
         <span>Java</span></a></li>
     
     <li>
@@ -266,7 +267,7 @@ Space complexity : O(1). Constant Space is used.</p>
         <span>KMP</span></a></li>
     
     <li>
-      <a href="/tag/Leetcode" data-toggle="tooltip" data-placement="right" title="2">
+      <a href="/tag/Leetcode" data-toggle="tooltip" data-placement="right" title="3">
         <span>Leetcode</span></a></li>
     
     <li>
@@ -274,7 +275,7 @@ Space complexity : O(1). Constant Space is used.</p>
         <span>Matrix</span></a></li>
     
     <li>
-      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="14">
+      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="15">
         <span>Medium</span></a></li>
     
     <li>
