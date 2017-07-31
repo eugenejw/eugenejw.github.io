@@ -1,0 +1,387 @@
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Weihan's Coding Blog | Maximum Average Subarray I (leetcode 643) </title>
+  <meta name="theme-color" content="#222222" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/header.js"></script>
+  <script src="/js/toc.js"></script>
+  <link href="/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/css/theme.css" rel="stylesheet">
+  <link href="/css/syntax.css" rel="stylesheet">
+  <link href="/css/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+  
+<script type="text/javascript">
+
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-74090658-1']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+
+</script>
+
+
+  
+
+
+ <script type="text/javascript">
+  WebFontConfig = {
+    google: {
+      families: ['Ubuntu::latin']
+    }
+  };
+  (function() {
+    var wf = document.createElement('script');
+    wf.src = ('https:' == document.location.protocol ? 'https' : 'http') +
+      '://ajax.googleapis.com/ajax/libs/webfont/1/webfont.js';
+    wf.type = 'text/javascript';
+    wf.async = 'true';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(wf, s);
+  })();
+</script>
+
+  <nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/">Weihan's Coding Blog</a>
+      </div>
+      <div class="collapse navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="/">/home</a></li>
+          <li><a href="/archive.html">/archive</a></li>
+          <li><a href="/tags.html">/tags</a></li>
+          <li><a href="/about.html">/about</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+    <div class="wrapper">
+      <div class="content">
+        <div class="container container-center">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="article">
+                <div class="well">
+                  <h1><a href="/2017/07/leetcode-643">Maximum Average Subarray I (leetcode 643)</a></h1>
+                  <div class="post-meta">
+                    <div class="post-time">
+                      <i class="fa fa-calendar"></i>
+                      <time>30 Jul 2017</time>
+                    </div>
+                    <ul>
+                      
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Two Pointer">Two Pointer</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
+                      
+                        <li><a href="/tag/Easy">Easy</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
+                      
+                    </ul>
+                  </div>
+                  <div class="post-content">
+                    <div id="toc" class="toc"></div>
+                    <p><strong>Description</strong>,<br />
+Given an array consisting of n integers, find the contiguous subarray of given length k that has the maximum average value. And you need to output the maximum average value.</p>
+
+<p>Example 1:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">12</span><span class="o">,-</span><span class="mi">5</span><span class="o">,-</span><span class="mi">6</span><span class="o">,</span><span class="mi">50</span><span class="o">,</span><span class="mi">3</span><span class="o">],</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">4</span>
+<span class="nl">Output:</span> <span class="mf">12.75</span>
+</code></pre>
+</div>
+<p>Explanation: Maximum average is (12-5-6+50)/4 = 51/4 = 12.75<br />
+Note:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="mi">1</span> <span class="o">&lt;=</span> <span class="n">k</span> <span class="o">&lt;=</span> <span class="n">n</span> <span class="o">&lt;=</span> <span class="mi">30</span><span class="o">,</span><span class="mi">000</span><span class="o">.</span>
+<span class="n">Elements</span> <span class="n">of</span> <span class="n">the</span> <span class="n">given</span> <span class="n">array</span> <span class="n">will</span> <span class="n">be</span> <span class="n">in</span> <span class="n">the</span> <span class="n">range</span> <span class="o">[-</span><span class="mi">10</span><span class="o">,</span><span class="mi">000</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span><span class="mi">000</span><span class="o">].</span>
+</code></pre>
+</div>
+
+<h2 id="moving-window-solution">Moving window solution</h2>
+<p>Just be noticing that you don’t need to calculate the “average” until you return the result.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">double</span> <span class="nf">findMaxAverage</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+        <span class="cm">/**
+        * Moving window solution
+        * @timeComplexity:  O(n)
+        * @spaceComplexity: O(1)
+        * @runtime:         22ms
+        */</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">)</span>    <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        
+        <span class="kt">int</span> <span class="n">windowSum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">maxSum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">k</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">windowSum</span> <span class="o">+=</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
+        <span class="o">}</span>
+        <span class="n">maxSum</span> <span class="o">=</span> <span class="n">windowSum</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">j</span> <span class="o">=</span> <span class="n">k</span><span class="o">;</span> <span class="n">j</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">j</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">windowSum</span> <span class="o">=</span> <span class="n">windowSum</span> <span class="o">-</span> <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">+</span> <span class="n">nums</span><span class="o">[</span><span class="n">j</span><span class="o">];</span>
+            <span class="n">i</span><span class="o">++;</span>
+            <span class="n">maxSum</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">maxSum</span><span class="o">,</span> <span class="n">windowSum</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        <span class="k">return</span> <span class="o">(</span><span class="kt">double</span><span class="o">)</span> <span class="n">maxSum</span><span class="o">/</span><span class="n">k</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>            
+</code></pre>
+</div>
+
+<p><img src="http://localhost:4000/images/643_java.jpg" alt="img" class="center-image" /><em>Runtime: 22ms</em></p>
+
+
+                    
+
+                  </div>
+                  
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4 hidden-xs">
+              <div class="sidebar ">
+  <h2>Recent Posts</h2>
+  <ul>
+    
+    <li><a href="/2017/07/leetcode-643">Maximum Average Subarray I (leetcode 643)</a></li>
+    
+    <li><a href="/2017/07/leetcode-563">Binary Tree Tilt (leetcode 563)</a></li>
+    
+    <li><a href="/2017/07/leetcode-481">Magical String (leetcode 481)</a></li>
+    
+    <li><a href="/2017/07/leetcode-237">Delete Node in a Linked List (leetcode 273)</a></li>
+    
+    <li><a href="/2017/07/leetcode-148">Sort List (leetcode 148)</a></li>
+    
+  </ul>
+</div>
+
+<div class="sidebar">
+  <h2>Tags</h2>
+  <ul class="sideBarTags">
+    
+    
+    <li>
+      <a href="/tag/Algorithm" data-toggle="tooltip" data-placement="right" title="27">
+        <span>Algorithm</span></a></li>
+    
+    <li>
+      <a href="/tag/Amazon" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Amazon</span></a></li>
+    
+    <li>
+      <a href="/tag/Array" data-toggle="tooltip" data-placement="right" title="2">
+        <span>Array</span></a></li>
+    
+    <li>
+      <a href="/tag/BFS" data-toggle="tooltip" data-placement="right" title="2">
+        <span>BFS</span></a></li>
+    
+    <li>
+      <a href="/tag/Binary Search" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Binary Search</span></a></li>
+    
+    <li>
+      <a href="/tag/Bits Operations" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Bits Operations</span></a></li>
+    
+    <li>
+      <a href="/tag/Boyer–Moore–Horspool algorithm" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Boyer–Moore–Horspool algorithm</span></a></li>
+    
+    <li>
+      <a href="/tag/Brutal" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Brutal</span></a></li>
+    
+    <li>
+      <a href="/tag/Caching" data-toggle="tooltip" data-placement="right" title="3">
+        <span>Caching</span></a></li>
+    
+    <li>
+      <a href="/tag/Combination" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Combination</span></a></li>
+    
+    <li>
+      <a href="/tag/DFS" data-toggle="tooltip" data-placement="right" title="7">
+        <span>DFS</span></a></li>
+    
+    <li>
+      <a href="/tag/Easy" data-toggle="tooltip" data-placement="right" title="10">
+        <span>Easy</span></a></li>
+    
+    <li>
+      <a href="/tag/HashMap" data-toggle="tooltip" data-placement="right" title="1">
+        <span>HashMap</span></a></li>
+    
+    <li>
+      <a href="/tag/Hashmap" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Hashmap</span></a></li>
+    
+    <li>
+      <a href="/tag/Java" data-toggle="tooltip" data-placement="right" title="22">
+        <span>Java</span></a></li>
+    
+    <li>
+      <a href="/tag/KMP" data-toggle="tooltip" data-placement="right" title="1">
+        <span>KMP</span></a></li>
+    
+    <li>
+      <a href="/tag/Leetcode" data-toggle="tooltip" data-placement="right" title="8">
+        <span>Leetcode</span></a></li>
+    
+    <li>
+      <a href="/tag/LinkedList" data-toggle="tooltip" data-placement="right" title="2">
+        <span>LinkedList</span></a></li>
+    
+    <li>
+      <a href="/tag/Matrix" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Matrix</span></a></li>
+    
+    <li>
+      <a href="/tag/Medium" data-toggle="tooltip" data-placement="right" title="17">
+        <span>Medium</span></a></li>
+    
+    <li>
+      <a href="/tag/Merge Sort" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Merge Sort</span></a></li>
+    
+    <li>
+      <a href="/tag/Permutations" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Permutations</span></a></li>
+    
+    <li>
+      <a href="/tag/Post-order" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Post-order</span></a></li>
+    
+    <li>
+      <a href="/tag/Postorder" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Postorder</span></a></li>
+    
+    <li>
+      <a href="/tag/Preorder" data-toggle="tooltip" data-placement="right" title="2">
+        <span>Preorder</span></a></li>
+    
+    <li>
+      <a href="/tag/Python" data-toggle="tooltip" data-placement="right" title="14">
+        <span>Python</span></a></li>
+    
+    <li>
+      <a href="/tag/Regex" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Regex</span></a></li>
+    
+    <li>
+      <a href="/tag/Space Complexity" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Space Complexity</span></a></li>
+    
+    <li>
+      <a href="/tag/Stack" data-toggle="tooltip" data-placement="right" title="1">
+        <span>Stack</span></a></li>
+    
+    <li>
+      <a href="/tag/String" data-toggle="tooltip" data-placement="right" title="2">
+        <span>String</span></a></li>
+    
+    <li>
+      <a href="/tag/Tree" data-toggle="tooltip" data-placement="right" title="9">
+        <span>Tree</span></a></li>
+    
+    <li>
+      <a href="/tag/Two Pointer" data-toggle="tooltip" data-placement="right" title="2">
+        <span>Two Pointer</span></a></li>
+    
+    <li>
+      <a href="/tag/backtracing" data-toggle="tooltip" data-placement="right" title="1">
+        <span>backtracing</span></a></li>
+    
+    <li>
+      <a href="/tag/jekyll" data-toggle="tooltip" data-placement="right" title="8">
+        <span>jekyll</span></a></li>
+    
+    <li>
+      <a href="/tag/leetcode" data-toggle="tooltip" data-placement="right" title="19">
+        <span>leetcode</span></a></li>
+    
+  </ul>
+</div>
+
+            </div>
+          </div>
+        </div>
+        
+
+      </div>
+          <footer class="footer-distributed">
+      <div class="container">
+        <div class="footer">
+          <p>Weihan Jiang &copy; 2017</p>
+          <h6>Follow me</h6>
+
+<ul class="social-media">
+
+  
+    <li>
+      <a title="eugenejw on Github" href="https://github.com/eugenejw" target="_blank"><i class="fa fa-github fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title=" on StackOverflow" href="https://stackoverflow.com/users/" target="_blank"><i class="fa fa-stack-overflow fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title="weihan-jiang-6219096b on LinkedIn" href="https://www.linkedin.com/in/weihan-jiang-6219096b" target="_blank"><i class="fa fa-linkedin fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title=" on Instagram" href="https://instagram.com/" target="_blank"><i class="fa fa-instagram fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title=" on Last.fm" href="https://www.lastfm.com/user/" target="_blank"><i class="fa fa-lastfm fa-2x"></i></a>
+    </li>
+  
+
+  
+    <li>
+      <a title="feed.xml RSS" href="/feed.xml" target="_blank"><i class="fa fa-rss fa-2x"></i></a>
+    </li>
+  
+
+</ul>
+
+        </div>
+      </div>
+    </footer>
+
+    </div>
+  </body>
+</html>
