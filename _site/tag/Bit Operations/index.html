@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Array Nesting (leetcode 565) </title>
+  <title>Weihan's Coding Blog | Posts Tagged &ldquo;Bit Operations&rdquo; </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -74,109 +74,459 @@
     </div>
   </nav>
 
+
     <div class="wrapper">
       <div class="content">
         <div class="container container-center">
           <div class="row">
             <div class="col-md-8">
-              <div class="article">
-                <div class="well">
-                  <h1><a href="/2017/07/leetcode-565">Array Nesting (leetcode 565)</a></h1>
-                  <div class="post-meta">
-                    <div class="post-time">
-                      <i class="fa fa-calendar"></i>
-                      <time>27 Jul 2017</time>
-                    </div>
-                    <ul>
-                      
-                        <li><a href="/tag/Algorithm">Algorithm</a></li>
-                      
-                        <li><a href="/tag/Caching">Caching</a></li>
-                      
-                        <li><a href="/tag/Leetcode">Leetcode</a></li>
-                      
-                        <li><a href="/tag/Medium">Medium</a></li>
-                      
-                        <li><a href="/tag/Java">Java</a></li>
-                      
-                    </ul>
-                  </div>
-                  <div class="post-content">
-                    <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-A zero-indexed array A consisting of N different integers is given. The array contains all integers in the range [0, N - 1].</p>
+              <div class="well">
+                <div class="page-content wc-container">
 
-<p>Sets S[K] for 0 &lt;= K &lt; N are defined as follows:</p>
-
-<p>S[K] = { A[K], A[A[K]], A[A[A[K]]], … }.</p>
-
-<p>Sets S[K] are finite for each K and should NOT contain duplicates.</p>
-
-<p>Write a function that given an array A consisting of N integers, return the size of the largest set S[K] for this array.</p>
-
-<p>Example 1:</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> <span class="n">A</span> <span class="o">=</span> <span class="o">[</span><span class="mi">5</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">2</span><span class="o">]</span>
-<span class="nl">Output:</span> <span class="mi">4</span>
-<span class="nl">Explanation:</span> 
-<span class="n">A</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">5</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">4</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="mi">3</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span> <span class="o">=</span> <span class="mi">6</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">.</span>
-</code></pre>
-</div>
-
-<p>One of the longest S[K]:</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">S</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span><span class="n">A</span><span class="o">[</span><span class="mi">0</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">5</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">6</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">2</span><span class="o">]}</span> <span class="o">=</span> <span class="o">{</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">0</span><span class="o">}</span>
-</code></pre>
-</div>
-<p>Note:<br />
-N is an integer within the range [1, 20,000].<br />
-The elements of A are all distinct.<br />
-Each element of array A is an integer within the range [0, N-1].</p>
-
-<h2 id="memorizing-the-circles-solution">Memorizing the circles solution</h2>
-
-<p>We consider a simple example and see how this problem can be resolved. From the figure below, we can see that the elements in the current nesting shown by arrows form a cycle. Thus, the same elements will be added to the current set irrespective of the first element chosen to be added to the set out of these marked elements.</p>
-
-<p><img src="http://localhost:4000/images/565_java_1.jpg" alt="img" class="center-image" /><em>memorize the visited circles</em></p>
-
-<p>Time complexity : O(n). Every element of the numsnums array will be considered atmost once.<br />
-Space complexity : O(1). Constant Space is used.<br />
-Note: if the array needs to be preserved, you should build auxiliary array to store the visited circles, which is O(n) space complexity.</p>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">arrayNesting</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
-        <span class="c1">// boolean[] auxiliaryArrayForVisitedPos = new boolean[nums.length];</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">ret</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">ret</span><span class="o">,</span> <span class="n">buildAndCountSet</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">));</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
-    <span class="o">}</span>
-    
-    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">buildAndCountSet</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">begin</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
-        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="k">do</span> <span class="o">{</span>
-            <span class="n">count</span><span class="o">++;</span>
-            <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-        <span class="o">}</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">begin</span><span class="o">);</span>
+  <div class="post">
+    <h2 class="post_title">Posts Tagged &ldquo;Bit Operations&rdquo;</h2>
+    <ul>
+      
         
-        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+          
         
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre>
+          
+          <li class="archive_list">
+            <time>01 Aug 2017</time>
+            <a class="archive_list_article_link" href='/2017/08/leetcode-421'>Maximum XOR of Two Numbers in an Array (leetcode 421)</a>
+            <p></p>
+          </li>
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </ul>
+  </div>
 </div>
 
-<p><img src="http://localhost:4000/images/565_java.jpg" alt="img" class="center-image" /><em>Runtime: 40ms</em></p>
-
-                    
-
-                  </div>
-                  
-                </div>
               </div>
             </div>
             <div class="col-md-4 hidden-xs">
@@ -352,8 +702,6 @@ Note: if the array needs to be preserved, you should build auxiliary array to st
             </div>
           </div>
         </div>
-        
-
       </div>
           <footer class="footer-distributed">
       <div class="container">

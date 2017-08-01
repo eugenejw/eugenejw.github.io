@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Array Nesting (leetcode 565) </title>
+  <title>Weihan's Coding Blog | Maximum XOR of Two Numbers in an Array (leetcode 421) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,17 +81,17 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/leetcode-565">Array Nesting (leetcode 565)</a></h1>
+                  <h1><a href="/2017/08/leetcode-421">Maximum XOR of Two Numbers in an Array (leetcode 421)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>27 Jul 2017</time>
+                      <time>01 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/Caching">Caching</a></li>
+                        <li><a href="/tag/Bit Operations">Bit Operations</a></li>
                       
                         <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
@@ -104,73 +104,63 @@
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
                     <p><strong>Description</strong>,<br />
-A zero-indexed array A consisting of N different integers is given. The array contains all integers in the range [0, N - 1].</p>
+Given a non-empty array of numbers, a0, a1, a2, … , an-1, where 0 ≤ ai &lt; 231.</p>
 
-<p>Sets S[K] for 0 &lt;= K &lt; N are defined as follows:</p>
+<p>Find the maximum result of ai XOR aj, where 0 ≤ i, j &lt; n.</p>
 
-<p>S[K] = { A[K], A[A[K]], A[A[A[K]]], … }.</p>
+<p>Could you do this in O(n) runtime?</p>
 
-<p>Sets S[K] are finite for each K and should NOT contain duplicates.</p>
+<p>Example:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> <span class="o">[</span><span class="mi">3</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">25</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">8</span><span class="o">]</span>
 
-<p>Write a function that given an array A consisting of N integers, return the size of the largest set S[K] for this array.</p>
-
-<p>Example 1:</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> <span class="n">A</span> <span class="o">=</span> <span class="o">[</span><span class="mi">5</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">6</span><span class="o">,</span><span class="mi">2</span><span class="o">]</span>
-<span class="nl">Output:</span> <span class="mi">4</span>
-<span class="nl">Explanation:</span> 
-<span class="n">A</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="mi">5</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">1</span><span class="o">]</span> <span class="o">=</span> <span class="mi">4</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">2</span><span class="o">]</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">3</span><span class="o">]</span> <span class="o">=</span> <span class="mi">3</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">4</span><span class="o">]</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">5</span><span class="o">]</span> <span class="o">=</span> <span class="mi">6</span><span class="o">,</span> <span class="n">A</span><span class="o">[</span><span class="mi">6</span><span class="o">]</span> <span class="o">=</span> <span class="mi">2</span><span class="o">.</span>
+<span class="nl">Output:</span> <span class="mi">28</span>
 </code></pre>
 </div>
+<p>Explanation: The maximum result is 5 ^ 25 = 28.</p>
 
-<p>One of the longest S[K]:</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">S</span><span class="o">[</span><span class="mi">0</span><span class="o">]</span> <span class="o">=</span> <span class="o">{</span><span class="n">A</span><span class="o">[</span><span class="mi">0</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">5</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">6</span><span class="o">],</span> <span class="n">A</span><span class="o">[</span><span class="mi">2</span><span class="o">]}</span> <span class="o">=</span> <span class="o">{</span><span class="mi">5</span><span class="o">,</span> <span class="mi">6</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">0</span><span class="o">}</span>
-</code></pre>
-</div>
-<p>Note:<br />
-N is an integer within the range [1, 20,000].<br />
-The elements of A are all distinct.<br />
-Each element of array A is an integer within the range [0, N-1].</p>
+<h2 id="on-time-complexity-solution">O(n) time complexity solution</h2>
+<p>Algorithm:</p>
 
-<h2 id="memorizing-the-circles-solution">Memorizing the circles solution</h2>
-
-<p>We consider a simple example and see how this problem can be resolved. From the figure below, we can see that the elements in the current nesting shown by arrows form a cycle. Thus, the same elements will be added to the current set irrespective of the first element chosen to be added to the set out of these marked elements.</p>
-
-<p><img src="http://localhost:4000/images/565_java_1.jpg" alt="img" class="center-image" /><em>memorize the visited circles</em></p>
-
-<p>Time complexity : O(n). Every element of the numsnums array will be considered atmost once.<br />
-Space complexity : O(1). Constant Space is used.<br />
-Note: if the array needs to be preserved, you should build auxiliary array to store the visited circles, which is O(n) space complexity.</p>
+<ol>
+  <li>Starting from the most significant bit(MSB) by mask, if any two number differ in this bit, we can be sure that<br />
+this “1” will be in the result. we set the masked result to MAX.</li>
+  <li>Move to the 2nd MSB, if any two number differ in this bit AND the masked number is greater than MAX, we can be sure that<br />
+this “1” will be in the result. we set the masked result to MAX.</li>
+  <li>repeat the steps.</li>
+</ol>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">arrayNesting</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
-        <span class="c1">// boolean[] auxiliaryArrayForVisitedPos = new boolean[nums.length];</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-                <span class="n">ret</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">ret</span><span class="o">,</span> <span class="n">buildAndCountSet</span><span class="o">(</span><span class="n">nums</span><span class="o">,</span> <span class="n">i</span><span class="o">));</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">findMaximumXOR</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">maxXOR</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">mask</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">31</span><span class="o">;</span> <span class="n">i</span><span class="o">&gt;=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">--)</span> <span class="o">{</span>
+            <span class="c1">// use mask to find all MSBs at current bit position(from 32 to 1),</span>
+            <span class="c1">// if any two MSBs differ, the MSB of result is set.</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">mask</span> <span class="o">|</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="o">);</span>
+            <span class="c1">// for each position, the possibleMax can be derived from</span>
+            <span class="c1">// previous maxXOR.</span>
+            <span class="kt">int</span> <span class="n">possibleMax</span> <span class="o">=</span> <span class="n">maxXOR</span> <span class="o">|</span> <span class="o">(</span><span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="n">i</span><span class="o">);</span>
+            <span class="n">Set</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">maskedNums</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashSet</span><span class="o">&lt;&gt;();</span>
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">num</span> <span class="o">:</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+               <span class="n">maskedNums</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">num</span> <span class="o">&amp;</span> <span class="n">mask</span><span class="o">);</span> 
             <span class="o">}</span>
+            
+            <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">candidate</span> <span class="o">:</span> <span class="n">maskedNums</span><span class="o">)</span> <span class="o">{</span>
+                <span class="c1">// if any two candidates have current MSBs differ,</span>
+                <span class="c1">// we update the maxXOR</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">maskedNums</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="n">possibleMax</span> <span class="o">^</span> <span class="n">candidate</span><span class="o">))</span> <span class="n">maxXOR</span> <span class="o">=</span> <span class="n">possibleMax</span><span class="o">;</span>
+            <span class="o">}</span>
+            
+            
         <span class="o">}</span>
-        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
-    <span class="o">}</span>
-    
-    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">buildAndCountSet</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">i</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">begin</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
-        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="k">do</span> <span class="o">{</span>
-            <span class="n">count</span><span class="o">++;</span>
-            <span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="o">-</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">];</span>
-            <span class="n">i</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">abs</span><span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]);</span>
-        <span class="o">}</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">!=</span> <span class="n">begin</span><span class="o">);</span>
-        
-        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
-        
+        <span class="k">return</span> <span class="n">maxXOR</span><span class="o">;</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/images/565_java.jpg" alt="img" class="center-image" /><em>Runtime: 40ms</em></p>
+<p><img src="http://localhost:4000/images/421_java.jpg" alt="img" class="center-image" /><em>Runtime: 133ms</em></p>
+
 
                     
 
