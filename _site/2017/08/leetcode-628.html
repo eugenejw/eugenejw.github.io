@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Number of 1 Bits (leetcode 191) </title>
+  <title>Weihan's Coding Blog | Maximum Product of Three Numbers (leetcode 628) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,98 +81,128 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/leetcode-191">Number of 1 Bits (leetcode 191)</a></h1>
+                  <h1><a href="/2017/08/leetcode-628">Maximum Product of Three Numbers (leetcode 628)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>25 Jul 2017</time>
+                      <time>01 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/Bits Operations">Bits Operations</a></li>
+                        <li><a href="/tag/Priority Queue">Priority Queue</a></li>
                       
-                        <li><a href="/tag/leetcode">leetcode</a></li>
+                        <li><a href="/tag/Single Scan">Single Scan</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
                         <li><a href="/tag/Easy">Easy</a></li>
                       
-                        <li><a href="/tag/Python">Python</a></li>
-                      
                         <li><a href="/tag/Java">Java</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
                     <p><strong>Description</strong>,<br />
-Write a function that takes an unsigned integer and returns the number of ’1’ bits it has (also known as the Hamming weight).</p>
+Given an integer array, find three numbers whose product is maximum and output the maximum product.</p>
 
-<p>For example, the 32-bit integer ’11’ has binary representation 00000000000000000000000000001011, so the function should return 3.</p>
-
-<p><a href="https://leetcode.com/problems/number-of-1-bits/#/description">leetcode link</a></p>
-
-<h3 id="loop-and-mask">Loop and Mask</h3>
-<p>The solution is straight-forward. We check each of the 32 bits of the number. If the bit is 1, we add one to the number of 1-bits.</p>
-
-<p>We start with a mask m=1, because the binary representation of 1 is,</p>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0001</span>
+<p>Example 1:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>
+<span class="nl">Output:</span> <span class="mi">6</span>
 </code></pre>
 </div>
-
-<p>Clearly, a logical AND between any number and the mask 1 gives us the least significant bit of this number. To check the next bit, we shift the mask to the left by one.</p>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0000</span> <span class="mi">0010</span>
+<p>Example 2:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span> <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">]</span>
+<span class="nl">Output:</span> <span class="mi">24</span>
 </code></pre>
 </div>
+<p>Note:<br />
+The length of the given array will be in range [3,104] and all elements are in the range [-1000, 1000].<br />
+Multiplication of any three numbers in the input won’t exceed the range of 32-bit signed integer.</p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">hammingWeight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
-        <span class="s">"""
-        :type n: int
-        :rtype: int
-        """</span>
-        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">mask</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">32</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">n</span> <span class="o">&amp;</span> <span class="n">mask</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
-            <span class="n">mask</span> <span class="o">&lt;&lt;=</span> <span class="mi">1</span>
-            
-        <span class="k">return</span> <span class="n">count</span>
-        
-</code></pre>
-</div>
+<h2 id="on-time-complexity-solution">O(n) time complexity solution</h2>
+<p>Algorithm:</p>
 
-<p><img src="http://localhost:4000/images/191_python.jpg" alt="img" class="center-image" /><em>Runtime: 46ms</em></p>
+<p>We need not necessarily sort the given numsnums array to find the maximum product. Instead, we can only find the required 2 smallest values(min1min1 and min2min2) and the three largest values(max1, max2, max3max1,max2,max3) in the numsnums array, by iterating over the numsnums array only once.</p>
 
-<h3 id="flip-and-cancel">Flip and Cancel</h3>
-<p>We can make the previous algorithm simpler and a little faster. Instead of checking every bit of the number, we repeatedly flip the least-significant 1-bit of the number to 0, and add 1 to the sum. As soon as the number becomes 0 we know that it does not have any more 1-bits, and we return the sum.</p>
+<p>At the end, again we can find out the larger value out of min1min1xmin2min2xmax1max1 and max1max1xmax2max2xmax3max3 to find the required maximum product.</p>
 
-<p>The key idea here is to realize that for any number n, doing a bit-wise AND of n and n−1 flips the least-significant 1-bit in n to 0.</p>
-
-<p><img src="http://localhost:4000/images/191_java_1.jpg" alt="img" class="center-image" /><em>n = n&amp;(n−1) flips the least-significant 1-bit to 0</em></p>
+<blockquote class="note">
+  <p>Note <br />
+I used PQ to get the largest nums, instead of single scan, because required to get the top 100 largest nums, PQ will be handy(logn insertion instead of the O(n) insertion of single scan).</p>
+</blockquote>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="c1">// you need to treat n as an unsigned value</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">hammingWeight</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">maximumProduct</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
         <span class="cm">/**
-        * Flip and cancel the least-significant "1"
-        * @runtime:        2ms
-        * @timeComplexity: O(1) -- constant time
+        * Use PQ to get the top 3 largest nums;
         */</span>
-        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">n</span> <span class="o">!=</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">count</span><span class="o">++;</span>
-            <span class="n">n</span> <span class="o">&amp;=</span> <span class="o">(</span><span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="o">);</span>
+        <span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">queue</span> <span class="o">=</span> <span class="k">new</span> <span class="n">PriorityQueue</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;(</span><span class="mi">3</span><span class="o">);</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">num</span> <span class="o">:</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">queue</span><span class="o">.</span><span class="na">size</span><span class="o">()</span> <span class="o">==</span> <span class="mi">3</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&gt;</span> <span class="n">queue</span><span class="o">.</span><span class="na">peek</span><span class="o">())</span> <span class="o">{</span>
+                    <span class="n">queue</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+                    <span class="n">queue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">num</span><span class="o">);</span>
+                <span class="o">}</span>
+
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">queue</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">num</span><span class="o">);</span>
+            <span class="o">}</span>
         <span class="o">}</span>
-        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+        
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">topThreeMax</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">3</span><span class="o">];</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">aNum</span> <span class="o">:</span> <span class="n">queue</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// System.out.println(aNum);</span>
+            <span class="n">topThreeMax</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">=</span> <span class="n">aNum</span><span class="o">;</span>
+            <span class="n">i</span><span class="o">++;</span>
+        <span class="o">}</span>
+        
+        <span class="cm">/**
+        * Use Single Scan to get the two smallest ints.
+        */</span>
+        <span class="kt">int</span> <span class="n">min1</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">,</span> <span class="n">min2</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">num</span> <span class="o">:</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="n">min1</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">min2</span> <span class="o">=</span> <span class="n">min1</span><span class="o">;</span>
+                <span class="n">min1</span> <span class="o">=</span> <span class="n">num</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="k">else</span> <span class="nf">if</span> <span class="o">(</span><span class="n">num</span> <span class="o">&lt;</span> <span class="n">min2</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">min2</span> <span class="o">=</span> <span class="n">num</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>    
+        <span class="kt">int</span> <span class="n">largest</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">topThreeMax</span><span class="o">[</span><span class="mi">0</span><span class="o">],</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">topThreeMax</span><span class="o">[</span><span class="mi">1</span><span class="o">],</span> <span class="n">topThreeMax</span><span class="o">[</span><span class="mi">2</span><span class="o">]));</span>
+        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">topThreeMax</span><span class="o">[</span><span class="mi">0</span><span class="o">]*</span><span class="n">topThreeMax</span><span class="o">[</span><span class="mi">1</span><span class="o">]*</span><span class="n">topThreeMax</span><span class="o">[</span><span class="mi">2</span><span class="o">],</span> <span class="n">largest</span><span class="o">*</span><span class="n">min1</span><span class="o">*</span><span class="n">min2</span><span class="o">);</span>
     <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
 </div>
-<p><img src="http://localhost:4000/images/191_java.jpg" alt="img" class="center-image" /><em>Runtime: 2ms</em></p>
+
+<p><img src="http://localhost:4000/images/628_java.jpg" alt="img" class="center-image" /><em>Runtime: 18ms (Interestingly fall into the gap of O(n) and O(nlogn) solutions because of the overhead of PQ)</em></p>
+
+<h2 id="sorting-solution">Sorting solution</h2>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">maximumProduct</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="s">"""
+        :type nums: List[int]
+        :rtype: int
+        """</span>
+        <span class="n">nums</span><span class="o">.</span><span class="n">sort</span><span class="p">()</span>
+        <span class="n">tailMax</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">headMax</span> <span class="o">=</span> <span class="n">nums</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">tailMax</span> <span class="o">*=</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> 
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">2</span><span class="p">):</span>
+            <span class="n">headMax</span> <span class="o">*=</span> <span class="n">nums</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">headMax</span><span class="p">,</span> <span class="n">tailMax</span><span class="p">)</span>
+   
+</code></pre>
+</div>
+<p><img src="http://localhost:4000/images/628_python.jpg" alt="img" class="center-image" /><em>Runtime: 118ms</em></p>
 
                     
 
