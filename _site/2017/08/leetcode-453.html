@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Analytics, tags and comments </title>
+  <title>Weihan's Coding Blog | Minimum Moves to Equal Array Elements (leetcode 453) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,45 +81,72 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2016/08/analytics-tags-comments">Analytics, tags and comments</a></h1>
+                  <h1><a href="/2017/08/leetcode-453">Minimum Moves to Equal Array Elements (leetcode 453)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>01 Aug 2016</time>
+                      <time>06 Aug 2017</time>
                     </div>
                     <ul>
                       
-                        <li><a href="/tag/jekyll">jekyll</a></li>
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Math">Math</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
+                      
+                        <li><a href="/tag/Easy">Easy</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h1 id="analytics">Analytics</h1>
+                    <p><strong>Description</strong>,<br />
+Given a non-empty integer array of size n, find the minimum number of moves required to make all array elements equal, where a move is incrementing n - 1 elements by 1.</p>
 
-<h4 id="google-analytics"><a href="http://www.google.com/analytics/">Google Analytics</a></h4>
+<p>Example:</p>
 
-<p>To enable Google Analytics create an account <a href="https://analytics.google.com">here</a>. Then add your tracking id in <code class="highlighter-rouge">config.xml</code>, it should look something like <code class="highlighter-rouge">UA-********-1</code></p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>
 
-<h4 id="yandex-metrica"><a href="http://metrica.yandex.com">Yandex Metrica</a></h4>
+<span class="nl">Output:</span>
+<span class="mi">3</span>
 
-<p>To enable Yandex Metrica you need to register, create a ‘counter’ and then copy-paste it’s code in <code class="highlighter-rouge">/_includes/yandex-metrica.html</code> file.</p>
+<span class="nl">Explanation:</span>
+<span class="n">Only</span> <span class="n">three</span> <span class="n">moves</span> <span class="n">are</span> <span class="nf">needed</span> <span class="o">(</span><span class="n">remember</span> <span class="n">each</span> <span class="n">move</span> <span class="n">increments</span> <span class="n">two</span> <span class="n">elements</span><span class="o">):</span>
 
-<h1 id="tags">Tags</h1>
+<span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>  <span class="o">=&gt;</span>  <span class="o">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>  <span class="o">=&gt;</span>  <span class="o">[</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>  <span class="o">=&gt;</span>  <span class="o">[</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">]</span>
+</code></pre>
+</div>
 
-<p>Using tags in Jekyll is a bit tricky topic, I used this approach: <a href="http://charliepark.org/tags-in-jekyll/">charliepark.org/tags-in-jekyll/</a>. You can read technical details there. To simply use tags provide list of tags in post header:</p>
+<h2 id="math-solution">Math solution</h2>
+<p>This approach is based on the idea that adding 1 to all the elements except one is equivalent to decrementing 1 from a single element, since we are interested in the relative levels of the elements which need to be equalized. Thus, the problem is simplified to find the number of decrement operations required to equalize all the elements of the given array. For finding this, it is obvious that we’ll reduce all the elements of the array to the minimum element.</p>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">tags:
- - jekyll
- - analytics
- - tags
- - comments</code></pre></figure>
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">minMoves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="s">"""
+        :type nums: List[int]
+        :rtype: int
+        """</span>
+        <span class="n">minNum</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">maxint</span>
+        <span class="n">moves</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">minNum</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">minNum</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+        
+        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
+            <span class="n">moves</span> <span class="o">+=</span> <span class="n">num</span> <span class="o">-</span> <span class="n">minNum</span>
+            
+        <span class="k">return</span> <span class="n">moves</span>
+            
+        
+</code></pre>
+</div>
 
-<p>And then before pushing your changes to github copy generated folder <code class="highlighter-rouge">/_site/tag</code> in your blog’s root folder (github pages will not generate it automatically).</p>
+<p><img src="http://localhost:4000/images/453_python.jpg" alt="img" class="center-image" /><em>Runtime: 92ms</em></p>
 
-<h1 id="comments">Comments</h1>
-
-<p>To enable <a href="http://disqus.com">Disqus</a> register on the site and then just put your name in <code class="highlighter-rouge">_config.xml</code>. Comments could be switched on and off on per post basis, just put <code class="highlighter-rouge">comments: true</code> to enable them.</p>
 
                     
 
