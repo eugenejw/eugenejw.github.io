@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Customizations </title>
+  <title>Weihan's Coding Blog | Max Consecutive Ones II (leetcode 487) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,146 +81,117 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2016/09/customizations">Customizations</a></h1>
+                  <h1><a href="/2017/08/leetcode-487">Max Consecutive Ones II (leetcode 487)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>20 Sep 2016</time>
+                      <time>07 Aug 2017</time>
                     </div>
                     <ul>
                       
-                        <li><a href="/tag/jekyll">jekyll</a></li>
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/Two Pointer">Two Pointer</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
+                      
+                        <li><a href="/tag/Medium">Medium</a></li>
+                      
+                        <li><a href="/tag/Python">Python</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h1 id="accent-color">Accent color</h1>
+                    <p><strong>Description</strong>,<br />
+Given a binary array, find the maximum number of consecutive 1s in this array if you can flip at most one 0.</p>
 
-<p>Accent color is color for some important elements, such as links, buttons, icons. Currently accent color is <span class="label" style="background-color:#3CA2A2; color:#444444">#3CA2A2</span>. This theme has some more predefined colors available in <strong>theme.scss</strong>:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">Example</span> <span class="mi">1</span><span class="o">:</span>
+<span class="nl">Input:</span> <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">1</span><span class="o">,</span><span class="mi">0</span><span class="o">]</span>
+<span class="nl">Output:</span> <span class="mi">4</span>
+</code></pre>
+</div>
+<p>Explanation: Flip the first zero will get the the maximum number of consecutive 1s.<br />
+    After flipping, the maximum number of consecutive 1s is 4.</p>
 
-<blockquote class="filename">
-  <p>theme.scss</p>
-</blockquote>
+<p>Note:</p>
 
-<figure class="highlight"><pre><code class="language-sass" data-lang="sass"> <span class="c1">// Several accent colors, choose one or create your own!
-</span> <span class="nv">$accent-color</span><span class="p">:</span> <span class="mh">#3CA2A2</span><span class="err">;</span>    <span class="o">//</span> <span class="n">original</span> <span class="o">=</span><span class="p">)</span>
- <span class="c1">//$accent-color: #C38FD6;  // velvet
-</span> <span class="c1">//$accent-color: #8FD6B3;  // greenish
-</span> <span class="c1">//$accent-color: #35B4DE;  // bluish
-</span> <span class="c1">//$accent-color: #D2E354;  // yellowish
-</span> <span class="c1">// $accent-color: #52B54B;  // green
-</span> </code></pre></figure>
+<p>The input array will only contain 0 and 1.<br />
+The length of input array is a positive integer and will not exceed 10,000<br />
+Follow up:<br />
+What if the input numbers come in one by one as an infinite stream? In other words, you can’t store all numbers coming from the stream as it’s too large to hold in memory. Could you solve it efficiently?</p>
 
-<p>You can use one of them (just hover over the label to see accent color in action) or define your own!</p>
+<h2 id="moving-window-solution">Moving window solution</h2>
+<p>This algorithm is to maintain a moving window [low, i] that contains at most k zeros. And it could be using converted to cover the follow-up questions.</p>
 
-<p><span class="label" style="background-color:#C38FD6; color:#444444">#C38FD6</span>, <span class="label" style="background-color:#8FD6B3; color:#444444">#8FD6B3</span>, <span class="label" style="background-color:#35B4DE; color:#444444">#35B4DE</span>, <span class="label" style="background-color:#D2E354; color:#444444">#D2E354</span>, <span class="label" style="background-color:#52B54B; color:#444444">#52B54B</span>.</p>
-
-<script>
-  $('.label').hover(function(){
-    var color = $(this).text();
-    [].forEach.call($('a'), function(item) {
-      item.style.color = color
-    })
-  })
-</script>
-
-<style>
-  .label{
-    cursor: default;
-    border-radius: 5px;
-    padding: 5px 8px;
-  }
-</style>
-
-<h1 id="other-colors">Other colors</h1>
-
-<p>As Jekyll comes with support of SASS I put colors in variables. Here are the ones which could be easily changed:</p>
-
-<blockquote class="filename">
-  <p>theme.scss</p>
-</blockquote>
-
-<figure class="highlight"><pre><code class="language-scss" data-lang="scss"><span class="nv">$font-color</span><span class="p">:</span> <span class="mh">#dddddd</span><span class="p">;</span>
-<span class="nv">$background-color</span><span class="p">:</span> <span class="mh">#292929</span><span class="p">;</span>
-<span class="nv">$post-panel-color</span><span class="p">:</span> <span class="mh">#444</span><span class="p">;</span>
-<span class="nv">$footer-background-color</span><span class="p">:</span> <span class="mh">#292c2f</span><span class="p">;</span>
-<span class="nv">$note-color</span><span class="p">:</span> <span class="mh">#87CEFA</span><span class="p">;</span>
-<span class="nv">$warning-color</span><span class="p">:</span> <span class="mh">#ffff00</span><span class="p">;</span></code></pre></figure>
-
-                    
-
-<div class="share-bar">
-  <ul class="share-buttons">
-    
-    <li class="share-facebook">
-      <a href="https://www.facebook.com/sharer/sharer.php?u=http://localhost:4000/2016/09/customizations" target="_blank" title="Share on Facebook">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-facebook fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-twitter">
-      <a href="https://twitter.com/intent/tweet?url=http://localhost:4000/2016/09/customizations&text=Customizations" target="_blank" title="Tweet">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-twitter fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-google-plus">
-      <a href="https://plus.google.com/share?url=http://localhost:4000/2016/09/customizations" target="_blank" title="Share on Google Plus">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-square-o fa-stack-2x"></i>
-          <i class="fa fa-google-plus fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-linkedin">
-      <a href="http://www.linkedin.com/shareArticle?mini=true&url=http://localhost:4000/2016/09/customizations&title=Customizations&summary=Few customizations available out of the box!&source=" target="_blank" title="Share on LinkedIn">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-linkedin fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-pinterest">
-      <a href="http://pinterest.com/pin/create/button/?urlhttp://localhost:4000/2016/09/customizations=&description=Few customizations available out of the box!" target="_blank" title="Pin it">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-pinterest fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-    
-    <li class="share-envelope">
-      <a href="mailto:?&subject=Customizations&body=Few customizations available out of the box! http://localhost:4000/2016/09/customizations" target="_blank" title="Email">
-        <span class="fa-stack fa-lg">
-          <i class="fa fa-circle-thin fa-stack-2x"></i>
-          <i class="fa fa-envelope-o fa-stack-1x"></i>
-        </span>
-      </a>
-    </li>
-    
-
-  </ul>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="cm">/**
+    * Moving window that contains at most k zeros.
+    * We can store the low in an ArrayList if the steam caannot be stored in RAM.
+    * O(n) SpaceComplexity is O(n)
+    */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">findMaxConsecutiveOnes</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">k</span> <span class="o">=</span> <span class="mi">1</span><span class="o">,</span> <span class="n">low</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">zeroCount</span> <span class="o">=</span> <span class="mi">0</span><span class="o">,</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">i</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">zeroCount</span><span class="o">++;</span>
+            <span class="o">}</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">zeroCount</span> <span class="o">&gt;</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="n">low</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">zeroCount</span><span class="o">--;</span>
+                <span class="o">}</span>
+                <span class="n">low</span><span class="o">++;</span>
+            <span class="o">}</span>
+            <span class="n">ret</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">ret</span><span class="o">,</span> <span class="n">i</span> <span class="o">-</span> <span class="n">low</span> <span class="o">+</span> <span class="mi">1</span><span class="o">);</span>
+        <span class="o">}</span>
+        
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>        
+</code></pre>
 </div>
 
+<p><img src="http://localhost:4000/images/487_java.jpg" alt="img" class="center-image" /><em>Runtime: 13ms</em></p>
+
+<h2 id="zero-divider-solution">Zero Divider Solution</h2>
+<p>The algorithm is not working for k &gt; 1.<br />
+The idea is to only consider zeros whose prefix is 1 and suffix is also 1.</p>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">findMaxConsecutiveOnes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
+        <span class="s">"""
+        :type nums: List[int]
+        :rtype: int
+        """</span>
+        <span class="n">contiansZero</span> <span class="o">=</span> <span class="bp">False</span>
+        <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">prevOnes</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">oneCount</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">contiansZero</span><span class="p">:</span>
+                    <span class="n">contiansZero</span> <span class="o">=</span> <span class="bp">True</span>
+                <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">prevOnes</span> <span class="o">=</span> <span class="mi">0</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">prevOnes</span> <span class="o">=</span> <span class="n">oneCount</span>
+                <span class="n">oneCount</span> <span class="o">=</span> <span class="mi">0</span> <span class="c"># reset one counting</span>
+
+            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">oneCount</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">ret</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">ret</span><span class="p">,</span> <span class="n">prevOnes</span><span class="o">+</span><span class="n">oneCount</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">contiansZero</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span> <span class="o">+</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">ret</span>
+                
+</code></pre>
+</div>
+<p><img src="http://localhost:4000/images/487_python.jpg" alt="img" class="center-image" /><em>Runtime: 126ms</em></p>
+
+                    
 
                   </div>
                   
