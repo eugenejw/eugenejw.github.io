@@ -138,9 +138,10 @@ M[i][i] = 1 for all students.<br />
 If M[i][j] = 1, then M[j][i] = 1.</p>
 
 <h2 id="dfs-in-java">DFS in Java</h2>
+<p>Treat each student as a node, starting from the 0th student, using DFS to traverse all unvisted nodes (its direct friends).<br />
+<img src="http://localhost:4000/images/547_java_1.jpg" alt="img" class="center-image" /></p>
 
 <div class="language-java highlighter-rouge"><pre class="highlight"><code>
-
 <span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
     <span class="kd">public</span> <span class="kt">int</span> <span class="nf">findCircleNum</span><span class="o">(</span><span class="kt">int</span><span class="o">[][]</span> <span class="n">M</span><span class="o">)</span> <span class="o">{</span>
         <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
@@ -170,6 +171,8 @@ If M[i][j] = 1, then M[j][i] = 1.</p>
 <p><img src="http://localhost:4000/images/547_java.jpg" alt="img" class="center-image" /><em>Runtime: 10ms</em></p>
 
 <h2 id="another-dfs-in-python">another DFS in Python</h2>
+<p>This is a draft version of the DFS. The idea was to build the graph first, then apply DFS.<br />
+In fact, you do not need to. You can do the graph building via DFS and count the circle counting.</p>
 
 <div class="language-python highlighter-rouge"><pre class="highlight"><code>
 <span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
@@ -216,6 +219,11 @@ If M[i][j] = 1, then M[j][i] = 1.</p>
 
                     
 
+                  </div>
+                  
+                  <div id="disqus_thread">
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
                   </div>
                   
                 </div>
@@ -411,6 +419,29 @@ If M[i][j] = 1, then M[j][i] = 1.</p>
           </div>
         </div>
         
+<!-- Add Disqus comments. -->
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://weihan.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
 
       </div>
           <footer class="footer-distributed">

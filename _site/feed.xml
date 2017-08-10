@@ -39,9 +39,10 @@ M[i][i] = 1 for all students.&lt;br /&gt;
 If M[i][j] = 1, then M[j][i] = 1.&lt;/p&gt;
 
 &lt;h2 id=&quot;dfs-in-java&quot;&gt;DFS in Java&lt;/h2&gt;
+&lt;p&gt;Treat each student as a node, starting from the 0th student, using DFS to traverse all unvisted nodes (its direct friends).&lt;br /&gt;
+&lt;img src=&quot;http://localhost:4000/images/547_java_1.jpg&quot; alt=&quot;img&quot; class=&quot;center-image&quot; /&gt;&lt;/p&gt;
 
 &lt;div class=&quot;language-java highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
-
 &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
     &lt;span class=&quot;kd&quot;&gt;public&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;findCircleNum&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;[][]&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;M&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
         &lt;span class=&quot;kt&quot;&gt;int&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;ret&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;;&lt;/span&gt;
@@ -71,6 +72,8 @@ If M[i][j] = 1, then M[j][i] = 1.&lt;/p&gt;
 &lt;p&gt;&lt;img src=&quot;http://localhost:4000/images/547_java.jpg&quot; alt=&quot;img&quot; class=&quot;center-image&quot; /&gt;&lt;em&gt;Runtime: 10ms&lt;/em&gt;&lt;/p&gt;
 
 &lt;h2 id=&quot;another-dfs-in-python&quot;&gt;another DFS in Python&lt;/h2&gt;
+&lt;p&gt;This is a draft version of the DFS. The idea was to build the graph first, then apply DFS.&lt;br /&gt;
+In fact, you do not need to. You can do the graph building via DFS and count the circle counting.&lt;/p&gt;
 
 &lt;div class=&quot;language-python highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;
 &lt;span class=&quot;k&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Solution&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;object&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt;
