@@ -1,57 +1,64 @@
 ---
 layout: post
-date: 2017-07-30 19:41:00
-title: Maximum Average Subarray I (leetcode 643)
+date: 2017-08-01 19:41:00
+title: Maximum XOR of Two Numbers in an Array (leetcode 421)
 category: Coding
-tags: [Algorithm, Two Pointer, Leetcode, Easy, Java]
+tags: [Algorithm, Bit Operations, Leetcode, Medium, Java]
 ---
 
 **Description**,
-Given an array consisting of n integers, find the contiguous subarray of given length k that has the maximum average value. And you need to output the maximum average value.
+Given a non-empty array of numbers, a0, a1, a2, … , an-1, where 0 ≤ ai < 231.
 
-Example 1:
-```java
-Input: [1,12,-5,-6,50,3], k = 4
-Output: 12.75
-```
-Explanation: Maximum average is (12-5-6+50)/4 = 51/4 = 12.75
-Note:
-```java
-1 <= k <= n <= 30,000.
-Elements of the given array will be in the range [-10,000, 10,000].
-```
+Find the maximum result of ai XOR aj, where 0 ≤ i, j < n.
 
-## Moving window solution
-Just be noticing that you don't need to calculate the "average" until you return the result.
+Could you do this in O(n) runtime?
+
+Example:
+```java
+Input: [3, 10, 5, 25, 2, 8]
+
+Output: 28
+```
+Explanation: The maximum result is 5 ^ 25 = 28.
+
+## O(n) time complexity solution
+Algorithm:
+
+1. Starting from the most significant bit(MSB) by mask, if any two number differ in this bit, we can be sure that
+   this "1" will be in the result. we set the masked result to MAX.
+2. Move to the 2nd MSB, if any two number differ in this bit AND the masked number is greater than MAX, we can be sure that
+   this "1" will be in the result. we set the masked result to MAX.
+3. repeat the steps.
 
 ```java
 public class Solution {
-    public double findMaxAverage(int[] nums, int k) {
-        /**
-        * Moving window solution
-        * @timeComplexity:  O(n)
-        * @spaceComplexity: O(1)
-        * @runtime:         22ms
-        */
-        if (k > nums.length)    return 0;
-        
-        int windowSum = 0;
-        int maxSum = 0;
-        for (int i=0; i<k; i++) {
-            windowSum += nums[i];
+    public int findMaximumXOR(int[] nums) {
+        int maxXOR = 0;
+        int mask = 0;
+        for (int i=31; i>=0; i--) {
+            // use mask to find all MSBs at current bit position(from 32 to 1),
+            // if any two MSBs differ, the MSB of result is set.
+            mask = mask | (1 << i);
+            // for each position, the possibleMax can be derived from
+            // previous maxXOR.
+            int possibleMax = maxXOR | (1 << i);
+            Set<Integer> maskedNums = new HashSet<>();
+            for (int num : nums) {
+               maskedNums.add(num & mask); 
+            }
+            
+            for (int candidate : maskedNums) {
+                // if any two candidates have current MSBs differ,
+                // we update the maxXOR
+                if (maskedNums.contains(possibleMax ^ candidate)) maxXOR = possibleMax;
+            }
+            
+            
         }
-        maxSum = windowSum;
-        int i = 0;
-        for (int j = k; j < nums.length; j++) {
-            windowSum = windowSum - nums[i] + nums[j];
-            i++;
-            maxSum = Math.max(maxSum, windowSum);
-        }
-        
-        return (double) maxSum/k;
+        return maxXOR;
     }
-}            
+}
 ```
 
-![img]({{ site.baseurl | prepend:site.url}}/images/643_java.jpg){: .center-image }*Runtime: 22ms*
+![img]({{ site.baseurl | prepend:site.url}}/images/421_java.jpg){: .center-image }*Runtime: 133ms*
 
