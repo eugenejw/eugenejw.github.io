@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Permutations (leetcode 46) </title>
+  <title>Weihan's Coding Blog | Add One Row to Tree (leetcode 623) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,70 +81,148 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/leetcode-46">Permutations (leetcode 46)</a></h1>
+                  <h1><a href="/2017/08/leetcode-623">Add One Row to Tree (leetcode 623)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>24 Jul 2017</time>
+                      <time>09 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/Permutations">Permutations</a></li>
+                        <li><a href="/tag/DFS">DFS</a></li>
                       
-                        <li><a href="/tag/leetcode">leetcode</a></li>
+                        <li><a href="/tag/Post-order">Post-order</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
                         <li><a href="/tag/Medium">Medium</a></li>
                       
-                        <li><a href="/tag/Python">Python</a></li>
+                        <li><a href="/tag/Java">Java</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-Given a collection of distinct numbers, return all possible permutations.<br />
-<a href="https://leetcode.com/submissions/detail/111055225/">the leetcode link</a></p>
+                    <p><strong>Description</strong><br />
+Given the root of a binary tree, then value v and depth d, you need to add a row of nodes with value v at the given depth d. The root node is at depth 1.</p>
 
-<p>For example,<br />
-[1,2,3] have the following permutations:</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="p">[</span>
-  <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
-  <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
-  <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">3</span><span class="p">],</span>
-  <span class="p">[</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span>
-  <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span>
-  <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span>
-<span class="p">]</span>
+<p>The adding rule is: given a positive integer depth d, for each NOT null tree nodes N in depth d-1, create two tree nodes with value v as N’s left subtree root and right subtree root. And N’s original left subtree should be the left subtree of the new left subtree root, its original right subtree should be the right subtree of the new right subtree root. If depth d is 1 that means there is no depth d-1 at all, then create a tree node with value v as the new root of the whole original tree, and the original tree is the new root’s left subtree.</p>
+
+<p>Example 1:<br />
+Input: <br />
+A binary tree as following:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>       <span class="mi">4</span>
+     <span class="o">/</span>   <span class="err">\</span>
+    <span class="mi">2</span>     <span class="mi">6</span>
+   <span class="o">/</span> <span class="err">\</span>   <span class="o">/</span> 
+  <span class="mi">3</span>   <span class="mi">1</span> <span class="mi">5</span>   
+
+<span class="n">v</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="nl">Output:</span> 
+       <span class="mi">4</span>
+      <span class="o">/</span> <span class="err">\</span>
+     <span class="mi">1</span>   <span class="mi">1</span>
+    <span class="o">/</span>     <span class="err">\</span>
+   <span class="mi">2</span>       <span class="mi">6</span>
+  <span class="o">/</span> <span class="err">\</span>     <span class="o">/</span> 
+ <span class="mi">3</span>   <span class="mi">1</span>   <span class="mi">5</span>   
+</code></pre>
+</div>
+<p>Example 2:<br />
+Input: <br />
+A binary tree as following:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>      <span class="mi">4</span>
+     <span class="o">/</span>   
+    <span class="mi">2</span>    
+   <span class="o">/</span> <span class="err">\</span>   
+  <span class="mi">3</span>   <span class="mi">1</span>    
+
+<span class="n">v</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">d</span> <span class="o">=</span> <span class="mi">3</span>
+
+<span class="nl">Output:</span> 
+      <span class="mi">4</span>
+     <span class="o">/</span>   
+    <span class="mi">2</span>
+   <span class="o">/</span> <span class="err">\</span>    
+  <span class="mi">1</span>   <span class="mi">1</span>
+ <span class="o">/</span>     <span class="err">\</span>  
+<span class="mi">3</span>       <span class="mi">1</span>
+</code></pre>
+</div>
+<p>Note:<br />
+The given d is in range [1, maximum depth of the given tree + 1].<br />
+The given binary tree has at least one tree node.</p>
+
+<h2 id="post-order-dfs-in-java">Post-order DFS in Java</h2>
+<p>Post-order traversing the tree, when it reaches the d-1 level of the tree, adding new nodes according to v, and then adding the original left/right nodes to the newly created nodes as children.<br />
+Recurssively doing this is trivial. Try iterative solution if you can.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>
+<span class="cm">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="cm">/**
+    * @timeComplexity: O(n)
+    * @runtime:        11ms
+    * @algorithm:      Post-order DFS
+    */</span>
+    <span class="kd">public</span> <span class="n">TreeNode</span> <span class="nf">addOneRow</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">d</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">d</span> <span class="o">==</span> <span class="mi">1</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// edge case</span>
+            <span class="n">TreeNode</span> <span class="n">newRoot</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="n">newRoot</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">root</span><span class="o">;</span>
+            <span class="k">return</span> <span class="n">newRoot</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        <span class="k">return</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">root</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="n">v</span><span class="o">,</span> <span class="n">d</span><span class="o">);</span>
+        
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="n">TreeNode</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">,</span> <span class="kt">int</span> <span class="n">level</span><span class="o">,</span> <span class="kt">int</span> <span class="n">v</span><span class="o">,</span> <span class="kt">int</span> <span class="n">d</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>   <span class="k">return</span> <span class="kc">null</span><span class="o">;</span>
+        <span class="n">TreeNode</span> <span class="n">leftNode</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">v</span><span class="o">,</span> <span class="n">d</span><span class="o">);</span>
+        <span class="n">TreeNode</span> <span class="n">rightNode</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">,</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">v</span><span class="o">,</span> <span class="n">d</span><span class="o">);</span>
+        
+        <span class="k">if</span> <span class="o">(</span><span class="n">level</span> <span class="o">==</span> <span class="n">d</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// inserting a new level</span>
+            <span class="n">TreeNode</span> <span class="n">newLeft</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="n">TreeNode</span> <span class="n">newRight</span> <span class="o">=</span> <span class="k">new</span> <span class="n">TreeNode</span><span class="o">(</span><span class="n">v</span><span class="o">);</span>
+            <span class="n">newLeft</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">leftNode</span><span class="o">;</span>
+            <span class="n">newRight</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">rightNode</span><span class="o">;</span>
+            <span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">=</span> <span class="n">newLeft</span><span class="o">;</span>
+            <span class="n">root</span><span class="o">.</span><span class="na">right</span> <span class="o">=</span> <span class="n">newRight</span><span class="o">;</span>
+            <span class="k">return</span> <span class="n">root</span><span class="o">;</span>
+        <span class="o">}</span>
+            
+        <span class="k">return</span> <span class="n">root</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    
+<span class="o">}</span>
 </code></pre>
 </div>
 
-<h3 id="recursive-solution">Recursive solution</h3>
-<p>The trick is to “fix” each number in the list, then recursively doing so to the rest of the list.<br />
-When it reaches the last one, just return it.<br />
-Note: to make the code looks more concise, I let the list goes empty, instead terminate the recursion when the list reaches the length of 1.</p>
-
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">permute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="s">"""
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span>
-            <span class="k">return</span> <span class="p">[[]]</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)):</span>
-            <span class="k">for</span> <span class="n">tmpList</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="n">nums</span><span class="p">[:</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]):</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]]</span> <span class="o">+</span> <span class="n">tmpList</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ret</span>
-</code></pre>
-</div>
-
-<p><img src="http://localhost:4000/images/46_python.jpg" alt="img" class="center-image" /><em>Runtime: 65ms</em></p>
+<p><img src="http://localhost:4000/images/623_java.jpg" alt="img" class="center-image" /><em>Runtime: 13ms</em></p>
 
                     
 
+                  </div>
+                  
+                  <div id="disqus_thread">
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
                   </div>
                   
                 </div>
@@ -340,6 +418,29 @@ Note: to make the code looks more concise, I let the list goes empty, instead te
           </div>
         </div>
         
+<!-- Add Disqus comments. -->
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://weihan.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
 
       </div>
           <footer class="footer-distributed">
