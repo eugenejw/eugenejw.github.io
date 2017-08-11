@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Combinations (leetcode 77) </title>
+  <title>Weihan's Coding Blog | Shortest Word Distance (leetcode 243) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,23 +81,21 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/leetcode-77">Combinations (leetcode 77)</a></h1>
+                  <h1><a href="/2017/08/leetcode-243">Shortest Word Distance (leetcode 243)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>24 Jul 2017</time>
+                      <time>10 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/Combination">Combination</a></li>
+                        <li><a href="/tag/Two Pointers">Two Pointers</a></li>
                       
-                        <li><a href="/tag/DFS">DFS</a></li>
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
-                        <li><a href="/tag/leetcode">leetcode</a></li>
-                      
-                        <li><a href="/tag/Medium">Medium</a></li>
+                        <li><a href="/tag/Easy">Easy</a></li>
                       
                         <li><a href="/tag/Java">Java</a></li>
                       
@@ -105,55 +103,57 @@
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-Given two integers n and k, return all possible combinations of k numbers out of 1 … n.</p>
+                    <p><strong>Description</strong><br />
+Given a list of words and two words word1 and word2, return the shortest distance between these two words in the list.</p>
 
 <p>For example,<br />
-If n = 4 and k = 2, a solution is:</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">[</span>
-  <span class="o">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">4</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">3</span><span class="o">],</span>
-  <span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">4</span><span class="o">],</span>
-<span class="o">]</span>
-</code></pre>
-</div>
+Assume that words = [“practice”, “makes”, “perfect”, “coding”, “makes”].</p>
 
-<h3 id="dfs-is-the-standard-way-of-solving-combination-problem">DFS is the standard way of solving combination problem.</h3>
+<p>Given word1 = “coding”, word2 = “practice”, return 3.<br />
+Given word1 = “makes”, word2 = “coding”, return 1.</p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="cm">/**
-    * DFS
-    * @runtime: 30ms
-    */</span>
-    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="nf">combine</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;();</span>
-        <span class="n">dfs</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">k</span><span class="o">,</span> <span class="n">ret</span><span class="o">,</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;());</span>
+<p>Note:<br />
+You may assume that word1 does not equal to word2, and word1 and word2 are both in the list.</p>
+
+<h2 id="two-pointers">Two Pointers</h2>
+<p>Use a “prev” pointer to track the previous matching word.<br />
+The trick is to set the prev to “-1” value.<br />
+We move forward the cur pointer.<br />
+Whenever the cur word matches word1 or word2, we check whether it is different from the previous word, if yes, we calculate the distance and set prev to cur. If no, we only set prev to cur.</p>
+
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+* @time complexity: O(n)
+* @runtime:         2ms
+*/</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">shortestDistance</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">words</span><span class="o">,</span> <span class="n">String</span> <span class="n">word1</span><span class="o">,</span> <span class="n">String</span> <span class="n">word2</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MAX_VALUE</span><span class="o">,</span> <span class="n">prev</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="o">;</span>
+        
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">words</span><span class="o">.</span><span class="na">length</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">words</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="n">word1</span><span class="o">)</span> <span class="o">||</span> <span class="n">words</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="n">word2</span><span class="o">))</span> <span class="o">{</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">prev</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">words</span><span class="o">[</span><span class="n">i</span><span class="o">].</span><span class="na">equals</span><span class="o">(</span><span class="n">words</span><span class="o">[</span><span class="n">prev</span><span class="o">]))</span> <span class="o">{</span>
+                    <span class="n">ret</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">min</span><span class="o">(</span><span class="n">ret</span><span class="o">,</span> <span class="n">i</span><span class="o">-</span><span class="n">prev</span><span class="o">);</span>
+                <span class="o">}</span>
+                <span class="n">prev</span> <span class="o">=</span> <span class="n">i</span><span class="o">;</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
         <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+        
     <span class="o">}</span>
     
-    <span class="kd">private</span> <span class="kt">void</span> <span class="nf">dfs</span><span class="o">(</span><span class="kt">int</span> <span class="n">begin</span><span class="o">,</span> <span class="kt">int</span> <span class="n">n</span><span class="o">,</span> <span class="kt">int</span> <span class="n">k</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;&gt;</span> <span class="n">ret</span><span class="o">,</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">path</span><span class="o">)</span> <span class="o">{</span>
-        <span class="k">if</span> <span class="o">(</span><span class="n">k</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">ret</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">(</span><span class="n">path</span><span class="o">));</span>
-            <span class="k">return</span><span class="o">;</span>
-        <span class="o">}</span>
-        
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="n">begin</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="n">path</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">i</span><span class="o">);</span>
-            <span class="n">dfs</span><span class="o">(</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">n</span><span class="o">,</span> <span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="n">ret</span><span class="o">,</span> <span class="n">path</span><span class="o">);</span>
-            <span class="n">path</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">path</span><span class="o">.</span><span class="na">size</span><span class="o">()-</span><span class="mi">1</span><span class="o">);</span>
-        <span class="o">}</span>
-    <span class="o">}</span>
 <span class="o">}</span>
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/images/77_java.jpg" alt="img" class="center-image" /><em>Runtime: 30ms</em></p>
+<p><img src="http://localhost:4000/images/243_java.jpg" alt="img" class="center-image" /><em>Runtime: 2ms</em></p>
 
                     
 
+                  </div>
+                  
+                  <div id="disqus_thread">
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
                   </div>
                   
                 </div>
@@ -353,6 +353,29 @@ If n = 4 and k = 2, a solution is:</p>
           </div>
         </div>
         
+<!-- Add Disqus comments. -->
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://weihan.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
 
       </div>
           <footer class="footer-distributed">
