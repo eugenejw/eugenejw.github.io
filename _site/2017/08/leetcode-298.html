@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Minimum Moves to Equal Array Elements (leetcode 453) </title>
+  <title>Weihan's Coding Blog | Binary Tree Longest Consecutive Sequence (leetcode 298) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,21 +81,23 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/08/leetcode-453">Minimum Moves to Equal Array Elements (leetcode 453)</a></h1>
+                  <h1><a href="/2017/08/leetcode-298">Binary Tree Longest Consecutive Sequence (leetcode 298)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>06 Aug 2017</time>
+                      <time>12 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/Math">Math</a></li>
+                        <li><a href="/tag/DFS">DFS</a></li>
                       
                         <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
-                        <li><a href="/tag/Easy">Easy</a></li>
+                        <li><a href="/tag/Medium">Medium</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
                       
                         <li><a href="/tag/Python">Python</a></li>
                       
@@ -103,49 +105,128 @@
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-Given a non-empty integer array of size n, find the minimum number of moves required to make all array elements equal, where a move is incrementing n - 1 elements by 1.</p>
+                    <p><strong>Description</strong><br />
+Given a binary tree, find the length of the longest consecutive sequence path.</p>
 
-<p>Example:</p>
+<p>The path refers to any sequence of nodes from some starting node to any node in the tree along the parent-child connections. The longest consecutive path need to be from parent to child (cannot be the reverse).<br />
+Note: the description is vague, visit here for explaination <a href="https://discuss.leetcode.com/topic/28931/don-t-understand-what-is-consecutive-sequence/6">link</a></p>
 
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span>
-<span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>
-
-<span class="nl">Output:</span>
-<span class="mi">3</span>
-
-<span class="nl">Explanation:</span>
-<span class="n">Only</span> <span class="n">three</span> <span class="n">moves</span> <span class="n">are</span> <span class="nf">needed</span> <span class="o">(</span><span class="n">remember</span> <span class="n">each</span> <span class="n">move</span> <span class="n">increments</span> <span class="n">two</span> <span class="n">elements</span><span class="o">):</span>
-
-<span class="o">[</span><span class="mi">1</span><span class="o">,</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>  <span class="o">=&gt;</span>  <span class="o">[</span><span class="mi">2</span><span class="o">,</span><span class="mi">3</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>  <span class="o">=&gt;</span>  <span class="o">[</span><span class="mi">3</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">3</span><span class="o">]</span>  <span class="o">=&gt;</span>  <span class="o">[</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">,</span><span class="mi">4</span><span class="o">]</span>
+<p>For example,</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="mi">1</span>
+    <span class="err">\</span>
+     <span class="mi">3</span>
+    <span class="o">/</span> <span class="err">\</span>
+   <span class="mi">2</span>   <span class="mi">4</span>
+        <span class="err">\</span>
+         <span class="mi">5</span>
+<span class="n">Longest</span> <span class="n">consecutive</span> <span class="n">sequence</span> <span class="n">path</span> <span class="n">is</span> <span class="mi">3</span><span class="o">-</span><span class="mi">4</span><span class="o">-</span><span class="mi">5</span><span class="o">,</span> <span class="n">so</span> <span class="k">return</span> <span class="mi">3</span><span class="o">.</span>
+</code></pre>
+</div>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code>   <span class="mi">2</span>
+    <span class="err">\</span>
+     <span class="mi">3</span>
+    <span class="o">/</span> 
+   <span class="mi">2</span>    
+  <span class="o">/</span> 
+ <span class="mi">1</span>
+<span class="n">Longest</span> <span class="n">consecutive</span> <span class="n">sequence</span> <span class="n">path</span> <span class="n">is</span> <span class="mi">2</span><span class="o">-</span><span class="mi">3</span><span class="o">,</span><span class="n">not3</span><span class="o">-</span><span class="mi">2</span><span class="o">-</span><span class="mi">1</span><span class="o">,</span> <span class="n">so</span> <span class="k">return</span> <span class="mi">2</span><span class="o">.</span>
 </code></pre>
 </div>
 
-<h2 id="math-solution">Math solution</h2>
-<p>This approach is based on the idea that adding 1 to all the elements except one is equivalent to decrementing 1 from a single element, since we are interested in the relative levels of the elements which need to be equalized. Thus, the problem is simplified to find the number of decrement operations required to equalize all the elements of the given array. For finding this, it is obvious that we’ll reduce all the elements of the array to the minimum element.</p>
+<h2 id="on-bottom-up-post-order-dfs-in-java">O(n) Bottom-up Post-order DFS in Java</h2>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">sys</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kt">int</span> <span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+    
+    <span class="cm">/**
+    * @solution: Post-order DFS
+    * @runtime:  3ms
+    *
+    */</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">longestConsecutive</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">dfs</span><span class="o">(</span><span class="n">root</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">TreeNode</span> <span class="n">root</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>   <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="kt">int</span> <span class="n">leftSum</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">);</span>
+        <span class="kt">int</span> <span class="n">rightSum</span> <span class="o">=</span> <span class="n">dfs</span><span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">);</span>
+        
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">left</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">root</span><span class="o">.</span><span class="na">left</span><span class="o">.</span><span class="na">val</span> <span class="o">!=</span> <span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">leftSum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">root</span><span class="o">.</span><span class="na">right</span> <span class="o">!=</span> <span class="kc">null</span> <span class="o">&amp;&amp;</span> <span class="n">root</span><span class="o">.</span><span class="na">right</span><span class="o">.</span><span class="na">val</span> <span class="o">!=</span> <span class="n">root</span><span class="o">.</span><span class="na">val</span><span class="o">+</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">rightSum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="o">}</span>
+        
+        <span class="n">ret</span> <span class="o">=</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">ret</span><span class="o">,</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">leftSum</span><span class="o">,</span> <span class="n">rightSum</span><span class="o">)+</span><span class="mi">1</span><span class="o">);</span>
+        <span class="k">return</span> <span class="n">Math</span><span class="o">.</span><span class="na">max</span><span class="o">(</span><span class="n">leftSum</span><span class="o">,</span> <span class="n">rightSum</span><span class="o">)+</span><span class="mi">1</span><span class="o">;</span>
+        
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre>
+</div>
+
+<p><img src="http://localhost:4000/images/298_java.jpg" alt="img" class="center-image" /><em>Runtime: 3ms</em></p>
+
+<h2 id="on-top-up-pre-order-dfs-in-python">O(n)	Top-up Pre-order DFS in Python</h2>
+
+<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="c"># Definition for a binary tree node.</span>
+<span class="c"># class TreeNode(object):</span>
+<span class="c">#     def __init__(self, x):</span>
+<span class="c">#         self.val = x</span>
+<span class="c">#         self.left = None</span>
+<span class="c">#         self.right = None</span>
+
 <span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">minMoves</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">):</span>
-        <span class="s">"""
-        :type nums: List[int]
-        :rtype: int
-        """</span>
-        <span class="n">minNum</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">maxint</span>
-        <span class="n">moves</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
-            <span class="n">minNum</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">minNum</span><span class="p">,</span> <span class="n">num</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ret</span> <span class="o">=</span> <span class="mi">0</span>
         
-        <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">nums</span><span class="p">:</span>
-            <span class="n">moves</span> <span class="o">+=</span> <span class="n">num</span> <span class="o">-</span> <span class="n">minNum</span>
-            
-        <span class="k">return</span> <span class="n">moves</span>
-            
+    <span class="k">def</span> <span class="nf">longestConsecutive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">):</span>
+        <span class="s">"""
+        :type root: TreeNode
+        :rtype:     int
+        :algorithm: Pre-order DFS, O(n)
+        :runtimr:   188ms
+        """</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">root</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">ret</span>
+        
+    <span class="k">def</span> <span class="nf">dfs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">root</span><span class="p">,</span> <span class="n">carry</span><span class="p">):</span>
+        <span class="s">"""
+        :type root: TreeNode
+        :rtype: void
+        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ret</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ret</span><span class="p">,</span> <span class="n">carry</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="o">.</span><span class="n">val</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">carry</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="o">.</span><span class="n">val</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">root</span><span class="o">.</span><span class="n">val</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="n">carry</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">dfs</span><span class="p">(</span><span class="n">root</span><span class="o">.</span><span class="n">right</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/images/453_python.jpg" alt="img" class="center-image" /><em>Runtime: 92ms</em></p>
+<p><img src="http://localhost:4000/images/298_python.jpg" alt="img" class="center-image" /><em>Runtime: 188ms</em></p>
 
 
                     
