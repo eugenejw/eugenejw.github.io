@@ -2,7 +2,7 @@
 layout: post
 comments: true
 date: 2017-08-14 19:41:00
-title:  (leetcode 298)
+title: Construct Binary Tree from String (leetcode 298)
 category: Coding
 tags: [Algorithm, DFS, Leetcode, Medium, Java]
 ---
@@ -15,7 +15,7 @@ The whole input represents a binary tree. It contains an integer followed by zer
 You always start to construct the left child node of the parent first if it exists.
 
 Example:
-```
+```java
 Input: "4(2(3)(1))(6(5))"
 Output: return the tree root node representing the following tree:
 
@@ -24,7 +24,7 @@ Output: return the tree root node representing the following tree:
     2     6
    / \   / 
   3   1 5   
-```java
+```
 Note:
 There will only be '(', ')', '-' and '0' ~ '9' in the input string.
 An empty tree is represented by "" instead of "()".
