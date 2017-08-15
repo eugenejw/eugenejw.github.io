@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Number of Segments in a String (leetcode 434) </title>
+  <title>Weihan's Coding Blog | Ransom Note (leetcode 383) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,87 +81,73 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/leetcode-434">Number of Segments in a String (leetcode 434)</a></h1>
+                  <h1><a href="/2017/08/leetcode-383">Ransom Note (leetcode 383)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>15 Jul 2017</time>
+                      <time>14 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/String">String</a></li>
+                        <li><a href="/tag/DFS">DFS</a></li>
                       
-                        <li><a href="/tag/Regex">Regex</a></li>
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
-                        <li><a href="/tag/leetcode">leetcode</a></li>
-                      
-                        <li><a href="/tag/Easy">Easy</a></li>
+                        <li><a href="/tag/Medium">Medium</a></li>
                       
                         <li><a href="/tag/Java">Java</a></li>
-                      
-                        <li><a href="/tag/Python">Python</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-Count the number of segments in a string, where a segment is defined to be a contiguous sequence of non-space characters.</p>
+                    <p><strong>Description</strong><br />
+Given an arbitrary ransom note string and another string containing letters from all the magazines, write a function that will return true if the ransom note can be constructed from the magazines ; otherwise, it will return false.</p>
 
-<p>Please note that the string does not contain any non-printable characters.</p>
+<p>Each letter in the magazine string can only be used once in your ransom note.</p>
 
-<p>Example:</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Input</span><span class="p">:</span> <span class="s">"Hello, my name is John"</span>
-<span class="n">Output</span><span class="p">:</span> <span class="mi">5</span>
+<p>Note:<br />
+You may assume that both strings contain only lowercase letters.</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="n">canConstruct</span><span class="o">(</span><span class="s">"a"</span><span class="o">,</span> <span class="s">"b"</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="kc">false</span>
+<span class="nf">canConstruct</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"ab"</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="kc">false</span>
+<span class="nf">canConstruct</span><span class="o">(</span><span class="s">"aa"</span><span class="o">,</span> <span class="s">"aab"</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="kc">true</span>
 </code></pre>
 </div>
 
-<p><a href="https://leetcode.com/problems/number-of-segments-in-a-string/#/description">The leetcode link</a></p>
+<h2 id="on-bucket-sort-in-java">O(n) bucket sort in Java</h2>
+<p>No brainer solution.</p>
 
-<h3 id="string-one-pass-implemted-in-java">String one pass implemted in Java</h3>
-
-<p>Time complexity: O(n)<br />
-Runtime: 3ms</p>
-
-<figure class="highlight"><pre><code class="language-java" data-lang="java"><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">countSegments</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)</span> <span class="o">!=</span> <span class="sc">' '</span> <span class="o">&amp;&amp;</span> <span class="o">(</span><span class="n">i</span><span class="o">==</span><span class="mi">0</span> <span class="o">||</span> <span class="n">s</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">==</span> <span class="sc">' '</span><span class="o">)){</span>
-                <span class="n">count</span><span class="o">++;</span>
-            <span class="o">}</span>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">canConstruct</span><span class="o">(</span><span class="n">String</span> <span class="n">ransomNote</span><span class="o">,</span> <span class="n">String</span> <span class="n">magazine</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">bucket</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="mi">26</span><span class="o">];</span>
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">magazine</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="n">bucket</span><span class="o">[</span><span class="n">magazine</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)-</span><span class="sc">'a'</span><span class="o">]++;</span>
         <span class="o">}</span>
-        <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+        
+        <span class="k">for</span> <span class="o">(</span><span class="kt">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="o">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="n">ransomNote</span><span class="o">.</span><span class="na">length</span><span class="o">();</span> <span class="n">i</span><span class="o">++)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">bucket</span><span class="o">[</span><span class="n">ransomNote</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)-</span><span class="sc">'a'</span><span class="o">]</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+            <span class="o">}</span>
+            <span class="n">bucket</span><span class="o">[</span><span class="n">ransomNote</span><span class="o">.</span><span class="na">charAt</span><span class="o">(</span><span class="n">i</span><span class="o">)-</span><span class="sc">'a'</span><span class="o">]--;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="kc">true</span><span class="o">;</span>
     <span class="o">}</span>
-<span class="o">}</span></code></pre></figure>
-
-<h3 id="regex-solution-in-python">Regex solution in Python.</h3>
-
-<p>All you need is to s = s.strip() the input before split.<br />
-Then use Regex to solve it.</p>
-
-<p>Note that Python split() can do the multi-space spliting without parameter.</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">re</span>
-<span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">countSegments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">s</span><span class="p">):</span>
-        <span class="s">"""
-        :type s: str
-        :rtype: int
-        """</span>
-        <span class="n">s</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">s</span><span class="p">:</span>
-            <span class="k">return</span> <span class="mi">0</span>
-        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">re</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">'</span><span class="err">\</span><span class="s">s+'</span><span class="p">,</span> <span class="n">s</span><span class="p">))</span>
+<span class="o">}</span>
 </code></pre>
 </div>
 
-<p><img src="http://localhost:4000/images/434_python.jpg" alt="img" class="center-image" /><em>Runtime: 36ms</em></p>
+<p><img src="http://localhost:4000/images/383_java.jpg" alt="img" class="center-image" /><em>Runtime: 21ms</em></p>
 
 
                     
 
+                  </div>
+                  
+                  <div id="disqus_thread">
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
                   </div>
                   
                 </div>
@@ -365,6 +351,29 @@ Then use Regex to solve it.</p>
           </div>
         </div>
         
+<!-- Add Disqus comments. -->
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://weihan.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
 
       </div>
           <footer class="footer-distributed">
