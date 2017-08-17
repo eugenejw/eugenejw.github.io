@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Queue Reconstruction by Height (leetcode 406) </title>
+  <title>Weihan's Coding Blog | Nested List Weight Sum(leetcode 339) </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,82 +81,95 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/07/leetcode-406">Queue Reconstruction by Height (leetcode 406)</a></h1>
+                  <h1><a href="/2017/08/leetcode-339">Nested List Weight Sum(leetcode 339)</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>17 Jul 2017</time>
+                      <time>16 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
                       
-                        <li><a href="/tag/leetcode">leetcode</a></li>
+                        <li><a href="/tag/DFS">DFS</a></li>
                       
-                        <li><a href="/tag/Medium">Medium</a></li>
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
-                        <li><a href="/tag/Python">Python</a></li>
+                        <li><a href="/tag/Easy">Easy</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-Suppose you have a random list of people standing in a queue. Each person is described by a pair of integers (h, k), where h is the height of the person and k is the number of people in front of this person who have a height greater than or equal to h. Write an algorithm to reconstruct the queue.</p>
+                    <p><strong>Description</strong><br />
+Given a nested list of integers, return the sum of all integers in the list weighted by their depth.</p>
 
-<p>Note:<br />
-The number of people is less than 1,100.</p>
+<p>Each element is either an integer, or a list – whose elements may also be integers or other lists.</p>
 
-<p>Example</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Input</span><span class="p">:</span>
-<span class="p">[[</span><span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">]]</span>
+<p>Example 1:<br />
+Given the list [[1,1],2,[1,1]], return 10. (four 1’s at depth 2, one 2 at depth 1)</p>
 
-<span class="n">Output</span><span class="p">:</span>
-<span class="p">[[</span><span class="mi">5</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="p">[</span><span class="mi">6</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span><span class="mi">1</span><span class="p">]]</span>
-</code></pre>
-</div>
+<p>Example 2:<br />
+Given the list [1,[4,[6]]], return 27. (one 1 at depth 1, one 4 at depth 2, and one 6 at depth 3; 1 + 4<em>2 + 6</em>3 = 27)</p>
 
-<p><a href="https://leetcode.com/problems/queue-reconstruction-by-height/#/description">The leetcode link</a></p>
+<h2 id="dfs-solution">DFS solution</h2>
+<p>Complexity Analysis</p>
 
-<h3 id="bucket-sort-implemted-in-python">Bucket sort implemted in Python</h3>
-<p>Starting with the tallest ones, [7, 0], [7, 1], put them in order of k value.<br />
-Then work with the second tallest ones, [6, 1], by inserting them one by one in order of their k values.</p>
+<p>The algorithm takes O(N)O(N) time, where NN is the total number of nested elements in the input list. For example, the list [ [[[[1]]]], 2 ] contains 44 nested lists and 22 nested integers (11 and 22), so N=6N=6.</p>
 
-<p>Time complexity: O(nlongn)<br />
-Runtime: 153ms</p>
+<p>In terms of space, at most O(D)O(D) recursive calls are placed on the stack, where DD is the maximum level of nesting in the input. For example, D=2D=2 for the input [[1,1],2,[1,1]], and D=3D=3 for the input [1,[4,[6]]].</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="cm">/**
+ * // This is the interface that allows for creating nested lists.
+ * // You should not implement it, or speculate about its implementation
+ * public interface NestedInteger {
+ *
+ *     // @return true if this NestedInteger holds a single integer, rather than a nested list.
+ *     public boolean isInteger();
+ *
+ *     // @return the single integer that this NestedInteger holds, if it holds a single integer
+ *     // Return null if this NestedInteger holds a nested list
+ *     public Integer getInteger();
+ *
+ *     // @return the nested list that this NestedInteger holds, if it holds a nested list
+ *     // Return null if this NestedInteger holds a single integer
+ *     public List&lt;NestedInteger&gt; getList();
+ * }
+ */</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">reconstructQueue</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">people</span><span class="p">):</span>
-        <span class="s">"""
-        :type people: List[List[int]]
-        :rtype: List[List[int]]
-        """</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="n">bucket</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">people</span><span class="p">:</span>
-            <span class="n">height</span> <span class="o">=</span> <span class="n">p</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-            <span class="k">if</span> <span class="n">height</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">bucket</span><span class="p">:</span>
-                <span class="n">bucket</span><span class="p">[</span><span class="n">height</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
-                <span class="n">bucket</span><span class="p">[</span><span class="n">height</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">bucket</span><span class="p">[</span><span class="n">height</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">depthSum</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">NestedInteger</span><span class="o">&gt;</span> <span class="n">nestedList</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">nestedList</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+    
+    <span class="kd">private</span> <span class="kt">int</span> <span class="nf">dfs</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">NestedInteger</span><span class="o">&gt;</span> <span class="n">nestedList</span><span class="o">,</span> <span class="kt">int</span> <span class="n">level</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">nestedList</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="k">return</span> <span class="mi">0</span><span class="o">;</span>
         
-        <span class="n">heightList</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">keys</span><span class="p">()</span>
-        <span class="n">heightList</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">h</span> <span class="ow">in</span> <span class="n">heightList</span><span class="p">:</span>
-            <span class="n">hList</span> <span class="o">=</span> <span class="n">bucket</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
-            <span class="n">hList</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
-            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">hList</span><span class="p">:</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">ret</span>
+        <span class="kt">int</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">NestedInteger</span> <span class="n">ni</span> <span class="o">:</span> <span class="n">nestedList</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">ni</span><span class="o">.</span><span class="na">isInteger</span><span class="o">())</span> <span class="o">{</span>
+                <span class="n">sum</span> <span class="o">+=</span> <span class="n">ni</span><span class="o">.</span><span class="na">getInteger</span><span class="o">()</span> <span class="o">*</span> <span class="n">level</span><span class="o">;</span>
+            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+                <span class="n">sum</span> <span class="o">+=</span> <span class="n">dfs</span><span class="o">(</span><span class="n">ni</span><span class="o">.</span><span class="na">getList</span><span class="o">(),</span> <span class="n">level</span><span class="o">+</span><span class="mi">1</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">sum</span><span class="o">;</span>
+        
+    <span class="o">}</span>
+<span class="o">}</span>
 </code></pre>
 </div>
-
-<p><img src="http://localhost:4000/images/406_python.jpg" alt="img" class="center-image" /><em>Runtime: 153ms</em></p>
+<p><img src="http://localhost:4000/images/339_java.jpg" alt="img" class="center-image" /><em>Runtime: 2ms</em></p>
 
 
                     
 
+                  </div>
+                  
+                  <div id="disqus_thread">
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
                   </div>
                   
                 </div>
@@ -360,6 +373,29 @@ Runtime: 153ms</p>
           </div>
         </div>
         
+<!-- Add Disqus comments. -->
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://weihan.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
 
       </div>
           <footer class="footer-distributed">
