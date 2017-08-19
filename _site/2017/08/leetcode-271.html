@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Analytics, tags and comments </title>
+  <title>Weihan's Coding Blog | Encode and Decode Strings </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,48 +81,110 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2016/08/analytics-tags-comments">Analytics, tags and comments</a></h1>
+                  <h1><a href="/2017/08/leetcode-271">Encode and Decode Strings</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>01 Aug 2016</time>
+                      <time>18 Aug 2017</time>
                     </div>
                     <ul>
                       
-                        <li><a href="/tag/jekyll">jekyll</a></li>
+                        <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/String">String</a></li>
+                      
+                        <li><a href="/tag/Leetcode">Leetcode</a></li>
+                      
+                        <li><a href="/tag/Medium">Medium</a></li>
+                      
+                        <li><a href="/tag/Java">Java</a></li>
                       
                     </ul>
                   </div>
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
-                    <h1 id="analytics">Analytics</h1>
+                    <p><strong>Description</strong><br />
+<a href="https://leetcode.com/problems/encode-and-decode-strings/description/">leetcode 271</a><br />
+Design an algorithm to encode a list of strings to a string. The encoded string is then sent over the network and is decoded back to the original list of strings.</p>
 
-<h4 id="google-analytics"><a href="http://www.google.com/analytics/">Google Analytics</a></h4>
+<p>Machine 1 (sender) has the function:</p>
+<div class="language-c# highlighter-rouge"><pre class="highlight"><code><span class="kt">string</span> <span class="nf">encode</span><span class="p">(</span><span class="n">vector</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">strs</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// ... your code
+</span>  <span class="k">return</span> <span class="n">encoded_string</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>Machine 2 (receiver) has the function:</p>
+<div class="language-c# highlighter-rouge"><pre class="highlight"><code><span class="n">vector</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="nf">decode</span><span class="p">(</span><span class="kt">string</span> <span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">//... your code
+</span>  <span class="k">return</span> <span class="n">strs</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>So Machine 1 does:</p>
+<div class="language-c# highlighter-rouge"><pre class="highlight"><code><span class="kt">string</span> <span class="n">encoded_string</span> <span class="p">=</span> <span class="nf">encode</span><span class="p">(</span><span class="n">strs</span><span class="p">);</span>
+</code></pre>
+</div>
+<p>and Machine 2 does:</p>
+<div class="language-c# highlighter-rouge"><pre class="highlight"><code><span class="n">vector</span><span class="p">&lt;</span><span class="kt">string</span><span class="p">&gt;</span> <span class="n">strs2</span> <span class="p">=</span> <span class="nf">decode</span><span class="p">(</span><span class="n">encoded_string</span><span class="p">);</span>
+</code></pre>
+</div>
+<p>strs2 in Machine 2 should be the same as strs in Machine 1.</p>
 
-<p>To enable Google Analytics create an account <a href="https://analytics.google.com">here</a>. Then add your tracking id in <code class="highlighter-rouge">config.xml</code>, it should look something like <code class="highlighter-rouge">UA-********-1</code></p>
+<p>Implement the encode and decode methods.</p>
 
-<h4 id="yandex-metrica"><a href="http://metrica.yandex.com">Yandex Metrica</a></h4>
+<p>Note:<br />
+The string may contain any possible characters out of 256 valid ascii characters. Your algorithm should be generalized enough to work on any possible characters.<br />
+Do not use class member/global/static variables to store states. Your encode and decode algorithms should be stateless.<br />
+Do not rely on any library method such as eval or serialize methods. You should implement your own encode/decode algorithm.</p>
 
-<p>To enable Yandex Metrica you need to register, create a ‘counter’ and then copy-paste it’s code in <code class="highlighter-rouge">/_includes/yandex-metrica.html</code> file.</p>
+<h2 id="java-solution">Java solution</h2>
+<p>Choose whatever delimiter you preferred.<br />
+For me, “~” is always the favorite.<br />
+serialize the list by converting it to <length><delimiter><originalString> format.
+For example, ['hello', 'world', '~asd'] will be serialize as "5~hello5~world4~~asd".
+Check code below for the detailed idea.</originalString></delimiter></length></p>
 
-<h1 id="tags">Tags</h1>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Codec</span> <span class="o">{</span>
 
-<p>Using tags in Jekyll is a bit tricky topic, I used this approach: <a href="http://charliepark.org/tags-in-jekyll/">charliepark.org/tags-in-jekyll/</a>. You can read technical details there. To simply use tags provide list of tags in post header:</p>
+    <span class="c1">// Encodes a list of strings to a single string.</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">encode</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">strs</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">StringBuilder</span> <span class="n">sb</span> <span class="o">=</span> <span class="k">new</span> <span class="n">StringBuilder</span><span class="o">();</span>
+        <span class="k">for</span> <span class="o">(</span><span class="n">String</span> <span class="n">s</span> <span class="o">:</span> <span class="n">strs</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">sb</span><span class="o">.</span><span class="na">append</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">()).</span><span class="na">append</span><span class="o">(</span><span class="s">"~"</span><span class="o">).</span><span class="na">append</span><span class="o">(</span><span class="n">s</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">sb</span><span class="o">.</span><span class="na">toString</span><span class="o">();</span>
+    <span class="o">}</span>
 
-<figure class="highlight"><pre><code class="language-bash" data-lang="bash">tags:
- - jekyll
- - analytics
- - tags
- - comments</code></pre></figure>
+    <span class="c1">// Decodes a single string to a list of strings.</span>
+    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">decode</span><span class="o">(</span><span class="n">String</span> <span class="n">s</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">ret</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;</span> <span class="n">s</span><span class="o">.</span><span class="na">length</span><span class="o">())</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">delimiterPos</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="na">indexOf</span><span class="o">(</span><span class="s">"~"</span><span class="o">,</span> <span class="n">i</span><span class="o">);</span>
+            <span class="kt">int</span> <span class="n">len</span> <span class="o">=</span> <span class="n">Integer</span><span class="o">.</span><span class="na">valueOf</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">i</span><span class="o">,</span> <span class="n">delimiterPos</span><span class="o">));</span>
+            <span class="n">ret</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">s</span><span class="o">.</span><span class="na">substring</span><span class="o">(</span><span class="n">delimiterPos</span><span class="o">+</span><span class="mi">1</span><span class="o">,</span> <span class="n">delimiterPos</span><span class="o">+</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="o">));</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">delimiterPos</span><span class="o">+</span><span class="n">len</span><span class="o">+</span><span class="mi">1</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">ret</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
 
-<p>And then before pushing your changes to github copy generated folder <code class="highlighter-rouge">/_site/tag</code> in your blog’s root folder (github pages will not generate it automatically).</p>
+<span class="c1">// Your Codec object will be instantiated and called as such:</span>
+<span class="c1">// Codec codec = new Codec();</span>
+<span class="c1">// codec.decode(codec.encode(strs));</span>
+</code></pre>
+</div>
+<p><img src="http://localhost:4000/images/271_java.jpg" alt="img" class="center-image" /><em>Runtime: 12ms</em></p>
 
-<h1 id="comments">Comments</h1>
-
-<p>To enable <a href="http://disqus.com">Disqus</a> register on the site and then just put your name in <code class="highlighter-rouge">_config.xml</code>. Comments could be switched on and off on per post basis, just put <code class="highlighter-rouge">comments: true</code> to enable them.</p>
 
                     
 
+                  </div>
+                  
+                  <div id="disqus_thread">
+                    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                    <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
                   </div>
                   
                 </div>
@@ -326,6 +388,29 @@
           </div>
         </div>
         
+<!-- Add Disqus comments. -->
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://weihan.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+                            
+
 
       </div>
           <footer class="footer-distributed">
