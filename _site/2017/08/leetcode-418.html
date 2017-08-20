@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Missing Ranges </title>
+  <title>Weihan's Coding Blog | Sentence Screen Fitting </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -81,15 +81,17 @@
             <div class="col-md-8">
               <div class="article">
                 <div class="well">
-                  <h1><a href="/2017/08/leetcode-163">Missing Ranges</a></h1>
+                  <h1><a href="/2017/08/leetcode-418">Sentence Screen Fitting</a></h1>
                   <div class="post-meta">
                     <div class="post-time">
                       <i class="fa fa-calendar"></i>
-                      <time>17 Aug 2017</time>
+                      <time>19 Aug 2017</time>
                     </div>
                     <ul>
                       
                         <li><a href="/tag/Algorithm">Algorithm</a></li>
+                      
+                        <li><a href="/tag/DP">DP</a></li>
                       
                         <li><a href="/tag/Leetcode">Leetcode</a></li>
                       
@@ -102,80 +104,85 @@
                   <div class="post-content">
                     <div id="toc" class="toc"></div>
                     <p><strong>Description</strong><br />
-<a href="https://leetcode.com/problems/missing-ranges/description/">leetcode 163</a><br />
-Given a sorted integer array where the range of elements are in the inclusive range [lower, upper], return its missing ranges.</p>
+<a href="https://leetcode.com/problems/sentence-screen-fitting/description/">leetcode 418</a><br />
+Given a rows x cols screen and a sentence represented by a list of non-empty words, find how many times the given sentence can be fitted on the screen.</p>
 
-<p>For example, given [0, 1, 3, 50, 75], lower = 0 and upper = 99, return [“2”, “4-&gt;49”, “51-&gt;74”, “76-&gt;99”].</p>
+<p>Note:</p>
 
-<p>Note: this problem is ill-defined! The AC solution won’t cover scenario like “upper is smaller that nums[nums.length]” and “lower is greater than nums[0]”. But they do check if upper is larger than nums[-1].<br />
-And they check the integer overflow, which is not necessary given the fact the main logic was not even fully covered by test cases.</p>
+<p>A word cannot be split into two lines.<br />
+The order of words in the sentence must remain unchanged.<br />
+Two consecutive words in a line must be separated by a single space.<br />
+Total words in the sentence won’t exceed 100.<br />
+Length of each word is greater than 0 and won’t exceed 10.<br />
+1 ≤ rows, cols ≤ 20,000.</p>
 
-<p>So if you are new to coding practice, skip this one.</p>
+<p>Example 1:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span><span class="o">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="mi">8</span><span class="o">,</span> <span class="n">sentence</span> <span class="o">=</span> <span class="o">[</span><span class="s">"hello"</span><span class="o">,</span> <span class="s">"world"</span><span class="o">]</span>
 
-<h2 id="one-pass-solution">One pass solution</h2>
+<span class="nl">Output:</span> 
+<span class="mi">1</span>
 
+<span class="nl">Explanation:</span>
+<span class="n">hello</span><span class="o">---</span>
+<span class="n">world</span><span class="o">---</span>
+</code></pre>
+</div>
+<p>The character ‘-‘ signifies an empty space on the screen.</p>
+
+<p>Example 2:</p>
+<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="nl">Input:</span>
+<span class="n">rows</span> <span class="o">=</span> <span class="mi">4</span><span class="o">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="mi">5</span><span class="o">,</span> <span class="n">sentence</span> <span class="o">=</span> <span class="o">[</span><span class="s">"I"</span><span class="o">,</span> <span class="s">"had"</span><span class="o">,</span> <span class="s">"apple"</span><span class="o">,</span> <span class="s">"pie"</span><span class="o">]</span>
+
+<span class="nl">Output:</span> 
+<span class="mi">1</span>
+
+<span class="nl">Explanation:</span>
+<span class="n">I</span><span class="o">-</span><span class="n">had</span>
+<span class="n">apple</span>
+<span class="n">pie</span><span class="o">-</span><span class="n">I</span>
+<span class="n">had</span><span class="o">--</span>
+</code></pre>
+</div>
+<p>The character ‘-‘ signifies an empty space on the screen.</p>
+
+<h2 id="java-dp-solution">Java DP solution</h2>
+<p>It is like a jump game, when the any of the word in sentence falls into a position that it has fallen into before,<br />
+we know that the string filling patten starts to repeat itself. Then we do not need to proceed.</p>
+
+<p>Note that, a better solution is <a href="https://discuss.leetcode.com/topic/62455/21ms-18-lines-java-solution">here</a>, which I believe is the same idea but does not do the actual word pointer forwarding.</p>
 <div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">wordsTyping</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">sentence</span><span class="o">,</span> <span class="kt">int</span> <span class="n">rows</span><span class="o">,</span> <span class="kt">int</span> <span class="n">cols</span><span class="o">)</span> <span class="o">{</span>
+        <span class="kt">int</span> <span class="n">count</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">j</span><span class="o">=</span><span class="mi">0</span><span class="o">,</span> <span class="n">rowsCountDown</span><span class="o">=</span><span class="n">rows</span><span class="o">;</span>
+        <span class="kt">int</span><span class="o">[]</span> <span class="n">dp</span> <span class="o">=</span> <span class="k">new</span> <span class="kt">int</span><span class="o">[</span><span class="n">rows</span><span class="o">+</span><span class="mi">1</span><span class="o">];</span>
+        <span class="k">while</span> <span class="o">(</span><span class="n">rowsCountDown</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+            <span class="k">if</span> <span class="o">(</span><span class="n">rowsCountDown</span><span class="o">!=</span><span class="n">rows</span> <span class="o">&amp;&amp;</span> <span class="n">j</span><span class="o">==</span><span class="mi">0</span><span class="o">)</span>   <span class="k">break</span><span class="o">;</span> <span class="c1">// break if the first word repeats the pattern.</span>
+            <span class="k">while</span> <span class="o">(</span><span class="n">i</span> <span class="o">&lt;=</span> <span class="n">cols</span> <span class="o">&amp;&amp;</span> <span class="n">i</span><span class="o">+</span><span class="n">sentence</span><span class="o">[</span><span class="n">j</span><span class="o">].</span><span class="na">length</span><span class="o">()&lt;=</span><span class="n">cols</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">i</span> <span class="o">+=</span> <span class="n">sentence</span><span class="o">[</span><span class="n">j</span><span class="o">].</span><span class="na">length</span><span class="o">()</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
+                <span class="n">j</span><span class="o">++;</span>
+                <span class="k">if</span> <span class="o">(</span><span class="n">j</span> <span class="o">==</span> <span class="n">sentence</span><span class="o">.</span><span class="na">length</span><span class="o">)</span> <span class="o">{</span>
+                    <span class="n">j</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
+                    <span class="n">count</span><span class="o">++;</span>
+                <span class="o">}</span>
 
-    <span class="kd">public</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">findMissingRanges</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">,</span> <span class="kt">int</span> <span class="n">lower</span><span class="o">,</span> <span class="kt">int</span> <span class="n">upper</span><span class="o">)</span> <span class="o">{</span>
-        <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">list</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;();</span>
-        <span class="kt">long</span> <span class="n">lLower</span> <span class="o">=</span> <span class="n">lower</span><span class="o">+</span><span class="mi">0L</span><span class="o">;</span>
-        <span class="kt">long</span> <span class="n">lUpper</span> <span class="o">=</span> <span class="n">upper</span><span class="o">+</span><span class="mi">0L</span><span class="o">;</span>
-        
-        <span class="k">for</span><span class="o">(</span><span class="kt">int</span> <span class="n">n</span> <span class="o">:</span> <span class="n">nums</span><span class="o">){</span>
-
-            <span class="kt">long</span> <span class="n">justBelow</span> <span class="o">=</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1L</span><span class="o">;</span>
-            <span class="k">if</span><span class="o">(</span><span class="n">lLower</span> <span class="o">==</span> <span class="n">justBelow</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">lLower</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
-            <span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="n">lLower</span> <span class="o">&lt;</span> <span class="n">justBelow</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">lLower</span> <span class="o">+</span> <span class="s">"-&gt;"</span> <span class="o">+</span> <span class="n">justBelow</span><span class="o">);</span>
-            <span class="n">lLower</span> <span class="o">=</span> <span class="n">n</span><span class="o">+</span><span class="mi">1L</span><span class="o">;</span>
+            <span class="o">}</span>
+            
+            <span class="n">rowsCountDown</span><span class="o">--;</span>
+            <span class="n">dp</span><span class="o">[</span><span class="n">rows</span><span class="o">-</span><span class="n">rowsCountDown</span><span class="o">]</span> <span class="o">=</span> <span class="n">count</span><span class="o">;</span>
         <span class="o">}</span>
-        <span class="k">if</span><span class="o">(</span><span class="n">lLower</span> <span class="o">==</span> <span class="n">lUpper</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">lLower</span><span class="o">+</span><span class="s">""</span><span class="o">);</span>
-        <span class="k">else</span> <span class="nf">if</span><span class="o">(</span><span class="n">lLower</span> <span class="o">&lt;</span> <span class="n">lUpper</span><span class="o">)</span> <span class="n">list</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="n">lLower</span> <span class="o">+</span> <span class="s">"-&gt;"</span> <span class="o">+</span> <span class="n">lUpper</span><span class="o">);</span>
-        <span class="k">return</span> <span class="n">list</span><span class="o">;</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">rowsCountDown</span> <span class="o">==</span> <span class="mi">0</span><span class="o">)</span> <span class="o">{</span>
+            <span class="k">return</span> <span class="n">count</span><span class="o">;</span>
+        <span class="o">}</span>
+        <span class="kt">int</span> <span class="n">remainder</span> <span class="o">=</span> <span class="o">(</span><span class="n">rows</span> <span class="o">%</span> <span class="o">(</span><span class="n">rows</span><span class="o">-</span><span class="n">rowsCountDown</span><span class="o">));</span>
+        <span class="k">return</span> <span class="o">(</span><span class="n">rows</span> <span class="o">/</span> <span class="o">(</span><span class="n">rows</span><span class="o">-</span><span class="n">rowsCountDown</span><span class="o">))*</span><span class="n">count</span> <span class="o">+</span> <span class="n">dp</span><span class="o">[</span><span class="n">remainder</span><span class="o">];</span>
     <span class="o">}</span>
-  
 <span class="o">}</span>
 </code></pre>
 </div>
-<p><img src="http://localhost:4000/images/163_java.jpg" alt="img" class="center-image" /><em>Runtime: 1ms</em></p>
+<p><img src="http://localhost:4000/images/418_java.jpg" alt="img" class="center-image" /><em>Runtime: 450ms</em></p>
 
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Solution</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-    <span class="k">def</span> <span class="nf">findMissingRanges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nums</span><span class="p">,</span> <span class="n">lower</span><span class="p">,</span> <span class="n">upper</span><span class="p">):</span>
-        <span class="s">"""
-        :type nums: List[int]
-        :type lower: int
-        :type upper: int
-        :rtype: List[str]
-        """</span>
-        <span class="n">ret</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">if</span> <span class="n">nums</span> <span class="ow">and</span> <span class="n">lower</span> <span class="o">&lt;</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">lower</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lower</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lower</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-&gt;"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-                
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="k">if</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
-                    <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-&gt;"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="n">nums</span> <span class="ow">and</span> <span class="n">upper</span> <span class="o">&gt;</span> <span class="n">nums</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
-            <span class="k">if</span> <span class="n">upper</span> <span class="o">==</span> <span class="n">nums</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">upper</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nums</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">nums</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-&gt;"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">upper</span><span class="p">))</span>
-        
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">nums</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">upper</span> <span class="o">==</span> <span class="n">lower</span><span class="p">:</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">upper</span><span class="p">))</span>
-            <span class="k">else</span><span class="p">:</span>
-                <span class="n">ret</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">lower</span><span class="p">)</span> <span class="o">+</span> <span class="s">"-&gt;"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">upper</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">ret</span>
-                    
-</code></pre>
-</div>
-<p><img src="http://localhost:4000/images/163_python.jpg" alt="img" class="center-image" /><em>Runtime: 18ms</em></p>
 
                     
 

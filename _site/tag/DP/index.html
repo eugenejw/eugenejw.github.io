@@ -2,7 +2,7 @@
 
 <head>
   <meta charset="UTF-8">
-  <title>Weihan's Coding Blog | Single Element in a Sorted Array (leetcode 540) </title>
+  <title>Weihan's Coding Blog | Posts Tagged &ldquo;DP&rdquo; </title>
   <meta name="theme-color" content="#222222" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="/js/jquery.min.js"></script>
@@ -74,103 +74,721 @@
     </div>
   </nav>
 
+
     <div class="wrapper">
       <div class="content">
         <div class="container container-center">
           <div class="row">
             <div class="col-md-8">
-              <div class="article">
-                <div class="well">
-                  <h1><a href="/2017/07/leetcode-540">Single Element in a Sorted Array (leetcode 540)</a></h1>
-                  <div class="post-meta">
-                    <div class="post-time">
-                      <i class="fa fa-calendar"></i>
-                      <time>21 Jul 2017</time>
-                    </div>
-                    <ul>
-                      
-                        <li><a href="/tag/Algorithm">Algorithm</a></li>
-                      
-                        <li><a href="/tag/Binary Search">Binary Search</a></li>
-                      
-                        <li><a href="/tag/leetcode">leetcode</a></li>
-                      
-                        <li><a href="/tag/Medium">Medium</a></li>
-                      
-                        <li><a href="/tag/Java">Java</a></li>
-                      
-                        <li><a href="/tag/Python">Python</a></li>
-                      
-                    </ul>
-                  </div>
-                  <div class="post-content">
-                    <div id="toc" class="toc"></div>
-                    <p><strong>Description</strong>,<br />
-Given a sorted array consisting of only integers where every element appears twice except for one element which appears once. Find this single element that appears only once.</p>
+              <div class="well">
+                <div class="page-content wc-container">
 
-<p>Example 1:</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Input</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">8</span><span class="p">,</span><span class="mi">8</span><span class="p">]</span>
-<span class="n">Output</span><span class="p">:</span> <span class="mi">2</span>
-</code></pre>
-</div>
-<p>Example 2:</p>
-<div class="language-python highlighter-rouge"><pre class="highlight"><code><span class="n">Input</span><span class="p">:</span> <span class="p">[</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">7</span><span class="p">,</span><span class="mi">10</span><span class="p">,</span><span class="mi">11</span><span class="p">,</span><span class="mi">11</span><span class="p">]</span>
-<span class="n">Output</span><span class="p">:</span> <span class="mi">10</span>
-</code></pre>
-</div>
-<p>Note: Your solution should run in O(log n) time and O(1) space.</p>
-
-<p><a href="https://leetcode.com/problems/single-element-in-a-sorted-array/#/description">The leetcode link</a></p>
-
-<h3 id="binary-search">Binary Search</h3>
-<p>O(logn), so it must be a binary search solution.<br />
-Let’s think of the following case,</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">]</span>
-</code></pre>
-</div>
-<p>We can treat it pair-wise, like below,</p>
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="o">[</span><span class="mi">1</span><span class="o">,</span> <span class="mi">1</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">2</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">3</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">8</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">9</span><span class="o">,</span> <span class="mi">10</span><span class="o">,</span> <span class="mi">10</span><span class="o">]</span>
-<span class="o">--</span><span class="mi">0</span><span class="o">--</span>  <span class="o">--</span><span class="mi">1</span><span class="o">-</span>  <span class="o">--</span><span class="mi">2</span><span class="o">-</span>  <span class="o">--</span><span class="mi">3</span><span class="o">-</span>  <span class="o">--</span><span class="mi">4</span><span class="o">-</span>  <span class="o">--</span><span class="mi">5</span><span class="o">--</span>  <span class="o">-</span><span class="mi">6</span><span class="o">-</span>
-</code></pre>
-</div>
-<p>Then apply binary search on these pairs.<br />
-For example, if the mid index is a pair formed by the same number, like [3, 3], we move lo to mid+1.<br />
-If the mid index is a pair formed by different number, we move hi to mid. (not mid-1).</p>
-
-<p>Time complexity: O(logn)</p>
-
-<div class="language-java highlighter-rouge"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">Solution</span> <span class="o">{</span>
-    <span class="cm">/**
-    * @timeComplexity: O(logn)
-    * @solution:       Binary Search
-    * @runtime:        1ms 
-    */</span>
-    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">singleNonDuplicate</span><span class="o">(</span><span class="kt">int</span><span class="o">[]</span> <span class="n">nums</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kt">int</span> <span class="n">lo</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="kt">int</span> <span class="n">hi</span> <span class="o">=</span> <span class="n">nums</span><span class="o">.</span><span class="na">length</span><span class="o">/</span><span class="mi">2</span><span class="o">;</span>
-        <span class="kt">int</span> <span class="n">mid</span> <span class="o">=</span> <span class="mi">0</span><span class="o">;</span>
-        <span class="k">while</span> <span class="o">(</span><span class="n">lo</span> <span class="o">&lt;</span> <span class="n">hi</span><span class="o">)</span> <span class="o">{</span>
-            <span class="n">mid</span> <span class="o">=</span> <span class="o">(</span><span class="n">hi</span><span class="o">+</span><span class="n">lo</span><span class="o">)/</span><span class="mi">2</span><span class="o">;</span> <span class="c1">// to avoid overflow</span>
-            <span class="k">if</span> <span class="o">(</span><span class="n">nums</span><span class="o">[</span><span class="mi">2</span><span class="o">*</span><span class="n">mid</span><span class="o">]</span> <span class="o">==</span> <span class="n">nums</span><span class="o">[</span><span class="mi">2</span><span class="o">*</span><span class="n">mid</span><span class="o">+</span><span class="mi">1</span><span class="o">])</span> <span class="o">{</span> <span class="c1">// means the "not same pairs" are to its right</span>
-                <span class="n">lo</span> <span class="o">=</span> <span class="n">mid</span> <span class="o">+</span> <span class="mi">1</span><span class="o">;</span>
-            <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
-                <span class="n">hi</span> <span class="o">=</span> <span class="n">mid</span><span class="o">;</span>
-            <span class="o">}</span>
-        <span class="o">}</span>
-        <span class="k">return</span> <span class="n">nums</span><span class="o">[</span><span class="mi">2</span><span class="o">*</span><span class="n">lo</span><span class="o">];</span>
+  <div class="post">
+    <h2 class="post_title">Posts Tagged &ldquo;DP&rdquo;</h2>
+    <ul>
+      
         
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre>
+          
+        
+          
+          <li class="archive_list">
+            <time>19 Aug 2017</time>
+            <a class="archive_list_article_link" href='/2017/08/leetcode-418'>Sentence Screen Fitting</a>
+            <p></p>
+          </li>
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+    </ul>
+  </div>
 </div>
-<p><img src="http://localhost:4000/images/540_java.jpg" alt="img" class="center-image" /><em>Runtime: 1ms</em></p>
 
-
-                    
-
-                  </div>
-                  
-                </div>
               </div>
             </div>
             <div class="col-md-4 hidden-xs">
@@ -374,8 +992,6 @@ If the mid index is a pair formed by different number, we move hi to mid. (not m
             </div>
           </div>
         </div>
-        
-
       </div>
           <footer class="footer-distributed">
       <div class="container">
