@@ -7,8 +7,8 @@ description: Software Developer
 
 
 # For a project page here should be a project name. Otherwise (for user's/organizaion's page leave it empty)
-baseurl: http://weihan.online/blog/eugenejw.github.io/_site
-site.url: 
+baseurl: 
+url: http://weihan.online/blog/eugenejw.github.io/_site
 parenturl: http://weihan.online
 
 share:
