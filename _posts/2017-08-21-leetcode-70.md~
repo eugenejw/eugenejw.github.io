@@ -1,0 +1,50 @@
+---
+layout: post
+comments: true
+date: 2017-08-21 19:41:00
+title: Paint Fence
+category: Coding
+tags: [Algorithm, DP, Leetcode, Easy, Java]
+---
+
+**Description**
+[leetcode 276](https://leetcode.com/problems/paint-fence/description/)
+There is a fence with n posts, each post can be painted with one of the k colors.
+
+You have to paint all the posts such that no more than two adjacent fence posts have the same color.
+
+Return the total number of ways you can paint the fence.
+
+Note:
+n and k are non-negative integers.
+
+## Java DP solution
+Induction could be visualized as picture below (n=3, k=3 example, ignore the brown numbers, they are for n=4, k=3),
+![img]({{ site.baseurl | prepend:site.url}}/images/276_java.jpg){: .center-image }*Runtime: 1ms*
+We only consider the most recent two fences that got painted, to make the algorithm working, we need to classify them into two types of fences,
+1. the most recent two fences are of the same colors.
+2. the most recent two fences are of differebt colors.
+
+Iterating i from 3 to n. For every i, (because we have restriction that no more than two adjacent fence are in the same color), we can see that the the the new same-color-fences combinations are always generated from previous diff-color-fences combinations.
+And the new diff-color-fences can be genreated from all previous combinations.
+
+Look at code below, and think about it.
+```java
+class Solution {
+    public int numWays(int n, int k) {
+        if (n==0 || k==0)   return 0;
+        if (n==1)   return k;
+        if (n==2)   return k*k;
+        int sameNumSum = k, diffNumSum = k*k-k;
+        for (int i=3; i<=n; i++) {
+            int tempSameSum = sameNumSum;
+            sameNumSum = diffNumSum;
+            diffNumSum = (tempSameSum + diffNumSum) * (k-1);
+        }
+        
+        return sameNumSum + diffNumSum;
+    }
+}
+```
+![img]({{ site.baseurl | prepend:site.url}}/images/276_java_1.jpg){: .center-image }*Runtime: 450ms*
+

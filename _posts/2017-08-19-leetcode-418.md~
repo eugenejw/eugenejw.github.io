@@ -1,0 +1,91 @@
+---
+layout: post
+comments: true
+date: 2017-08-19 19:41:00
+title: Sentence Screen Fitting
+category: Coding
+tags: [Algorithm, DP, Leetcode, Medium, Java]
+---
+
+**Description**
+[leetcode 418](https://leetcode.com/problems/sentence-screen-fitting/description/)
+Given a rows x cols screen and a sentence represented by a list of non-empty words, find how many times the given sentence can be fitted on the screen.
+
+Note:
+
+A word cannot be split into two lines.
+The order of words in the sentence must remain unchanged.
+Two consecutive words in a line must be separated by a single space.
+Total words in the sentence won't exceed 100.
+Length of each word is greater than 0 and won't exceed 10.
+1 ≤ rows, cols ≤ 20,000.
+
+Example 1:
+```java
+Input:
+rows = 2, cols = 8, sentence = ["hello", "world"]
+
+Output: 
+1
+```
+
+Explanation:
+hello---
+world---
+
+The character '-' signifies an empty space on the screen.
+
+Example 2:
+```java
+Input:
+rows = 4, cols = 5, sentence = ["I", "had", "apple", "pie"]
+
+Output: 
+1
+```
+Explanation:
+I-had
+apple
+pie-I
+had--
+
+The character '-' signifies an empty space on the screen.
+
+
+## Java DP solution
+It is like a jump game, when the any of the word in sentence falls into a position that it has fallen into before,
+we know that the string filling patten starts to repeat itself. Then we do not need to proceed.
+
+Note that, a better solution is [here](https://discuss.leetcode.com/topic/62455/21ms-18-lines-java-solution), which I believe is the same idea but does not do the actual word pointer forwarding.
+```java
+class Solution {
+    public int wordsTyping(String[] sentence, int rows, int cols) {
+        int ret=0, j=0, rowsCountDown=rows;
+        int[] dp = new int[rows+1];
+        while (rowsCountDown > 0) {
+            int i = 0;
+            if (rowsCountDown!=rows && j==0)   break; // break if the first word repeats the pattern.
+            while (i <= cols && i+sentence[j].length()<=cols) {
+                i += sentence[j].length() + 1;
+                j++;
+                if (j == sentence.length) {
+                    j = 0;
+                    ret++;
+                }
+
+            }
+            
+            rowsCountDown--;
+            dp[rows-rowsCountDown] = ret;
+        }
+
+        if (rowsCountDown == 0) {
+            return ret;
+        }
+        int remainder = (rows % (rows-rowsCountDown));
+        return (rows / (rows-rowsCountDown))*ret + dp[remainder];
+    }
+}
+```
+![img]({{ site.baseurl | prepend:site.url}}/images/418_java.jpg){: .center-image }*Runtime: 450ms*
+

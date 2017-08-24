@@ -1,0 +1,82 @@
+---
+layout: post
+comments: true
+date: 2017-08-11 19:41:00
+title: Kth Largest Element in an Array (leetcode 215)
+category: Coding
+tags: [Algorithm, Quick Sort, Leetcode, Medium, Java]
+---
+
+**Description**
+Find the kth largest element in an unsorted array. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+For example,
+```java
+Given [3,2,1,5,6,4] and k = 2, return 5.
+```
+
+Note: 
+You may assume k is always valid, 1 ? k ? array's length.
+
+
+## O(n) solution using partition method in quick sort algorithm
+The smart approach for this problem is to use the selection algorithm (based on the partion method - the same one as used in quicksort).
+Like the quick sort, to avoid the O(n^2) worst case scenario, we need to randomize the list to guarantee the O(n) time complexity.
+
+Alternative, but less interesting solution is to use a k size Priority Queue, which cost O(nlogn) timeComplexity.
+
+```java
+public class Solution {
+    public int findKthLargest(int[] nums, int k) {
+        // Collections.shuffle(List<?>);
+        nums = randomizeList(nums);
+        int n = nums.length;
+        int pivot = partition(nums, 0, n-1);
+        while (pivot != n-k) {
+            if (pivot < n-k) {
+                pivot = partition(nums, pivot+1, n-1);
+            } else {
+                pivot = partition(nums, 0, pivot-1);
+            }
+            
+        }
+        return nums[pivot];
+    }
+    
+    private int[] randomizeList(int[] nums) {
+        Random rnd = new Random();
+        for (int i=nums.length; i>1; i--) {
+            swap(nums, i-1, rnd.nextInt(i));
+        }
+        return nums;
+    }
+    
+    private int partition(int[] nums, int low, int high) {
+        int i=low-1, pivot=nums[high];
+        for (int j=low; j<high; j++) {
+            if (nums[j] <= pivot) {
+                i++;
+                swap(nums, i, j);
+            }
+        }
+        swap(nums, i+1, high);
+        // System.out.println(i+1);
+        return i+1;
+    }
+    
+    private void swap(int[] nums, int i, int j) {
+        int temp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = temp;
+    }
+}    
+}
+
+/**
+ * Your WordDistance object will be instantiated and called as such:
+ * WordDistance obj = new WordDistance(words);
+ * int param_1 = obj.shortest(word1,word2);
+ */
+```
+
+![img]({{ site.baseurl | prepend:site.url}}/images/215_java.jpg){: .center-image }*Runtime: 28ms*

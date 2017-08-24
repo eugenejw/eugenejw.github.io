@@ -1,0 +1,109 @@
+---
+layout: post
+date: 2017-07-23 19:41:00
+title: Add Strings (leetcode 415)
+category: Coding
+tags: [Algorithm, leetcode, Easy, Python, Java]
+---
+
+**Description**,
+Given two non-negative integers num1 and num2 represented as string, return the sum of num1 and num2.
+
+Note:
+
+The length of both num1 and num2 is < 5100.
+Both num1 and num2 contains only digits 0-9.
+Both num1 and num2 does not contain any leading zero.
+You must not use any built-in BigInteger library or convert the inputs to integer directly.
+```
+Note:
+The given kill id is guaranteed to be one of the given PIDs.
+n >= 1.
+
+### Strait-forward solution in Python
+
+```python
+class Solution(object):
+    def addStrings(self, num1, num2):
+        """
+        @runtime: 59ms
+        """
+        num1 = list(num1)
+        num2 = list(num2)
+        ret = []
+        carry = 0
+        while num1 and num2:
+            a = ord(num1.pop()) - ord('0')
+            b = ord(num2.pop()) - ord('0')
+            c = (a+b+carry)%10
+            carry = (a+b+carry)/10
+            ret.append(c)
+        while num1:
+            if carry:
+                a = ord(num1.pop()) - ord('0')
+                c = (a+carry)%10
+                carry  = (a+carry)/10
+                ret.append(c)
+            else:
+                ret.append(num1.pop())
+        while num2:
+            if carry:
+                b = ord(num2.pop()) - ord('0')
+                c = (b+carry)%10
+                carry  = (b+carry)/10
+                ret.append(c)
+            else:
+                ret.append(num2.pop())
+        if carry:
+            ret.append(carry)
+        ret.reverse()
+        return ''.join(map(str, ret))
+            
+        
+```
+![img]({{ site.baseurl | prepend:site.url}}/images/415_python.jpg){: .center-image }*Runtime: 59ms*
+
+### HashMap + BFS in Java
+
+```java
+public class Solution {
+    /**
+    * @solution:        hashmap + BFS
+    * @runtime:         88ms
+    * @timeCopmplexity: O(n)
+    */
+    public List<Integer> killProcess(List<Integer> pid, List<Integer> ppid, int kill) {
+        List<Integer> ret = new ArrayList<Integer>();
+        HashMap<Integer, List<Integer>> hm = new HashMap<>();
+        for (int i=0; i<ppid.size(); i++) {
+            if (ppid.get(i) > 0) {
+                List<Integer> group = hm.getOrDefault(ppid.get(i), new ArrayList<Integer>());
+                group.add(pid.get(i));
+                hm.put(ppid.get(i), group); // note in python "setdefault" does this automatically
+            }
+        }
+        
+        Queue<Integer> queue = new LinkedList<>();
+        queue.add(kill);
+        while (queue.size() != 0) {
+            int node = queue.poll();
+            ret.add(node);
+            if (hm.containsKey(node)) {
+                for (int child : hm.get(node)) {
+                    queue.add(child);
+                }
+            }
+        }
+        
+        return ret;
+        
+    }
+    
+}
+```
+
+![img]({{ site.baseurl | prepend:site.url}}/images/582_java.jpg){: .center-image }*Runtime: 88ms*
+
+
+
+

@@ -1,0 +1,89 @@
+---
+layout: post
+date: 2017-07-29 19:41:00
+title: Sort List (leetcode 148)
+category: Coding
+tags: [Algorithm, LinkedList, Merge Sort, Leetcode, Medium, Java]
+---
+
+**Description**,
+Sort a linked list in O(n log n) time using constant space complexity.
+
+## Merge sort solution
+Since it is a linked list to do the sorting, and the time complexity is required to be O(nlogn),
+the merge sort is the only way to achieve so. Because quick sort requires a lot of random access via index, which is impractical for linked list.
+
+Time complexity : O(nlogn).
+Space complexity : O(n).
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode sortList(ListNode head) {
+        if (head==null) return head;
+        return mergeSort(head);
+    }
+    
+    private ListNode mergeSort(ListNode head) {
+        ListNode mid = findMid(head);
+        ListNode midNxt = mid.next;
+        mid.next = null; // cut the linkedlist
+        if (midNxt==null) {
+            return head; // base case
+        }
+        
+        ListNode leftHead = mergeSort(head);
+        ListNode rightHead = mergeSort(midNxt);
+        
+        return merge(leftHead, rightHead);
+    }
+    
+    private ListNode merge(ListNode leftHead, ListNode rightHead) {
+        ListNode dummyNode = new ListNode(0);
+        ListNode cur = dummyNode;
+        while (leftHead != null && rightHead != null) {
+            
+            if (leftHead.val <= rightHead.val) {
+                cur.next = leftHead;
+                cur = leftHead;
+                leftHead = leftHead.next;
+                
+            } else {
+                cur.next = rightHead;
+                cur = rightHead;
+                rightHead = rightHead.next;
+            }             
+        }
+        if (leftHead != null) {
+            cur.next = leftHead;
+        } 
+        else if (rightHead != null) {
+            cur.next = rightHead;
+        }
+        return dummyNode.next;
+    }
+    
+    private ListNode findMid(ListNode head) {
+        ListNode dummyNode = new ListNode(0);
+        dummyNode.next = head;
+        ListNode slow = dummyNode;
+        ListNode fast = dummyNode;
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+        return slow;
+    }
+}
+            
+```
+
+![img]({{ site.baseurl | prepend:site.url}}/images/148_java.jpg){: .center-image }*Runtime: 9ms*
+

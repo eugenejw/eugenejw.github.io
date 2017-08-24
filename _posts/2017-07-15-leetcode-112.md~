@@ -1,0 +1,63 @@
+---
+layout: post
+date: 2017-07-15 15:41:00
+title: Path Sum (leetcode 112)
+category: Coding
+tags: [Algorithm, Tree, DFS, leetcode, Easy, Java]
+---
+
+**Description**,
+Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.
+
+For example:
+Given the below binary tree and sum = 22,
+              5
+             / \
+            4   8
+           /   / \
+          11  13  4
+         /  \      \
+        7    2      1
+return true, as there exist a root-to-leaf path 5->4->11->2 which sum is 22.
+
+[The leetcode link](https://leetcode.com/problems/path-sum/#/description)
+
+### HashMap solution implemted in Java
+Pre-order DFS tree traversal could be very strait-forward for solving this problem.
+
+
+Time complexity: O(n)
+RUntime: 1ms
+
+{% highlight java %}
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    /**
+    * Returns boolean result whether any root-to-leaf path sums up to the "sum" given.
+    * @param  TreeNode root of TreeNode type
+    * @param  int int sum
+    * @return boolean result
+    */
+    public boolean hasPathSum(TreeNode root, int sum) {
+        if (root == null)   return false;
+        if ((sum-root.val == 0) && (root.left == null) && (root.right == null)) {
+            return true;
+        }
+        return hasPathSum(root.left, sum-root.val) || hasPathSum(root.right, sum-root.val);
+    }
+}
+{% endhighlight %}
+
+![img]({{ site.baseurl | prepend:site.url}}/images/112_dfs_java.jpg){: .center-image }*Runtime: 1ms*
+
+
+
+
