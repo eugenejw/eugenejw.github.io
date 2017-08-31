@@ -1,5 +1,6 @@
 ---
 layout: post
+comments: true
 date: 2017-08-04 19:41:00
 title: Logger Rate Limiter (leetcode 359)
 category: Coding
@@ -37,11 +38,11 @@ logger.shouldPrintMessage(11,"foo"); returns true;
 ```
 
 
-## Doubly LinkedList + HashMap solutions
+## Doubly LinkedList + HashMap solutions O(n) timeComplexity
 Algorithm:
 If we use only hashmap to store the <'log message', 'timestamp'> pair, the hashmap will grow very large if we expect a lot of new logs over time.
 The solution below used a doubly LinkedList to record the sequence of incoming logging request, and will removing older log records from hashmap.
-
+The buttleneck is the HashMap shrinking, which is O(n) per shrinking attempt.
 
 ```python
 class DoubledLL(object):
@@ -121,4 +122,80 @@ class Logger(object):
 ```
 
 ![img]({{ site.baseurl | prepend:site.url}}/images/359_python.jpg){: .center-image }*Runtime: 232ms*
+
+## Doubly LL + Weakref Data Caching O(1) time complexity per query
+
+```python
+import weakref
+
+class DoublyLLNode(object):
+    def __init__(self, timestamp, message):
+        self._timeStamp = timestamp
+        self._message = message
+        self.nxt = None
+        self.prev = None
+
+class Logger(object):
+
+    def __init__(self):
+        """
+        Initialize your data structure here.
+        """
+        self._cache = weakref.WeakValueDictionary()
+        self.HEAD = DoublyLLNode(0, "HEAD")
+        self.TAIL = DoublyLLNode(0, "TAIL")
+        self.HEAD.nxt = self.TAIL
+        self.TAIL.prev = self.HEAD
+
+    def shouldPrintMessage(self, timestamp, message):
+        """
+        Returns true if the message should be printed in the given timestamp, otherwise returns false.
+        If this method returns false, the message will not be printed.
+        The timestamp is in seconds granularity.
+        :type timestamp: int
+        :type message: str
+        :rtype: bool
+        """
+        
+        if message in self._cache:
+                tempNode = self._cache[message]
+                if timestamp - tempNode._timeStamp >= 10:
+                    self._resetHead(tempNode)
+                    node = DoublyLLNode(timestamp, message)
+                    self._addNodeToTail(node)
+                    return True
+                else:
+                    return False                                    
+        else:
+            node = DoublyLLNode(timestamp, message)
+            self._addNodeToTail(node)
+            return True
+        
+    def _resetHead(self, node):
+        """
+        : method that sets new head of the doubly ll to node.nxt of input node.
+        : type node: DoublyLLNode
+        : rtype    : void
+        """
+        self.HEAD.nxt = node.nxt
+        node.nxt.prev = self.HEAD
+    
+    def _addNodeToTail(self, node):
+        """
+        : method that add input node to the end of the doubly ll.
+        : type node: DoublyLLNode
+        : rtype    : void
+        """
+        self.TAIL.prev.nxt = node
+        node.prev = self.TAIL.prev
+        self.TAIL.prev = node
+        node.nxt = self.TAIL
+        self._cache[node._message] = node
+        
+
+# Your Logger object will be instantiated and called as such:
+# obj = Logger()
+# param_1 = obj.shouldPrintMessage(timestamp,message)
+```
+![img]({{ site.baseurl | prepend:site.url}}/images/359_python_v2.jpg){: .center-image }*Runtime: 232ms*
 
