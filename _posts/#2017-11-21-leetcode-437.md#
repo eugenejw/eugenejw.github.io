@@ -1,0 +1,120 @@
+---
+layout: post
+comments: true
+description: Pre-order traversal
+date: 2017-11-21 19:51:00
+title: Path Sum III
+category: Coding
+tags: [Algorithm, Tree, Leetcode, Lintcode, Easy, Java, Python]
+---
+
+**Description**
+
+[437. Path Sum III](https://leetcode.com/problems/path-sum-iii/description/)
+
+[246. Binary Tree Path Sum III](_posts/2017-11-21-leetcode-437.md)
+
+You are given a binary tree in which each node contains an integer value.
+
+Find the number of paths that sum to a given value.
+
+The path does not need to start or end at the root or a leaf, but it must go downwards (traveling only from parent nodes to child nodes).
+
+The tree has no more than 1,000 nodes and the values are in the range -1,000,000 to 1,000,000.
+
+Example:
+```java
+root = [10,5,-3,3,2,null,11,3,-2,null,1], sum = 8
+
+      10
+     /  \
+    5   -3
+   / \    \
+  3   2   11
+ / \   \
+3  -2   1
+
+Return 3. The paths that sum to 8 are:
+
+1.  5 -> 3
+2.  5 -> 2 -> 1
+3. -3 -> 11
+```
+
+## Java pre-order DFS O(n) solution
+Like the element path backtracing pre-order DFS, we backtrace the curSum HashMap of the path.
+
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    private HashMap<Integer, Integer> hm = new HashMap<>();
+    private int ret = 0;
+    
+    public int pathSum(TreeNode root, int sum) {
+        hm.put(0, 1);
+        dfs(root, 0, sum);
+        return ret;    
+    }
+    
+    private void dfs(TreeNode root, int curSum, int target) {
+        if (root==null) return;
+        curSum += root.val;
+        
+        if (hm.containsKey(curSum-target))  ret += hm.get(curSum-target);
+        
+        if (hm.containsKey(curSum)) {
+            hm.put(curSum, hm.get(curSum)+1);
+        } else {
+            hm.put(curSum, 1);
+        }
+    
+        dfs(root.left, curSum, target);
+        dfs(root.right, curSum, target);
+        hm.put(curSum, hm.get(curSum)-1);
+    }
+}
+```
+![img]({{ site.baseurl | prepend:site.url}}/images/437_java_1.jpg){: .center-image }*Runtime: around 18ms*
+
+
+## Java pre-order DFS O(n^2) solution
+A more strait-forward baseline solution.
+
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int pathSum(TreeNode root, int sum) {
+        if (root==null) return 0;
+        return pathSumFromNode(root, 0, sum) + pathSum(root.left, sum) + pathSum(root.right, sum);
+    }
+    
+    private int pathSumFromNode(TreeNode root, int curSum, int target) {
+        if (root==null) return 0;
+        if (curSum+root.val-target==0) {
+            return 1+pathSumFromNode(root.left, curSum+root.val, target)+pathSumFromNode(root.right, curSum+root.val, target);
+        } else {
+            return pathSumFromNode(root.left, curSum+root.val, target)+pathSumFromNode(root.right, curSum+root.val, target);
+        }
+    }
+}
+```
+![img]({{ site.baseurl | prepend:site.url}}/images/437_java_2.jpg){: .center-image }*Runtime: around 30ms*
+

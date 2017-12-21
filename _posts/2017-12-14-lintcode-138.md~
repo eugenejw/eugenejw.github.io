@@ -1,0 +1,105 @@
+---
+layout: post
+comments: true
+description: The other 4 sides of one classic DP problem (solve the DP problem in 5 days).
+date: 2017-12-10 9:51:00
+title: Triangle
+category: Coding
+tags: [Algorithm, DP, Divide & Conquer, Lintcode, Easy, Python]
+---
+
+
+[109. Triangle](http://www.lintcode.com/en/problem/triangle/)
+Given a triangle, find the minimum path sum from top to bottom. Each step you may move to adjacent numbers on the row below.
+
+Example
+```python
+Given the following triangle:
+
+[
+     [2],
+    [3,4],
+   [6,5,7],
+  [4,1,8,3]
+]
+The minimum path sum from top to bottom is 11 (i.e., 2 + 3 + 5 + 1 = 11).
+```
+
+### Python Solutions
+
+```python
+class Solution:
+    """
+    @param: triangle: a list of lists of integers
+    @return: An integer, minimum path sum
+    """
+    def __init__(self):
+        import sys
+        self.ret = sys.maxint
+
+    # DP -- top down
+    def minimumTotal(self, triangle):
+        dp = [[None] * len(level) for level in triangle]
+        dp[0][0] = triangle[0][0]
+        
+        n = len(triangle)
+        A = triangle
+        for level in xrange(1, n):
+            dp[level][0] = A[level][0] + dp[level - 1][0]
+            dp[level][len(A[level]) - 1] = A[level][len(A[level]) - 1] +  dp[level - 1][len(A[level]) - 2]
+            
+        for level in xrange(n):
+            for pos in xrange(len(A[level])):
+                if dp[level][pos] == None:
+                    dp[level][pos] = A[level][pos] + min(dp[level - 1][pos - 1], dp[level - 1][pos])
+        ret = sys.maxint
+        for num in dp[n - 1]:
+            ret = min(ret, num)
+        
+        return ret
+    
+    # Total Runtime: 555 ms
+    # 100% test cases passed.
+                
+    
+    # # DP -- bottom up    
+    def minimumTotal(self, triangle):
+        n = len(triangle)
+        dp = [[0] * len(level) for level in triangle]
+        for i in xrange(len(triangle[n - 1])):
+            dp[n - 1][i] = triangle[n - 1][i]
+        
+        for level in xrange(n - 2, -1, -1):
+            for pos in xrange(len(triangle[level])):
+                dp[level][pos] = triangle[level][pos] + min(dp[level + 1][pos], dp[level + 1][pos + 1])
+                
+        return dp[0][0]
+    
+    # Total Runtime: 554 ms
+    # 100% test cases passed.
+                
+    
+    
+    # # Divide and Conquer with Memo
+    def minimumTotal(self, triangle):
+        # write your code here
+        memo = [[None] * len(level) for level in triangle]
+        return self.dfs(triangle, 0, 0, memo)
+        
+        
+    def dfs(self, triangle, level, pos, memo):
+        if level == len(triangle):
+            return 0
+        
+        if memo[level][pos]:
+            return memo[level][pos]
+        else:
+            left = self.dfs(triangle, level + 1, pos, memo)
+            right = self.dfs(triangle, level + 1, pos + 1, memo)
+            
+            memo[level][pos] = triangle[level][pos] + min(left, right)
+            return  memo[level][pos]
+    
+    # # Total Runtime: 560 ms
+    # # 100% test cases passed.
+```

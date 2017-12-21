@@ -1,0 +1,85 @@
+---
+layout: post
+comments: true
+description: Building a Maximum Binary Tree by recursively dividing the list.
+date: 2017-08-26 19:41:00
+title: Maximum Binary Tree
+category: Coding
+beartags: [Algorithm, Tree, Leetcode, Medium, Python]
+---
+
+**Description**
+[leetcode 654](https://leetcode.com/problems/maximum-binary-tree/description/)
+Given an integer array with no duplicates. A maximum tree building on this array is defined as follow:
+
+The root is the maximum number in the array.
+The left subtree is the maximum tree constructed from left part subarray divided by the maximum number.
+The right subtree is the maximum tree constructed from right part subarray divided by the maximum number.
+Construct the maximum tree by the given array and output the root node of this tree.
+
+Example 1:
+```java
+Input: [3,2,1,6,0,5]
+```
+Output: return the tree root node representing the following tree:
+```java
+      6
+    /   \
+   3     5
+    \    / 
+     2  0   
+       \
+        1
+```
+Note:
+The size of the given array will be in the range [1,1000].
+
+## Java recursive O(nlogn) solution
+Devide and Conquer is usually the common approach to solve this kind of problems.
+The only thing bear noticing is the time complexity -- average O(nlogn), worst case O(n^2), the logn is the number of levels the list got divided.
+Like the quick sort, a randomizing may be needed to avoid the O(n^2) worst case senario. But it does not apply to this problem since we want to preserve the
+original order of the input list.
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode constructMaximumBinaryTree(int[] nums) {
+        return divideAndReturnRoot(nums, 0, nums.length-1);
+    }
+    
+    private TreeNode divideAndReturnRoot(int[] nums, int i, int j) {
+        /**
+        * @analysis: O(nlogn) time complexity, O(1) space complexity.
+        */
+        if (i > j)  return null;
+        int rootPos = findLargestNumIndex(nums, i, j);
+        TreeNode root = new TreeNode(nums[rootPos]); //tocheck index error
+        root.left = divideAndReturnRoot(nums, i, rootPos-1);
+        root.right = divideAndReturnRoot(nums, rootPos+1, j);
+        return root;
+    }
+    
+    private int findLargestNumIndex(int[] nums, int i, int j) {
+        int ret = 0, temp = Integer.MIN_VALUE;
+        for (int k=i; k<=j; k++) {
+            if (nums[k] >= temp){
+                ret = k;
+                temp = nums[k];
+            }
+        }
+        return ret;
+        
+    }
+}
+```
+
+![img]({{ site.baseurl | prepend:site.url}}/images/654_java.jpg){: .center-image }*Runtime: 14ms*
+

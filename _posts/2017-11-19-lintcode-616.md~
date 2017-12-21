@@ -1,0 +1,80 @@
+---
+layout: post
+comments: true
+description: BFS 
+date: 2017-11-19 19:51:00
+title: Word Ladder
+category: Coding
+tags: [Algorithm, Graph, BFS, Lintcode, Medium, Python]
+---
+
+**Description**
+[Lintcode 120](http://www.lintcode.com/en/problem/word-ladder/)
+Given two words (start and end), and a dictionary, find the length of shortest transformation sequence from start to end, such that:
+
+Only one letter can be changed at a time
+Each intermediate word must exist in the dictionary
+Notice,
+Return 0 if there is no such transformation sequence.
+All words have the same length.
+All words contain only lowercase alphabetic characters.
+```java
+Given:
+start = "hit"
+end = "cog"
+dict = ["hot","dot","dog","lot","log"]
+As one shortest transformation is "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+return its length 5.
+```
+
+
+## Python BFS
+```python
+from collections import deque
+class Solution:
+    """
+    @param: start: a string
+    @param: end: a string
+    @param: dict: a set of string
+    @return: An integer
+    """
+    def ladderLength(self, start, end, dict):
+        # write your code here
+        if start == end:
+            return 1
+        queue = deque()
+        queue.append(start)
+        used = {}
+        for w in dict:
+            used[w] = False
+        level = 1
+        while queue:
+            qSize = len(queue)
+            for _ in xrange(qSize):
+                curWord = queue.popleft()
+                if self.isOneLetterDiff(curWord, end):
+                    return level + 1
+                for i in xrange(len(curWord)):
+                    for j in xrange(26):
+                        newWord = curWord[:i] + chr(ord('a') + j) + curWord[i+1:]
+                        # print newWord
+                        if newWord in dict and not used[newWord]:
+                            used[newWord] = True
+                            queue.append(newWord)
+            level += 1
+            
+        return 0
+
+    def isOneLetterDiff(self, wordA, wordB):
+        diffCount = 0
+        for i in xrange(len(wordA)):
+            if wordA[i] != wordB[i]:
+                diffCount += 1
+            if diffCount > 1:
+                return False
+        return diffCount == 1
+    # Total Runtime: 1058 ms
+    # 100% test cases passed.
+            
+```
+

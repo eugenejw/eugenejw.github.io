@@ -1,0 +1,61 @@
+---
+layout: post
+comments: true
+description: Bit Operations
+date: 2017-11-07 19:51:00
+title: Divide Two Integers
+category: Coding
+tags: [Algorithm, Bit Operations, Leetcode, Medium, Java]
+---
+
+**Description**
+[29. Divide Two Integers](https://leetcode.com/problems/divide-two-integers/description/)
+Divide two integers without using multiplication, division and mod operator.
+
+If it is overflow, return MAX_INT.
+
+## Python solution
+```java
+16 / 3 = 5
+```
+which is equivalent to,
+
+```java
+16 = 3 * 5 + 1
+```
+So the idea is to find the multiplier 5.
+
+```python
+class Solution(object):
+    def divide(self, dividend, divisor):
+        """
+        :type dividend: int
+        :type divisor: int
+        :rtype: int
+        """
+        if divisor == 0:
+            return -1
+        sign = 1
+        if (dividend < 0 and divisor > 0) or (dividend > 0 and divisor < 0):
+            sign = -1
+        ret = self.bit_divide(abs(dividend), abs(divisor)) 
+        return ret if sign == 1 else -ret  
+    
+    
+    def bit_divide(self, divident, divisor):
+        if divident < divisor:
+            return 0
+        dvd = divident
+        dvs = divisor
+        multiplier = 1
+
+        while dvd >= (dvs << 1):
+            dvs = dvs << 1
+            multiplier = multiplier << 1
+            
+        remainder = dvd - dvs 
+        #print remainder
+        return multiplier + self.bit_divide(remainder, divisor)
+            
+        
+```

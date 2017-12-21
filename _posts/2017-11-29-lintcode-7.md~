@@ -1,0 +1,71 @@
+---
+layout: post
+comments: true
+description: DFS pre-order
+date: 2017-11-21 19:51:00
+title: Path Sum III
+category: Coding
+tags: [Algorithm, Tree, Lintcode, Easy, Python]
+---
+
+**Description**
+Your are given a binary tree in which each node contains a value. Design an algorithm to get all paths which sum to a given value. The path does not need to start or end at the root or a leaf, but it must go in a straight line down.
+
+```java
+Given a binary tree:
+
+    1
+   / \
+  2   3
+ /   /
+4   2
+for target = 6, return
+
+[
+  [2, 4],
+  [1, 3, 2]
+]
+```
+
+### Python DFS
+
+```python
+"""
+Definition of TreeNode:
+class TreeNode:
+    def __init__(self, val):
+        self.val = val
+        self.left, self.right = None, None
+"""
+
+class Solution:
+    """
+    @param: root: the root of binary tree
+    @param: target: An integer
+    @return: all valid paths
+    """
+    def binaryTreePathSum2(self, root, target):
+        # write your code here
+        ret = []
+        self.dfs(root, target, [], ret)
+        return ret
+        
+    def dfs(self, root, target, path, ret):
+        if not root:
+            return
+        
+        path.append(root.val)
+        curSum = 0
+        for i in xrange(len(path) - 1, -1, -1):
+            curSum += path[i]
+            if curSum == target:
+                ret.append(path[i:])
+                
+        self.dfs(root.left, target, path, ret)
+        self.dfs(root.right, target, path, ret)
+        path.pop()
+
+    # Total Runtime: 1259 ms
+    # 100% test cases passed.
+
+```

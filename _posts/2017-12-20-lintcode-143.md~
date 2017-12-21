@@ -1,0 +1,107 @@
+---
+layout: post
+comments: true
+description: Rainbow Sort
+date: 2017-12-20 9:51:00
+title: Sort Colors II
+category: Coding
+tags: [Algorithm, Two Pointers, Quisk Sort, DFS, Lintcode, Medium, Python]
+---
+
+
+[143. Sort Colors II](http://www.lintcode.com/en/problem/sort-colors-ii/)
+Given an array of n objects with k different colors (numbered from 1 to k), sort them so that objects of the same color are adjacent, with the colors in the order 1, 2, ... k.
+
+You are not suppose to use the library's sort function for this problem.
+
+k <= n
+
+Example
+```java
+Given colors=[3, 2, 2, 1, 4], k=4, your code should sort colors in-place to [1, 2, 2, 3, 4].
+```
+
+Challenge 
+A rather straight forward solution is a two-pass algorithm using counting sort. That will cost O(k) extra memory. Can you do it without using extra memory?
+
+
+### Solutions
+Two Pointers solutions -- O(nk) time complexity
+
+```python
+class Solution:
+    """
+    @param: colors: A list of integer
+    @param: k: An integer
+    @return: nothing
+    """
+    def sortColors2(self, colors, k):
+        # write your code here
+        left, right = -1, len(colors)
+        lc, rc = 1, k
+        while lc < rc :
+            i = left + 1
+            while i < right:
+                if colors[i] == lc:
+                    left += 1
+                    colors[left], colors[i] = colors[i], colors[left]
+                    i += 1
+                elif colors[i] == rc:
+                    right -= 1
+                    colors[right], colors[i] = colors[i], colors[right]
+                else:
+                    i += 1
+            
+            
+            lc += 1
+            rc -= 1
+
+
+```
+### Solutions II
+O(nlogk) solution, like the quick sort.
+```java
+public class Solution {
+    /*
+     * @param colors: A list of integer
+     * @param k: An integer
+     * @return: nothing
+     */
+    public void sortColors2(int[] colors, int k) {
+        // write your code here
+        // O(nlogk) solution
+        dfs(colors, 0, colors.length, 1, k);
+    }
+    
+    private void dfs(int[] colors, int start, int end, int small, int large) {
+        if (small == large) {
+            return;
+        }
+        
+        int i = start, r = end;
+        int mid = small + (large - small) / 2;
+        while (i < r) {
+            if (colors[i] <= mid) {
+                i += 1;
+            } else {
+                r -= 1;
+                swap(colors, i, r);
+            }
+        }
+        
+        dfs(colors, start, r, small, mid);
+        dfs(colors, r, end, mid + 1, large);
+    }
+    
+    private void swap(int[] colors, int i, int j) {
+        int temp = colors[i];
+        colors[i] = colors[j];
+        colors[j] = temp;
+    }
+    
+    // Total Runtime: 2236 ms
+    // 100% test cases passed.
+
+        
+}
+```

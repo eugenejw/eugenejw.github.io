@@ -1,0 +1,75 @@
+---
+layout: post
+comments: true
+description: PrefixSum that fits all subarray sum problem.
+date: 2017-12-15 9:51:00
+title: Maximum Subarray
+category: Coding
+tags: [Algorithm, Subarray, PrefixSum, Lintcode, Easy, Python]
+---
+
+
+[41. Maximum Subarray](http://www.lintcode.com/en/problem/maximum-subarray/)
+Given an array of integers, find a contiguous subarray which has the largest sum.
+
+
+Example
+```java
+Given the array [−2,2,−3,4,−1,2,1,−5,3], the contiguous subarray [4,−1,2,1] has the largest sum = 6.
+```
+
+Challenge 
+Can you do it in time complexity O(n)?
+
+### Solutions
+```python
+class Solution:
+    """
+    @param: nums: A list of integers
+    @return: A integer indicate the sum of max subarray
+    """
+    
+    def maxSubArray(self, nums):
+        # prefixSum O(n) solution
+        # prefixSum [0, -2, 0, -3, 1, 0, 2, 3, -2, 1]
+        # original     [−2, 2, −3, 4,−1, 2, 1, −5, 3]
+        # index          0  1   2  3  4  5  6   7  8
+        # sum(i, j) = prefixSum[j + 1] - prefixSum[i]
+        import sys
+        minSum = 0
+        curSum = 0
+        ret = -sys.maxint
+        for i in xrange(len(nums)):
+            curSum += nums[i]
+            maxSoFar = curSum - minSum
+            minSum = min(minSum, curSum)
+            ret = max(ret, maxSoFar)
+            
+        return ret
+        
+    # Total Runtime: 605 ms
+    # 100% test cases passed.
+
+    def maxSubArray(self, nums):
+        # Greedy O(n)
+        import sys
+        ret = -sys.maxint
+        curSum = 0
+        
+        for num in nums:
+            curSum += num
+            if num >= curSum:
+                curSum = num
+            ret = max(ret, curSum)
+            
+        return ret
+        
+    # Total Runtime: 605 ms
+    # 100% test cases passed.
+                
+        
+            
+            
+        
+        
+```
